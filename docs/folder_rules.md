@@ -1,216 +1,127 @@
-\# Folder Rules
+# Folder Rules
 
+## 基本方針
 
+- 機能ごとにフォルダを分ける
+- 新機能は可能な限り新ファイルを作る
+- 1ファイル肥大化を避ける
 
-\## 基本方針
+---
 
-
-
-* 機能ごとにフォルダを分ける
-* 新機能は可能な限り新ファイルを作る
-* 1ファイル肥大化を避ける
-
-
-
-\---
-
-
-
-\# src
-
-
+# src
 
 ゲームコード。
 
-
-
-\## src/system
-
-
+## src/system
 
 ゲーム全体管理。
 
-
-
 例:
 
-* Game.cpp
-* Input.cpp
-* Time.cpp
+- Game.cpp
+- Input.cpp
+- Time.cpp
 
+---
 
-
-\---
-
-
-
-\## src/scene
-
-
+## src/scene
 
 シーン管理。
 
-
-
 例:
 
-* TitleScene.cpp
-* GameScene.cpp
-* ResultScene.cpp
+- TitleScene.cpp
+- GameScene.cpp
+- ResultScene.cpp
 
+---
 
-
-\---
-
-
-
-\## src/player
-
-
+## src/player
 
 プレイヤー関連。
 
-
-
 例:
 
-* Player.cpp
-* PlayerMove.cpp
-* PlayerAnim.cpp
+- Player.cpp
+- PlayerMove.cpp
+- PlayerAnim.cpp
 
+---
 
-
-\---
-
-
-
-\## src/enemy
-
-
+## src/enemy
 
 敵関連。
 
-
-
 例:
 
-* EnemyBase.cpp
-* Slime.cpp
+- EnemyBase.cpp
+- Slime.cpp
 
+---
 
-
-\---
-
-
-
-\## src/map
-
-
+## src/map
 
 マップ関連。
 
-
-
 例:
 
-* Map.cpp
-* StageLoader.cpp
-* CollisionMap.cpp
+- Map.cpp
+- StageLoader.cpp
+- CollisionMap.cpp
 
+---
 
-
-\---
-
-
-
-\## src/item
-
-
+## src/item
 
 拾えるアイテム。
 
-
-
 例:
 
-* HealItem.cpp
-* Battery.cpp
+- HealItem.cpp
+- Battery.cpp
 
+---
 
-
-\---
-
-
-
-\## src/object
-
-
+## src/object
 
 ギミック・オブジェクト。
 
-
-
 例:
 
-* Door.cpp
-* Lift.cpp
-* Switch.cpp
+- Door.cpp
+- Lift.cpp
+- Switch.cpp
 
+---
 
-
-\---
-
-
-
-\## src/ui
-
-
+## src/ui
 
 UI関連。
 
-
-
 例:
 
-* Button.cpp
-* HUD.cpp
+- Button.cpp
+- HUD.cpp
 
+---
 
-
-\---
-
-
-
-\## src/effect
-
-
+## src/effect
 
 演出関連。
 
-
-
 例:
 
-* Particle.cpp
-* Explosion.cpp
+- Particle.cpp
+- Explosion.cpp
 
+---
 
-
-\---
-
-
-
-\## src/utility
-
-
+## src/utility
 
 汎用処理。
 
-
-
 例:
 
-* Math.cpp
-* Random.cpp
-* Collision.cpp
-
+- Math.cpp
+- Random.cpp
+- Collision.cpp
