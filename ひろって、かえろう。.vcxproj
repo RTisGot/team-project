@@ -19,7 +19,29 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Game\source\audio\AudioManager.cpp" />
     <ClCompile Include="Game\source\Main.cpp" />
+    <ClCompile Include="Game\source\map\Enemy.cpp" />
+    <ClCompile Include="Game\source\map\Map.cpp" />
+    <ClCompile Include="Game\source\player\Player.cpp" />
+    <ClCompile Include="Game\source\scene\GameScene.cpp" />
+    <ClCompile Include="Game\source\scene\SceneManager.cpp" />
+    <ClCompile Include="Game\source\scene\TitleScene.cpp" />
+    <ClCompile Include="Game\source\system\Game.cpp" />
+    <ClCompile Include="Game\source\ui\UIManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Game\include\enemy\Enemy.h" />
+    <ClInclude Include="Game\include\map\AudioManager.h" />
+    <ClInclude Include="Game\include\map\Map.h" />
+    <ClInclude Include="Game\include\object\GameObject.h" />
+    <ClInclude Include="Game\include\player\Player.h" />
+    <ClInclude Include="Game\include\scene\BaseScene.h" />
+    <ClInclude Include="Game\include\scene\GameScene.h" />
+    <ClInclude Include="Game\include\scene\SceneManager.h" />
+    <ClInclude Include="Game\include\scene\TitleScene.h" />
+    <ClInclude Include="Game\include\system\Game.h" />
+    <ClInclude Include="Game\include\ui\UIManager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -105,12 +127,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>.\Game\DxLib_VC\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\Game\external\DxLib</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>.\Game\DxLib_VC\プロジェクトに追加すべきファイル_VC用</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>.\Game\external\DxLib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -121,12 +143,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>.\Game\DxLib_VC\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\Game\external\DxLib</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>.\Game\DxLib_VC\プロジェクトに追加すべきファイル_VC用</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>.\Game\external\DxLib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
