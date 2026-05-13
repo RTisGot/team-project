@@ -6,11 +6,9 @@
 
 
 
-\- 機能ごとにフォルダを分ける
-
-\- 新機能は可能な限り新ファイルを作る
-
-\- 1ファイル肥大化を避ける
+* 機能ごとにフォルダを分ける
+* 新機能は可能な限り新ファイルを作る
+* 1ファイル肥大化を避ける
 
 
 
@@ -36,11 +34,9 @@
 
 例:
 
-\- Game.cpp
-
-\- Input.cpp
-
-\- Time.cpp
+* Game.cpp
+* Input.cpp
+* Time.cpp
 
 
 
@@ -58,11 +54,9 @@
 
 例:
 
-\- TitleScene.cpp
-
-\- GameScene.cpp
-
-\- ResultScene.cpp
+* TitleScene.cpp
+* GameScene.cpp
+* ResultScene.cpp
 
 
 
@@ -80,11 +74,9 @@
 
 例:
 
-\- Player.cpp
-
-\- PlayerMove.cpp
-
-\- PlayerAnim.cpp
+* Player.cpp
+* PlayerMove.cpp
+* PlayerAnim.cpp
 
 
 
@@ -102,9 +94,8 @@
 
 例:
 
-\- EnemyBase.cpp
-
-\- Slime.cpp
+* EnemyBase.cpp
+* Slime.cpp
 
 
 
@@ -122,11 +113,9 @@
 
 例:
 
-\- Map.cpp
-
-\- StageLoader.cpp
-
-\- CollisionMap.cpp
+* Map.cpp
+* StageLoader.cpp
+* CollisionMap.cpp
 
 
 
@@ -144,9 +133,8 @@
 
 例:
 
-\- HealItem.cpp
-
-\- Battery.cpp
+* HealItem.cpp
+* Battery.cpp
 
 
 
@@ -164,11 +152,9 @@
 
 例:
 
-\- Door.cpp
-
-\- Lift.cpp
-
-\- Switch.cpp
+* Door.cpp
+* Lift.cpp
+* Switch.cpp
 
 
 
@@ -186,9 +172,8 @@ UI関連。
 
 例:
 
-\- Button.cpp
-
-\- HUD.cpp
+* Button.cpp
+* HUD.cpp
 
 
 
@@ -206,9 +191,8 @@ UI関連。
 
 例:
 
-\- Particle.cpp
-
-\- Explosion.cpp
+* Particle.cpp
+* Explosion.cpp
 
 
 
@@ -226,9 +210,7 @@ UI関連。
 
 例:
 
-\- Math.cpp
-
-\- Random.cpp
-
-\- Collision.cpp
+* Math.cpp
+* Random.cpp
+* Collision.cpp
 

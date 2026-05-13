@@ -6,13 +6,10 @@
 
 
 
-\* 可読性を最優先
-
-\* 処理を機能ごとに分割する
-
-\* 1ファイル肥大化を避ける
-
-\* 1関数は30〜40行程度を目安にする
+* 可読性を最優先
+* 処理を機能ごとに分割する
+* 1ファイル肥大化を避ける
+* 1関数は30〜40行程度を目安にする
 
 
 
@@ -36,9 +33,8 @@ PascalCase
 
 
 
-\* Player
-
-\* EnemyManager
+* Player
+* EnemyManager
 
 
 
@@ -58,11 +54,9 @@ PascalCase
 
 
 
-\* Update
-
-\* Draw
-
-\* LoadModel
+* Update
+* Draw
+* LoadModel
 
 
 
@@ -82,9 +76,8 @@ m\_ prefix を付ける
 
 
 
-\* m\_Position
-
-\* m\_HP
+* m\_Position
+* m\_HP
 
 
 
@@ -104,9 +97,8 @@ camelCase
 
 
 
-\* moveSpeed
-
-\* targetPos
+* moveSpeed
+* targetPos
 
 
 
@@ -126,7 +118,7 @@ UPPER\_SNAKE\_CASE
 
 
 
-\* MAX\_PLAYER\_HP
+* MAX\_PLAYER\_HP
 
 
 
@@ -138,11 +130,9 @@ UPPER\_SNAKE\_CASE
 
 
 
-\* new / delete を直接使用しない
-
-\* std::unique\_ptr を使用する
-
-\* 所有権を明確にする
+* new / delete を直接使用しない
+* std::unique\_ptr を使用する
+* 所有権を明確にする
 
 
 
@@ -154,11 +144,9 @@ UPPER\_SNAKE\_CASE
 
 
 
-\* 1関数1責務
-
-\* 深いネストを避ける
-
-\* early return を推奨
+* 1関数1責務
+* 深いネストを避ける
+* early return を推奨
 
 
 
@@ -170,11 +158,9 @@ UPPER\_SNAKE\_CASE
 
 
 
-\* Update と Draw を分離する
-
-\* 描画とロジックを混在させない
-
-\* 外部依存を最小限にする
+* Update と Draw を分離する
+* 描画とロジックを混在させない
+* 外部依存を最小限にする
 
 
 
@@ -190,13 +176,10 @@ include順:
 
 
 
-1\. 自分のヘッダ
-
-2\. STL
-
-3\. DxLib
-
-4\. 他クラス
+1. 自分のヘッダ
+2. STL
+3. DxLib
+4. 他クラス
 
 
 
@@ -208,17 +191,17 @@ include順:
 
 
 
-\* 「何をしているか」ではなく
+* 「何をしているか」ではなく
 
 &#x20; 「なぜ必要か」を書く
 
 
 
-\* 複雑な処理には説明を書く
+* 複雑な処理には説明を書く
 
 
 
-\* 一時対応には TODO を付ける
+* 一時対応には TODO を付ける
 
 
 
@@ -230,11 +213,9 @@ include順:
 
 
 
-\* MV1モデルハンドルはクラス管理する
-
-\* モデル読み込みを毎フレーム行わない
-
-\* Draw と Update を分離する
+* MV1モデルハンドルはクラス管理する
+* モデル読み込みを毎フレーム行わない
+* Draw と Update を分離する
 
 
 
@@ -246,13 +227,8 @@ include順:
 
 
 
-\* 巨大switch文
-
-\* マジックナンバー
-
-\* グローバル変数多用
-
-\* 1クラスへの機能集中
-
-
+* 巨大switch文
+* マジックナンバー
+* グローバル変数多用
+* 1クラスへの機能集中
 
