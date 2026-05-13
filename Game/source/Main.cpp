@@ -1,10 +1,7 @@
 #include "DxLib.h"
 
-int WINAPI WinMain(
-    HINSTANCE,
-    HINSTANCE,
-    LPSTR,
-    int)
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
+    LPSTR lpCmdLine, int nCmdShow)
 {
     ChangeWindowMode(TRUE);
 
@@ -17,7 +14,7 @@ int WINAPI WinMain(
     {
         ClearDrawScreen();
 
-        DrawString(100, 100, "Hello DxLib!", GetColor(255, 255, 255));
+
 
         ScreenFlip();
     }
