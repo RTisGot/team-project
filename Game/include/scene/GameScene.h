@@ -1,6 +1,8 @@
 #pragma once
 #include "scene/BaseScene.h"
 #include "scene/SceneManager.h"
+#include "player/Player.h"
+#include <memory>
 #include <DxLib.h>
 
 /**
@@ -18,11 +20,10 @@ public:
 
 private:
     /**
-     * @brief プレイヤーの描画処理
+     * @brief デバッグ用床グリッドの描画
      */
-    void DrawPlayerBox();
+    void DrawDebugGrid();
 
     SceneManager* m_manager; ///< シーンマネージャー
-    VECTOR m_position;       ///< プレイヤーの座標
-    float m_angle;           ///< プレイヤーの向き
+    std::unique_ptr<Player> m_player; ///< プレイヤーインスタンス
 };
