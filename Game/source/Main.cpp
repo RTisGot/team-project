@@ -1,64 +1,23 @@
 #include "DxLib.h"
-<<<<<<< HEAD
 #include "scene/SceneManager.h"
 #include "scene/TitleScene.h"
 #include <memory>
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-    // 繧ｦ繧､繝ｳ繝峨え繝｢繝ｼ繝峨〒襍ｷ蜍・
+    // ウインドウモードで起動
     ChangeWindowMode(true);
-
-    // 譁・ｭ励さ繝ｼ繝峨ｒUTF-8縺ｨ縺励※謇ｱ縺・ｼ医た繝ｼ繧ｹ繧ｳ繝ｼ繝峨′UTF-8縺ｧ菫晏ｭ倥＆繧後※縺・ｋ蝣ｴ蜷医・譁・ｭ怜喧縺大ｯｾ遲厄ｼ・
-    SetUseCharCodeFormat(DX_CHARCODEFORMAT_UTF8);
-
-    // DX繝ｩ繧､繝悶Λ繝ｪ縺ｮ蛻晄悄蛹・
-    if (DxLib_Init() < 0)
-    {
-        return -1;
-    }
-=======
-#include "../../include/player/player.h"
-#include <math.h>
-
-// 移動速度
-#define MOVESPEED 10.0f
-
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
-{
 	// ウインドウモードで起動
 	ChangeWindowMode(true);
->>>>>>> 2bb8d47587798f262701e18bc5ea4ecd799a7e7a
 
-    // 謠冗判蜈医ｒ陬冗判髱｢縺ｫ縺吶ｋ
+	// DXライブラリの初期化
+	if (DxLib_Init() < 0)
+	{
+		return -1;
+	}
+
+    // 描画先を裏画面にする
     SetDrawScreen(DX_SCREEN_BACK);
-
-<<<<<<< HEAD
-    // 逕ｻ髱｢縺ｮ閭梧勹濶ｲ繧定ｨｭ螳・
-    SetBackgroundColor(0, 0, 0);
-
-    // 繧ｷ繝ｼ繝ｳ繝槭ロ繝ｼ繧ｸ繝｣繝ｼ縺ｮ蛻晄悄蛹・
-    SceneManager sceneManager;
-    sceneManager.Initialize(std::make_shared<TitleScene>(&sceneManager));
-
-    // 繝｡繧､繝ｳ繝ｫ繝ｼ繝・
-    while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
-    {
-        ClearDrawScreen();
-
-        // 迴ｾ蝨ｨ縺ｮ繧ｷ繝ｼ繝ｳ縺ｮ譖ｴ譁ｰ縺ｨ謠冗判
-        sceneManager.Update();
-        sceneManager.Draw();
-
-        ScreenFlip();
-    }
-
-    // 繧ｽ繝輔ヨ縺ｮ邨ゆｺ・・逅・
-    DxLib_End();
-    return 0;
-=======
-	// 描画先を裏画面にする
-	SetDrawScreen(DX_SCREEN_BACK);
 
 	// マウスカーソルを非表示
 	// TPS/FPS視点用
@@ -121,10 +80,57 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// 画面更新
 		ScreenFlip();
 	}
-
+				return r;
 	DxLib_End();
 
 	// ソフトの終了
 	return 0;
->>>>>>> 2bb8d47587798f262701e18bc5ea4ecd799a7e7a
+
+		// 赤色
+		int col = GetColor(255, 0, 0);
+
+		// 前面
+		DrawTriangle3D(v[0], v[1], v[2], col, TRUE);
+		DrawTriangle3D(v[0], v[2], v[3], col, TRUE);
+
+		// 背面
+		DrawTriangle3D(v[5], v[4], v[7], col, TRUE);
+		DrawTriangle3D(v[5], v[7], v[6], col, TRUE);
+
+		// 左面
+		DrawTriangle3D(v[4], v[0], v[3], col, TRUE);
+		DrawTriangle3D(v[4], v[3], v[7], col, TRUE);
+
+		// 右面
+		DrawTriangle3D(v[1], v[5], v[6], col, TRUE);
+		DrawTriangle3D(v[1], v[6], v[2], col, TRUE);
+
+		// 上面
+		DrawTriangle3D(v[3], v[2], v[6], col, TRUE);
+		DrawTriangle3D(v[3], v[6], v[7], col, TRUE);
+
+		// 下面
+		DrawTriangle3D(v[4], v[5], v[1], col, TRUE);
+		DrawTriangle3D(v[4], v[1], v[0], col, TRUE);
+
+		// 新しい向きをセット
+		//1SetRotationXYZ(modelHandle, VGet(0.0f, angle, 0.0f));
+
+		// 3Dモデルに新しい座標をセット
+		//1SetPosition(modelHandle, position);
+
+		// 3Dモデルの描画
+		//1DrawModel(modelHandle);
+
+
+		ScreenFlip();
+	}
+
+	// 3D���f���폜
+	//MV1DeleteModel(modelHandle);
+
+	DxLib_End();
+
+	// �\�t�g�̏I��
+	return 0;
 }
