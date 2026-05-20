@@ -8,7 +8,7 @@ TitleScene::TitleScene(SceneManager* manager)
 {
 }
 
-void TitleScene::Initialize()
+void TitleScene::Init()
 {
     // タイトルシーンの初期化処理
 }
@@ -26,6 +26,6 @@ void TitleScene::Update()
 void TitleScene::Draw()
 {
     // タイトルの文字を描画a
-    DrawString(100, 100, "ひろって、かえろう。 ", GetColor(255, 255, 255));
+    DrawString(100, 100, "ひろって、かえろう。", GetColor(255, 255, 255));
     DrawString(100, 150, "Press SPACE to Start", GetColor(200, 200, 200));
 }

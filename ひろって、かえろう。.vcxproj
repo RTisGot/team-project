@@ -23,6 +23,8 @@
     <ClCompile Include="Game\source\main.cpp" />
     <ClCompile Include="Game\source\map\Enemy.cpp" />
     <ClCompile Include="Game\source\map\Map.cpp" />
+    <ClCompile Include="Game\source\map\RoofTop.cpp" />
+    <ClCompile Include="Game\source\object\Door.cpp" />
     <ClCompile Include="Game\source\player\Player.cpp" />
     <ClCompile Include="Game\source\scene\GameScene.cpp" />
     <ClCompile Include="Game\source\scene\SceneManager.cpp" />
@@ -34,6 +36,8 @@
     <ClInclude Include="Game\include\enemy\Enemy.h" />
     <ClInclude Include="Game\include\map\AudioManager.h" />
     <ClInclude Include="Game\include\map\Map.h" />
+    <ClInclude Include="Game\include\map\RoofTop.h" />
+    <ClInclude Include="Game\include\object\Door.h" />
     <ClInclude Include="Game\include\object\GameObject.h" />
     <ClInclude Include="Game\include\player\Player.h" />
     <ClInclude Include="Game\include\scene\BaseScene.h" />

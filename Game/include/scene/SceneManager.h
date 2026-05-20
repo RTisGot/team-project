@@ -9,7 +9,7 @@
 
 /**
  * @class SceneManager
- * @brief シーンを管理するクラス
+ * @brief シーン管理クラス
  * @details シーンの初期化、更新、描画、シーン遷移を管理するクラス
  */
 class SceneManager
@@ -22,10 +22,8 @@ public:
      * @brief 初期シーンを設定する
      * @param initialScene 最初に再生するシーン
      */
-    void Initialize(std::shared_ptr<BaseScene> initialScene);
-
+    void Init(std::shared_ptr<BaseScene> initialScene);
     void Update();
-
     void Draw();
 
     /**

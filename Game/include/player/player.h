@@ -1,4 +1,4 @@
-﻿#ifndef PLAYER_H_
+#ifndef PLAYER_H_
 #define PLAYER_H_
 
 #include <DxLib.h>
@@ -14,7 +14,7 @@ public:
 	Player();
 
 	// 更新処理
-	void Update();
+	void Update(int roofTopModelHandle);
 
 	// 描画処理
 	void Draw();

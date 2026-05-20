@@ -1,4 +1,4 @@
-﻿#include "../../include/player/player.h"
+#include "../../include/player/player.h"
 #include <math.h>
 
 #define MOVE_SPEED 10.0f
@@ -40,7 +40,7 @@ Player::Player()
 
 // 更新処理
 // 入力・移動・カメラ更新
-void Player::Update()
+void Player::Update(int roofTopModelHandle)
 {
 	// 画面サイズ
 	int screenX;

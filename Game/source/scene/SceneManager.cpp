@@ -5,12 +5,12 @@ SceneManager::SceneManager()
 {
 }
 
-void SceneManager::Initialize(std::shared_ptr<BaseScene> initialScene)
+void SceneManager::Init(std::shared_ptr<BaseScene> initialScene)
 {
     m_currentScene = initialScene;
     if (m_currentScene)
     {
-        m_currentScene->Initialize();
+        m_currentScene->Init();
     }
 }
 
@@ -36,6 +36,6 @@ void SceneManager::ChangeScene(std::shared_ptr<BaseScene> nextScene)
     m_currentScene = nextScene;
     if (m_currentScene)
     {
-        m_currentScene->Initialize();
+        m_currentScene->Init();
     }
 }

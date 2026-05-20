@@ -5,13 +5,16 @@ GameScene::GameScene(SceneManager* manager)
 {
 }
 
-void GameScene::Initialize()
+void GameScene::Init()
 {
     // カメラのクリップ距離を設定
     SetCameraNearFar(16.0f, 5000.0f);
 
     // TPS視点用にマウスカーソルを非表示
     SetMouseDispFlag(FALSE);
+
+	m_roofTop = std::make_unique<RoofTop>();
+	m_roofTop->Init();
 
     // プレイヤーの生成
     m_player = std::make_unique<Player>();
@@ -20,16 +23,19 @@ void GameScene::Initialize()
 void GameScene::Update()
 {
     // プレイヤー更新（入力・移動・カメラ更新を含む）
-    if (m_player)
+    if (m_player && m_roofTop)
     {
-        m_player->Update();
+        m_player->Update(m_roofTop->GetModelHandle());
     }
 }
 
 void GameScene::Draw()
 {
-    // デバッグ用床グリッド描画
-    DrawDebugGrid();
+    // マップ描画
+    if (m_roofTop)
+    {
+		m_roofTop->Draw();
+    }
 
     // プレイヤー描画
     if (m_player)

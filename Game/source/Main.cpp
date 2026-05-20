@@ -8,7 +8,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     // ウインドウモードで起動
     ChangeWindowMode(true);
 
-    // 文字コードをUTF-8として扱う（ソースコードがUTF-8で保存されている場合の文字化け対策）
+    // 文字コードをUTF-8として扱う
     SetUseCharCodeFormat(DX_CHARCODEFORMAT_UTF8);
 
     // DXライブラリの初期化
@@ -25,7 +25,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     // シーンマネージャーの初期化
     SceneManager sceneManager;
-    sceneManager.Initialize(std::make_shared<TitleScene>(&sceneManager));
+    sceneManager.Init(std::make_shared<TitleScene>(&sceneManager));
 
     // メインループ
     while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
