@@ -3,6 +3,7 @@
 #include "scene/SceneManager.h"
 #include "player/Player.h"
 #include "map/RoofTop.h"
+#include "system/LightManager.h"
 #include <memory>
 #include <DxLib.h>
 
@@ -28,4 +29,5 @@ private:
     SceneManager* m_manager; ///< シーンマネージャー
     std::unique_ptr<Player> m_player; ///< プレイヤーインスタンス
 	std::unique_ptr<RoofTop> m_roofTop; ///< 屋上インスタンス
+	std::unique_ptr<LightManager> m_lightManager; ///< ライトマネージャー
 };

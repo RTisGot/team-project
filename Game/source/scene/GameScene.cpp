@@ -18,6 +18,10 @@ void GameScene::Init()
 
     // プレイヤーの生成
     m_player = std::make_unique<Player>();
+
+	// ライトマネージャーの生成と初期化
+	m_lightManager = std::make_unique<LightManager>();
+	m_lightManager->Init();
 }
 
 void GameScene::Update()

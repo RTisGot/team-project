@@ -93,7 +93,7 @@ void Player::Update(int roofTopModelHandle)
 		cosf(m_CameraPitch) * cosf(m_CameraYaw)
 	};
 
-	// カメラ右方向zz
+	// カメラ右方向
 	VECTOR right =
 	{
 		cosf(m_CameraYaw),
@@ -101,7 +101,7 @@ void Player::Update(int roofTopModelHandle)
 		-sinf(m_CameraYaw)
 	};
 
-	// 入力方向zzzz
+	// 入力方向
 	VECTOR move = VGet(0.0f, 0.0f, 0.0f);
 
 	// 前進

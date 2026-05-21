@@ -30,6 +30,7 @@
     <ClCompile Include="Game\source\scene\SceneManager.cpp" />
     <ClCompile Include="Game\source\scene\TitleScene.cpp" />
     <ClCompile Include="Game\source\system\Game.cpp" />
+    <ClCompile Include="Game\source\system\LightManager.cpp" />
     <ClCompile Include="Game\source\ui\UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -45,6 +46,7 @@
     <ClInclude Include="Game\include\scene\SceneManager.h" />
     <ClInclude Include="Game\include\scene\TitleScene.h" />
     <ClInclude Include="Game\include\system\Game.h" />
+    <ClInclude Include="Game\include\system\LightManager.h" />
     <ClInclude Include="Game\include\ui\UIManager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
