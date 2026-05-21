@@ -88,9 +88,9 @@ void Player::Update(int roofTopModelHandle)
 	// カメラ前方向
 	VECTOR forward =
 	{
-		sinf(m_CameraYaw),
-		0.0f,
-		cosf(m_CameraYaw)
+		cosf(m_CameraPitch) * sinf(m_CameraYaw),
+		-sinf(m_CameraPitch),
+		cosf(m_CameraPitch) * cosf(m_CameraYaw)
 	};
 
 	// カメラ右方向zz
@@ -128,6 +128,18 @@ void Player::Update(int roofTopModelHandle)
 		move = VSub(move, right);
 	}
 
+	// 上昇
+	if (CheckHitKey(KEY_INPUT_E))
+	{
+		move.y += 1.0f;
+	}
+
+	// 下降
+	if (CheckHitKey(KEY_INPUT_Q))
+	{
+		move.y -= 1.0f;
+	}
+
 	// プレイヤー移動
 	if (VSize(move) > 0.0f)
 	{
@@ -156,8 +168,8 @@ void Player::Update(int roofTopModelHandle)
 	}
 
 	// 重力
-	m_VelocityY += m_Gravity;
-	m_Position.y += m_VelocityY;
+	//m_VelocityY += m_Gravity;
+	//m_Position.y += m_VelocityY;
 
 	// 地面判定
 	if (m_Position.y <= 0.0f)
