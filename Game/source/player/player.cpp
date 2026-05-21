@@ -9,7 +9,7 @@
 Player::Player()
 {
 	// プレイヤー座標
-	m_Position = VGet(0.0f, 0.0f, 0.0f);
+	m_Position = VGet(200.0f, 400.0f, 0.0f);
 
 	// プレイヤー向き
 	m_PlayerAngle = 0.0f;
@@ -21,7 +21,7 @@ Player::Player()
 	m_CameraPitch = 0.3f;
 
 	// カメラ距離
-	m_CameraDistance = 200.0f;
+	m_CameraDistance = 50.0f;
 
 	// マウス感度
 	m_MouseSensitivity = 0.005f;
@@ -167,21 +167,52 @@ void Player::Update(int roofTopModelHandle)
 		}
 	}
 
-	// 重力
-	//m_VelocityY += m_Gravity;
-	//m_Position.y += m_VelocityY;
+	//重力
+	m_VelocityY += m_Gravity;
+	m_Position.y += m_VelocityY;
 
-	// 地面判定
-	if (m_Position.y <= 0.0f)
+	//TODO:屋上との当たり判定の仮実装
+	if (roofTopModelHandle != -1)
 	{
-		m_Position.y = 0.0f;
+		float playerHeight = 5.0f;
+		float playerRadius = 5.0f;
 
-		if (m_VelocityY < 0.0f)
+		VECTOR lineStart = VAdd(m_Position, VGet(0.0f, playerHeight, 0.0f));
+		VECTOR lineEnd = VAdd(m_Position, VGet(0.0f, -playerHeight, 0.0f));
+
+		MV1_COLL_RESULT_POLY hitLine = MV1CollCheck_Line(roofTopModelHandle, -1, lineStart, lineEnd);
+
+		if(hitLine.HitFlag==TRUE)
 		{
-			m_VelocityY = 0.0f;
+			if (m_VelocityY < 0.0f)
+			{
+				m_Position.y = hitLine.HitPosition.y;
+				m_VelocityY = 0.0f;
+				m_IsGround = true;
+			}
+		}
+		else
+		{
+			m_IsGround = false;
 		}
 
-		m_IsGround = true;
+		VECTOR center = VAdd(m_Position, VGet(0.0f, playerHeight, 0.0f));
+		MV1_COLL_RESULT_POLY_DIM hitSphere = MV1CollCheck_Sphere(roofTopModelHandle, -1, center, playerRadius);
+
+		for(int i=0;i<hitSphere.HitNum; i++)
+		{
+			if(hitSphere.Dim[i].Normal.y<0.5f)
+			{
+				m_Position = VAdd(m_Position, VScale(hitSphere.Dim[i].Normal, 1.0f));
+			}
+		}
+		MV1CollResultPolyDimTerminate(hitSphere);
+	}
+	if (m_Position.y <= 0.0f)
+	{
+		m_Position.y = 400.0f;
+		m_Position.x = 200.0f;
+		m_Position.z = 0.0f;
 	}
 
 	// ダッシュ入力
@@ -220,7 +251,7 @@ void Player::Update(int roofTopModelHandle)
 	VECTOR targetPos =
 	{
 		m_Position.x,
-		m_Position.y + 50.0f,
+		m_Position.y + 5.0f,
 		m_Position.z
 	};
 
@@ -233,7 +264,7 @@ void Player::Update(int roofTopModelHandle)
 void Player::Draw()
 {
 	// キューブサイズ
-	float size = 30.0f;
+	float size = 5.0f;
 
 	// 頂点
 	VECTOR v[8] =
