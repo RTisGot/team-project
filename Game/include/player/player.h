@@ -40,7 +40,7 @@ private:
 	// ダッシュ関連
 	float m_MoveSpeed;		// 通常速度
 	float m_DashMultiplier;	// ダッシュ倍率
-	bool  m_IsDashing;		// ダッシュ中フラグaa
+	bool  m_IsDashing;		// ダッシュ中フラグ
 };
 
 #endif

@@ -28,12 +28,12 @@ Player::Player()
 
 	// ジャンプ・物理
 	m_VelocityY = 0.0f;		// Y速度
-	m_Gravity = -0.8f;		// 重力
-	m_JumpPower = 18.0f;	// ジャンプ力
+	m_Gravity = -0.2f;		// 重力
+	m_JumpPower = 3.0f;		// ジャンプ力
 	m_IsGround = true;		// 接地フラグ
 
 	// ダッシュ関連
-	m_MoveSpeed = 10.0f;
+	m_MoveSpeed = 1.0f;
 	m_DashMultiplier = 2.0f;  // 2倍速
 	m_IsDashing = false;
 }
@@ -174,8 +174,8 @@ void Player::Update(int roofTopModelHandle)
 	//TODO:屋上との当たり判定の仮実装
 	if (roofTopModelHandle != -1)
 	{
-		float playerHeight = 5.0f;
-		float playerRadius = 5.0f;
+		float playerHeight = 2.0f;
+		float playerRadius = 2.0f;
 
 		VECTOR lineStart = VAdd(m_Position, VGet(0.0f, playerHeight, 0.0f));
 		VECTOR lineEnd = VAdd(m_Position, VGet(0.0f, -playerHeight, 0.0f));
@@ -213,6 +213,7 @@ void Player::Update(int roofTopModelHandle)
 		m_Position.y = 400.0f;
 		m_Position.x = 200.0f;
 		m_Position.z = 0.0f;
+		m_VelocityY = 0.0f;
 	}
 
 	// ダッシュ入力
@@ -264,7 +265,7 @@ void Player::Update(int roofTopModelHandle)
 void Player::Draw()
 {
 	// キューブサイズ
-	float size = 5.0f;
+	float size = 2.0f;
 
 	// 頂点
 	VECTOR v[8] =
