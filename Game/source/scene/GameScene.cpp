@@ -19,6 +19,9 @@ void GameScene::Init()
     // プレイヤーの生成
     m_player = std::make_unique<Player>();
 
+    m_enemy = std::make_unique<Enemy>();
+    m_enemy->Init(VGet(200, 0, 200)); // 敵の初期位置を設定
+
 	// ライトマネージャーの生成と初期化
 	m_lightManager = std::make_unique<LightManager>();
 	m_lightManager->Init();
@@ -31,6 +34,11 @@ void GameScene::Update()
     {
         m_player->Update(m_roofTop->GetModelHandle());
     }
+
+    if(m_enemy)
+    {
+        m_enemy->Update();
+	}
 }
 
 void GameScene::Draw()
@@ -45,6 +53,12 @@ void GameScene::Draw()
     if (m_player)
     {
         m_player->Draw();
+    }
+
+    // 敵描画
+    if (m_enemy)
+    {
+        m_enemy->Draw();
     }
 
     // デバッグ用UI描画
