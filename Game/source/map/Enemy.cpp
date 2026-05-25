@@ -1,20 +1,41 @@
 #include "enemy/Enemy.h"
 
-void Enemy::Init(VECTOR startPos)
+Enemy::Enemy()
+:m_modelHandle(-1)
 {
-    modelHandle = MV1LoadModel("Game/assets/models/map/enemy/Enemy.mv1");
-    pos = startPos;
-    angle = 0.0f;
+		m_position = VGet(200.0f, 400.0f, 0.0f);	
+}
+
+Enemy::~Enemy()
+{
+	// モデルの解放
+	if (m_modelHandle != -1)
+	{
+		MV1DeleteModel(m_modelHandle);
+		m_modelHandle = -1;
+	}
+}
+
+void Enemy::Init()
+{
+	// モデルの読み込み
+	m_modelHandle = MV1LoadModel("Game/assets/models/enemy/enemy.mv1");
+	if (m_modelHandle != -1)
+	{
+		MV1SetScale(m_modelHandle, VGet(0.01f, 0.01f, 0.01f));
+	}
 }
 
 void Enemy::Update()
 {
-    // 今は何もしない（後でAI入れる）
 }
 
 void Enemy::Draw()
 {
-    MV1SetPosition(modelHandle, pos);
-    MV1SetRotationXYZ(modelHandle, VGet(0, angle, 0));
-    MV1DrawModel(modelHandle);
+	if (m_modelHandle != -1)
+	{
+		MV1SetPosition(m_modelHandle, m_position);
+		MV1DrawModel(m_modelHandle);
+	}
+	
 }
