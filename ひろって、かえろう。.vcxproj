@@ -49,6 +49,7 @@
     <ClInclude Include="Game\include\scene\LobbyScene.h" />
     <ClInclude Include="Game\include\scene\SceneManager.h" />
     <ClInclude Include="Game\include\scene\TitleScene.h" />
+    <ClInclude Include="Game\include\system\Define.h" />
     <ClInclude Include="Game\include\system\Game.h" />
     <ClInclude Include="Game\include\system\LightManager.h" />
     <ClInclude Include="Game\include\ui\UIManager.h" />
