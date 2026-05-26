@@ -7,3 +7,8 @@ indent_style = space
 # Xml files
 [*.xml]
 indent_size = 2
+
+[*.{cpp,h,hpp,c}]
+charset = utf-8
+end_of_line = crlf
+insert_final_newline = true
