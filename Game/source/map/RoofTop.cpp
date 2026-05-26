@@ -2,7 +2,8 @@
 #include <DxLib.h>
 
 RoofTop::RoofTop()
-	:m_modelHandle(-1)
+	: m_modelHandle(-1)
+	, m_door(std::make_unique<Door>())
 {
 }
 
@@ -24,7 +25,21 @@ bool RoofTop::Init()
 	{
 		return false; // モデルの読み込みに失敗
 	}
+
+	if (m_door && !m_door->Init())
+	{
+		return false;
+	}
+
 	return true;
+}
+
+void RoofTop::Update(const VECTOR& playerPos)
+{
+	if (m_door)
+	{
+		m_door->Update(playerPos);
+	}
 }
 
 void RoofTop::Draw()
@@ -36,5 +51,10 @@ void RoofTop::Draw()
 	else
 	{
 		DrawString(100, 100, "屋上モデルが読み込まれていません", GetColor(255, 0, 0));
+	}
+
+	if (m_door)
+	{
+		m_door->Draw();
 	}
 }

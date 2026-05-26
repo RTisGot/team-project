@@ -1,11 +1,11 @@
-#include "scene/GameScene.h"
+#include "scene/RoofTopScene.h"
 
-GameScene::GameScene(SceneManager* manager)
+RoofTopScene::RoofTopScene(SceneManager* manager)
     : m_manager(manager)
 {
 }
 
-void GameScene::Init()
+void RoofTopScene::Init()
 {
     // カメラのクリップ距離を設定
     SetCameraNearFar(16.0f, 5000.0f);
@@ -13,8 +13,8 @@ void GameScene::Init()
     // TPS視点用にマウスカーソルを非表示
     SetMouseDispFlag(FALSE);
 
-	m_roofTop = std::make_unique<RoofTop>();
-	m_roofTop->Init();
+    m_roofTop = std::make_unique<RoofTop>();
+    m_roofTop->Init();
 
     // プレイヤーの生成
     m_player = std::make_unique<Player>();
@@ -22,12 +22,12 @@ void GameScene::Init()
     m_enemy = std::make_unique<Enemy>();
     m_enemy->Init(VGet(200, 0, 200)); // 敵の初期位置を設定
 
-	// ライトマネージャーの生成と初期化
-	m_lightManager = std::make_unique<LightManager>();
-	m_lightManager->Init();
+    // ライトマネージャーの生成と初期化
+    m_lightManager = std::make_unique<LightManager>();
+    m_lightManager->Init();
 }
 
-void GameScene::Update()
+void RoofTopScene::Update()
 {
     // プレイヤー更新（入力・移動・カメラ更新を含む）
     if (m_player && m_roofTop)
@@ -35,18 +35,18 @@ void GameScene::Update()
         m_player->Update(m_roofTop->GetModelHandle());
     }
 
-    if(m_enemy)
+    if (m_enemy)
     {
         m_enemy->Update();
-	}
+    }
 }
 
-void GameScene::Draw()
+void RoofTopScene::Draw()
 {
     // マップ描画
     if (m_roofTop)
     {
-		m_roofTop->Draw();
+        m_roofTop->Draw();
     }
 
     // プレイヤー描画
@@ -65,7 +65,7 @@ void GameScene::Draw()
     DrawString(10, 10, "Game Scene - WASD移動 / マウス視点移動 ", GetColor(255, 255, 255));
 }
 
-void GameScene::DrawDebugGrid()
+void RoofTopScene::DrawDebugGrid()
 {
     const int gridSize = 1000;
     const int gridStep = 100;

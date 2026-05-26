@@ -4,7 +4,7 @@
 
 /**
  * @file TitleScene.h
- * @brief タイトルシーン
+ * @brief タイトルシーンの定義
  */
 
 /**

@@ -1,5 +1,5 @@
 #pragma once
-#include "DxLib.h"
+#include <DxLib.h>
 
 struct Enemy
 {
@@ -8,6 +8,6 @@ struct Enemy
     int modelHandle;
 
     void Init(VECTOR startPos);
-    void Update();   // ¡‚Í‹ó‚ÅOK
+    void Update();   // ä»Šã¯ç©ºã§OK
     void Draw();
 };

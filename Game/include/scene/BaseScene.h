@@ -2,7 +2,7 @@
 
 /**
 * @file BaseScene.h
-* @brief シーンの基底クラス
+* @brief シーンの基底クラスの定義
 */
 
 /**

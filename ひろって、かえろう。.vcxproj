@@ -26,7 +26,8 @@
     <ClCompile Include="Game\source\map\RoofTop.cpp" />
     <ClCompile Include="Game\source\object\Door.cpp" />
     <ClCompile Include="Game\source\player\Player.cpp" />
-    <ClCompile Include="Game\source\scene\GameScene.cpp" />
+    <ClCompile Include="Game\source\scene\LoadingScene.cpp" />
+    <ClCompile Include="Game\source\scene\RoofTopScene.cpp" />
     <ClCompile Include="Game\source\scene\SceneManager.cpp" />
     <ClCompile Include="Game\source\scene\TitleScene.cpp" />
     <ClCompile Include="Game\source\system\Game.cpp" />
@@ -42,7 +43,8 @@
     <ClInclude Include="Game\include\object\GameObject.h" />
     <ClInclude Include="Game\include\player\Player.h" />
     <ClInclude Include="Game\include\scene\BaseScene.h" />
-    <ClInclude Include="Game\include\scene\GameScene.h" />
+    <ClInclude Include="Game\include\scene\LoadingScene.h" />
+    <ClInclude Include="Game\include\scene\RoofTopScene.h" />
     <ClInclude Include="Game\include\scene\SceneManager.h" />
     <ClInclude Include="Game\include\scene\TitleScene.h" />
     <ClInclude Include="Game\include\system\Game.h" />

@@ -168,8 +168,8 @@ void Player::Update(int roofTopModelHandle)
 	}
 
 	//重力
-	m_VelocityY += m_Gravity;
-	m_Position.y += m_VelocityY;
+	/*m_VelocityY += m_Gravity;
+	m_Position.y += m_VelocityY;*/
 
 	//TODO:屋上との当たり判定の仮実装
 	if (roofTopModelHandle != -1)

@@ -4,7 +4,7 @@
 
 /**
  * @file SceneManager.h
- * @brief シーン管理クラス
+ * @brief シーン管理クラスの定義
  */
 
 /**

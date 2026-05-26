@@ -9,13 +9,13 @@
 #include <DxLib.h>
 
 /**
- * @brief ゲームシーン
+ * @brief 屋上シーン
  */
-class GameScene : public BaseScene
+class RoofTopScene : public BaseScene
 {
 public:
-    GameScene(SceneManager* manager);
-    ~GameScene() override = default;
+    RoofTopScene(SceneManager* manager);
+    ~RoofTopScene() override = default;
 
     void Init() override;
     void Update() override;
@@ -29,7 +29,7 @@ private:
 
     SceneManager* m_manager; ///< シーンマネージャー
     std::unique_ptr<Player> m_player; ///< プレイヤーインスタンス
-	std::unique_ptr<RoofTop> m_roofTop; ///< 屋上インスタンス
-	std::unique_ptr<LightManager> m_lightManager; ///< ライトマネージャー
+    std::unique_ptr<RoofTop> m_roofTop; ///< 屋上インスタンス
+    std::unique_ptr<LightManager> m_lightManager; ///< ライトマネージャー
     std::unique_ptr<Enemy> m_enemy; ///< 敵インスタンス
 };

@@ -19,6 +19,9 @@ public:
 	// 描画処理
 	void Draw();
 
+	// プレイヤー座標の取得
+	VECTOR GetPosition() const { return m_Position; }
+
 private:
 
 	// プレイヤー情報
