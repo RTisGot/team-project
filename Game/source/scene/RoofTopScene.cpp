@@ -20,7 +20,7 @@ void RoofTopScene::Init()
     m_player = std::make_unique<Player>();
 
     m_enemy = std::make_unique<Enemy>();
-    m_enemy->Init(VGet(200, 0, 200)); // 敵の初期位置を設定
+    m_enemy->Init(); // 敵の初期位置を設定
 
     // ライトマネージャーの生成と初期化
     m_lightManager = std::make_unique<LightManager>();
