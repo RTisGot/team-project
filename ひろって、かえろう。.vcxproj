@@ -26,12 +26,13 @@
     <ClCompile Include="Game\source\map\RoofTop.cpp" />
     <ClCompile Include="Game\source\object\Door.cpp" />
     <ClCompile Include="Game\source\player\Player.cpp" />
-    <ClCompile Include="Game\source\scene\GameScene.cpp" />
+    <ClCompile Include="Game\source\scene\ExploreScene.cpp" />
     <ClCompile Include="Game\source\scene\LoadingScene.cpp" />
     <ClCompile Include="Game\source\scene\LobbyScene.cpp" />
     <ClCompile Include="Game\source\scene\SceneManager.cpp" />
     <ClCompile Include="Game\source\scene\TitleScene.cpp" />
     <ClCompile Include="Game\source\system\Game.cpp" />
+    <ClCompile Include="Game\source\system\GameData.cpp" />
     <ClCompile Include="Game\source\system\LightManager.cpp" />
     <ClCompile Include="Game\source\ui\UIManager.cpp" />
   </ItemGroup>
@@ -44,13 +45,14 @@
     <ClInclude Include="Game\include\object\GameObject.h" />
     <ClInclude Include="Game\include\player\Player.h" />
     <ClInclude Include="Game\include\scene\BaseScene.h" />
-    <ClInclude Include="Game\include\scene\GameScene.h" />
+    <ClInclude Include="Game\include\scene\ExploreScene.h" />
     <ClInclude Include="Game\include\scene\LoadingScene.h" />
     <ClInclude Include="Game\include\scene\LobbyScene.h" />
     <ClInclude Include="Game\include\scene\SceneManager.h" />
     <ClInclude Include="Game\include\scene\TitleScene.h" />
     <ClInclude Include="Game\include\system\Define.h" />
     <ClInclude Include="Game\include\system\Game.h" />
+    <ClInclude Include="Game\include\system\GameData.h" />
     <ClInclude Include="Game\include\system\LightManager.h" />
     <ClInclude Include="Game\include\ui\UIManager.h" />
   </ItemGroup>
