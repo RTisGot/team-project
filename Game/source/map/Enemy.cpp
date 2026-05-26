@@ -8,7 +8,7 @@ Enemy::Enemy()
 
 Enemy::~Enemy()
 {
-	// ƒ‚ƒfƒ‹‚Ì‰ğ•ú
+	// ãƒ¢ãƒ‡ãƒ«ã®è§£æ”¾
 	if (m_modelHandle != -1)
 	{
 		MV1DeleteModel(m_modelHandle);
@@ -18,7 +18,7 @@ Enemy::~Enemy()
 
 void Enemy::Init()
 {
-	// ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İ
+	// ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿
 	m_modelHandle = MV1LoadModel("Game/assets/models/enemy/enemy.mv1");
 	if (m_modelHandle != -1)
 	{

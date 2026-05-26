@@ -99,10 +99,13 @@
     <ClCompile Include="Game\source\object\Door.cpp">
       <Filter>ソース ファイル\object</Filter>
     </ClCompile>
-    <ClCompile Include="Game\source\scene\RoofTopScene.cpp">
+    <ClCompile Include="Game\source\scene\LoadingScene.cpp">
       <Filter>ソース ファイル\scene</Filter>
     </ClCompile>
-    <ClCompile Include="Game\source\scene\LoadingScene.cpp">
+    <ClCompile Include="Game\source\scene\GameScene.cpp">
+      <Filter>ソース ファイル\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\source\scene\LobbyScene.cpp">
       <Filter>ソース ファイル\scene</Filter>
     </ClCompile>
   </ItemGroup>
@@ -146,10 +149,13 @@
     <ClInclude Include="Game\include\object\Door.h">
       <Filter>ヘッダー ファイル\object</Filter>
     </ClInclude>
-    <ClInclude Include="Game\include\scene\RoofTopScene.h">
+    <ClInclude Include="Game\include\scene\LoadingScene.h">
       <Filter>ヘッダー ファイル\scene</Filter>
     </ClInclude>
-    <ClInclude Include="Game\include\scene\LoadingScene.h">
+    <ClInclude Include="Game\include\scene\GameScene.h">
+      <Filter>ヘッダー ファイル\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\include\scene\LobbyScene.h">
       <Filter>ヘッダー ファイル\scene</Filter>
     </ClInclude>
   </ItemGroup>

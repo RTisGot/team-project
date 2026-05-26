@@ -1,5 +1,5 @@
 #include "scene/TitleScene.h"
-#include "scene/RoofTopScene.h"
+#include "scene/LobbyScene.h"
 #include <DxLib.h>
 #include <memory>
 
@@ -18,8 +18,8 @@ void TitleScene::Update()
     // スペースキーが押されたか判定
     if (CheckHitKey(KEY_INPUT_SPACE) == 1)
     {
-        // 次のシーン(RoofTopScene)を生成して遷移
-        m_manager->ChangeScene(std::make_shared<RoofTopScene>(m_manager));
+        // 次のシーン(LobbyScene)を生成して遷移
+        m_manager->ChangeScene(std::make_shared<LobbyScene>(m_manager));
     }
 }
 

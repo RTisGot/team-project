@@ -1,4 +1,5 @@
 #pragma once
+#pragma once
 #include "scene/BaseScene.h"
 #include "scene/SceneManager.h"
 #include "player/Player.h"
@@ -11,11 +12,11 @@
 /**
  * @brief 屋上シーン
  */
-class RoofTopScene : public BaseScene
+class LobbyScene : public BaseScene
 {
 public:
-    RoofTopScene(SceneManager* manager);
-    ~RoofTopScene() override = default;
+    LobbyScene(SceneManager* manager);
+    ~LobbyScene() override = default;
 
     void Init() override;
     void Update() override;

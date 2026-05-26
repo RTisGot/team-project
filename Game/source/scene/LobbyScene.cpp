@@ -1,11 +1,11 @@
-#include "scene/RoofTopScene.h"
+#include "scene/LobbyScene.h"
 
-RoofTopScene::RoofTopScene(SceneManager* manager)
+LobbyScene::LobbyScene(SceneManager* manager)
     : m_manager(manager)
 {
 }
 
-void RoofTopScene::Init()
+void LobbyScene::Init()
 {
     // カメラのクリップ距離を設定
     SetCameraNearFar(16.0f, 5000.0f);
@@ -27,7 +27,7 @@ void RoofTopScene::Init()
     m_lightManager->Init();
 }
 
-void RoofTopScene::Update()
+void LobbyScene::Update()
 {
     // プレイヤー更新（入力・移動・カメラ更新を含む）
     if (m_player && m_roofTop)
@@ -41,7 +41,7 @@ void RoofTopScene::Update()
     }
 }
 
-void RoofTopScene::Draw()
+void LobbyScene::Draw()
 {
     // マップ描画
     if (m_roofTop)
@@ -65,7 +65,7 @@ void RoofTopScene::Draw()
     DrawString(10, 10, "Game Scene - WASD移動 / マウス視点移動 ", GetColor(255, 255, 255));
 }
 
-void RoofTopScene::DrawDebugGrid()
+void LobbyScene::DrawDebugGrid()
 {
     const int gridSize = 1000;
     const int gridStep = 100;
