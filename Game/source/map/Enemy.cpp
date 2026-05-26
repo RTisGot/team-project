@@ -3,7 +3,20 @@
 #include <system/Define.h>
 
 Enemy::Enemy()
-:m_ModelHandle(-1)
+:m_ModelHandle(-1),
+m_Position(VGet(0.0f, 0.0f, 0.0f)),
+m_TargetMoveDirection(VGet(0.0f, 0.0f, 1.0f)),
+m_MoveVec(VGet(0.0f, 0.0f, 0.0f)),
+m_Angle(0.0f),
+m_JumpPower(0.0f),
+m_JumpStatus(OBJ_NO_JUMP),
+m_Action(0),
+m_PrevAction(0),
+m_AnimIndex(0),
+m_AttachIndex(0),
+m_TotalTime(0.0f),
+m_PlayTime(0.0f),
+m_MoveTime(0)
 {
 			   
 }

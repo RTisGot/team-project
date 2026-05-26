@@ -19,7 +19,7 @@ class ExploreScene : public BaseScene
 {
 public:
     ExploreScene(SceneManager* manager);
-    ~ExploreScene() override = default;
+    ~ExploreScene() override; // 定義を cpp に移動して Player を不完全型として保持できるようにする
 
     void Init() override;
     void Update() override;

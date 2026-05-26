@@ -31,6 +31,8 @@
     <ClCompile Include="Game\source\scene\LobbyScene.cpp" />
     <ClCompile Include="Game\source\scene\SceneManager.cpp" />
     <ClCompile Include="Game\source\scene\TitleScene.cpp" />
+    <ClCompile Include="Game\source\system\camera.cpp" />
+    <ClCompile Include="Game\source\system\Config.cpp" />
     <ClCompile Include="Game\source\system\Game.cpp" />
     <ClCompile Include="Game\source\system\GameData.cpp" />
     <ClCompile Include="Game\source\system\LightManager.cpp" />
@@ -50,11 +52,16 @@
     <ClInclude Include="Game\include\scene\LobbyScene.h" />
     <ClInclude Include="Game\include\scene\SceneManager.h" />
     <ClInclude Include="Game\include\scene\TitleScene.h" />
+    <ClInclude Include="Game\include\system\camera.h" />
+    <ClInclude Include="Game\include\system\Config.h" />
     <ClInclude Include="Game\include\system\Define.h" />
     <ClInclude Include="Game\include\system\Game.h" />
     <ClInclude Include="Game\include\system\GameData.h" />
     <ClInclude Include="Game\include\system\LightManager.h" />
     <ClInclude Include="Game\include\ui\UIManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".editorconfig" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

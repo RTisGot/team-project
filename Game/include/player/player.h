@@ -46,4 +46,4 @@ private:
 	bool  m_IsDashing;		// ダッシュ中フラグ
 };
 
-#endif
+#endif // GAME_INCLUDE_PLAYER_PLAYER_H
