@@ -2,7 +2,7 @@
 #define PLAYER_H_
 
 #include <DxLib.h>
-#include "Collision/CollisionManager.h"
+#include "collision/CollisionManager.h"
 
 /**
  *	@brief プレイヤークラス

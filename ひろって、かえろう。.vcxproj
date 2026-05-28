@@ -21,8 +21,9 @@
   <ItemGroup>
     <ClCompile Include="Game\source\audio\AudioManager.cpp" />
     <ClCompile Include="Game\source\Collision\CollisionManager.cpp" />
+    <ClCompile Include="Game\source\Collision\StageCollider.cpp" />
+    <ClCompile Include="Game\source\enemy\Enemy.cpp" />
     <ClCompile Include="Game\source\main.cpp" />
-    <ClCompile Include="Game\source\map\Enemy.cpp" />
     <ClCompile Include="Game\source\map\Map.cpp" />
     <ClCompile Include="Game\source\map\RoofTop.cpp" />
     <ClCompile Include="Game\source\object\Door.cpp" />
@@ -34,15 +35,15 @@
     <ClCompile Include="Game\source\scene\TitleScene.cpp" />
     <ClCompile Include="Game\source\system\camera.cpp" />
     <ClCompile Include="Game\source\system\Config.cpp" />
-    <ClCompile Include="Game\source\system\Game.cpp" />
     <ClCompile Include="Game\source\system\GameData.cpp" />
     <ClCompile Include="Game\source\system\LightManager.cpp" />
     <ClCompile Include="Game\source\ui\UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Game\include\audio\AudioManager.h" />
     <ClInclude Include="Game\include\Collision\CollisionManager.h" />
+    <ClInclude Include="Game\include\Collision\StageCollider.h" />
     <ClInclude Include="Game\include\enemy\Enemy.h" />
-    <ClInclude Include="Game\include\map\AudioManager.h" />
     <ClInclude Include="Game\include\map\Map.h" />
     <ClInclude Include="Game\include\map\RoofTop.h" />
     <ClInclude Include="Game\include\object\Door.h" />
@@ -57,13 +58,9 @@
     <ClInclude Include="Game\include\system\camera.h" />
     <ClInclude Include="Game\include\system\Config.h" />
     <ClInclude Include="Game\include\system\Define.h" />
-    <ClInclude Include="Game\include\system\Game.h" />
     <ClInclude Include="Game\include\system\GameData.h" />
     <ClInclude Include="Game\include\system\LightManager.h" />
     <ClInclude Include="Game\include\ui\UIManager.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include=".editorconfig" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
