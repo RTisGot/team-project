@@ -57,6 +57,16 @@ private:
 	float m_MoveSpeed;		// 通常速度
 	float m_DashMultiplier;	// ダッシュ倍率
 	bool  m_IsDashing;		// ダッシュ中フラグ
+
+    int m_VSHandle; // 頂点シェーダーのハンドル
+    int m_PSHandle; // ピクセルシェーダーのハンドル
+
+    int m_OutlineVSHandle; // 輪郭線用頂点シェーダー
+    int m_OutlinePSHandle; // 輪郭線用ピクセルシェーダー
+    
+    int m_CBufferHandle; // 定数バッファのハンドル
+
+    void GetShaderConstantBufferAddress();
 };
 
 #endif
