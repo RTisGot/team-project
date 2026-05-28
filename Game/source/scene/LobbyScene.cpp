@@ -41,7 +41,7 @@ void LobbyScene::Update()
 
     if (m_enemy)
     {
-        m_enemy->Update();
+        m_enemy->Update(m_collisionManager.get());
     }
 }
 
