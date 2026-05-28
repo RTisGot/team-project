@@ -25,7 +25,7 @@ Player::Player()
 	m_CameraYaw = 0.0f; //横回転
 	m_CameraPitch = 0.3f;//縦回転
 
-	m_CameraDistance = 50.0f; //距離
+	m_CameraDistance = 25.0f; //距離
 
 // マウス感度
 	m_MouseSensitivity = 0.005f;
@@ -205,8 +205,18 @@ void Player::Update(int roofTopModelHandle)
         //プレイヤーの位置を更新
 		m_Position = VAdd(m_Position, VScale(move, speed));
 
-        //プレイヤー
-       m_PlayerAngle = atan2f(move.x, move.z);
+    // プレイヤーの移動に合わせてカメラも移動---------------
+        // プレイヤーの向きを移動方向に合わせる
+        float targetAngle = atan2f(move.x, move.z);
+        // プレイヤーの向きを徐々に目標角度に近づける
+        float diff = targetAngle - m_PlayerAngle;
+
+        //(DX_PI_F = 180)
+        while (diff < -DX_PI_F) diff += DX_PI_F * 2.0f;
+        while (diff > DX_PI_F) diff -= DX_PI_F * 2.0f;
+        float rotateSpeed = 0.15f; // 回転速度
+        // プレイヤーの向きを更新
+        m_PlayerAngle += diff * rotateSpeed;
 	}
 
 	// ジャンプ入力
@@ -303,7 +313,7 @@ void Player::Update(int roofTopModelHandle)
 	VECTOR targetPos =
 	{
 		m_Position.x,
-		m_Position.y + 5.0f,
+		m_Position.y -8.0f,
 		m_Position.z
 	};
 
