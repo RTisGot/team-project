@@ -25,8 +25,10 @@ Player::Player()
 // カメラ制御
 	m_CameraYaw = 0.0f; //横回転
 	m_CameraPitch = 0.3f;//縦回転
+    float targetDistance = 30.0f;//通常時のキャラとカメラの距離
 
-	m_CameraDistance = 25.0f; //距離
+    
+	m_CameraDistance = 30.0f; //距離
 
 // マウス感度
 	m_MouseSensitivity = 0.005f;
@@ -88,13 +90,10 @@ void Player::Update(CollisionManager* collisionManager)
 	// マウスを中央へ戻す
 	SetMousePoint(centerX, centerY);
 
-	// カメラ回転
+// カメラ回転
 
-	// 横回転
-	m_CameraYaw += moveX * m_MouseSensitivity;
-
-	// 縦回転
-	m_CameraPitch += moveY * m_MouseSensitivity;
+	m_CameraYaw += moveX * m_MouseSensitivity;//横
+	m_CameraPitch += moveY * m_MouseSensitivity;//縦
 
 	// カメラ縦回転制限
 	// 真上・真下防止
@@ -127,30 +126,11 @@ void Player::Update(CollisionManager* collisionManager)
 	// 入力方向
 	VECTOR move = VGet(0.0f, 0.0f, 0.0f);
 
-	// 前進
-	if (CheckHitKey(KEY_INPUT_W))
-	{
-		move = VAdd(move, forward);
-        
-	}
-
-	// 後退
-	if (CheckHitKey(KEY_INPUT_S))
-	{
-		move = VSub(move, forward);
-	}
-
-	// 右移動
-	if (CheckHitKey(KEY_INPUT_D))
-	{
-		move = VAdd(move, right);
-	}
-
-	// 左移動
-	if (CheckHitKey(KEY_INPUT_A))
-	{
-		move = VSub(move, right);
-	}
+	if (CheckHitKey(KEY_INPUT_W))move = VAdd(move, forward);//前進
+	if (CheckHitKey(KEY_INPUT_S))move = VSub(move, forward);//後退
+	if (CheckHitKey(KEY_INPUT_D))move = VAdd(move, right);//右
+	if (CheckHitKey(KEY_INPUT_A))move = VSub(move, right);//左
+	
 
 	/*// 上昇
 	if (CheckHitKey(KEY_INPUT_E))
@@ -177,13 +157,18 @@ void Player::Update(CollisionManager* collisionManager)
 		if (m_IsDashing)
 		{
 			speed *= m_DashMultiplier;
+            targetDistance = 40.0f; //ダッシュ中のカメラ距離
 		}
+        else
+        {
+            targetDistance = 30.0f; //通常時のカメラ距離
+        }
 
       // アニメーションの更新
         if (m_Modelhandle != -1 && m_AnimAttachIndex != -1)
         {
             // 0.5f ずつ時間を進める
-            m_AnimTime += 0.5f;
+            m_AnimTime += 0.3f;
 
             // アニメーションのループ処理
             if (m_AnimTime >= m_AnimTotalTime)
@@ -206,9 +191,11 @@ void Player::Update(CollisionManager* collisionManager)
         //(DX_PI_F = 180)
         while (diff < -DX_PI_F) diff += DX_PI_F * 2.0f;
         while (diff > DX_PI_F) diff -= DX_PI_F * 2.0f;
-        float rotateSpeed = 0.15f; // 回転速度
+        float rotateSpeed = 0.12f; // 回転速度
         // プレイヤーの向きを更新
         m_PlayerAngle += diff * rotateSpeed;
+
+            m_CameraDistance += (targetDistance - m_CameraDistance) * 0.1f;
 	}
 
 	// ジャンプ入力
@@ -275,7 +262,7 @@ void Player::Update(CollisionManager* collisionManager)
 	VECTOR targetPos =
 	{
 		m_Position.x,
-		m_Position.y -8.0f,
+		m_Position.y + 10.0f,
 		m_Position.z
 	};
 
@@ -291,7 +278,7 @@ void Player::Draw()
 
     // 3Dモデルに新しい座標をセット
     VECTOR drawPos = m_Position;
-    drawPos.y += (m_PlayerHeight * 0.9f);
+    drawPos.y += (m_PlayerHeight * 1.6f);
 
     MV1SetPosition(m_Modelhandle, drawPos);
 
@@ -304,5 +291,5 @@ void Player::Draw()
     VECTOR topSphere = VAdd(m_Position, VGet(0.0f, m_PlayerHeight - m_PlayerRadius, 0.0f));
 
     // DxLibの組み込み3D描画関数を使ってカプセル風に描画
-    DrawCapsule3D(bottomSphere, topSphere, m_PlayerRadius, 16, color, color, TRUE);
+   // DrawCapsule3D(bottomSphere, topSphere, m_PlayerRadius, 16, color, color, TRUE);
 }

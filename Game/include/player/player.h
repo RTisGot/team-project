@@ -18,6 +18,7 @@ public:
     float m_AnimTime;         //現在のアニメーションの再生時間管理
     float m_PlayerHeight; // キャラクターの頭から足元までの高さ
     float m_PlayerRadius; // キャラクターの横幅の半径
+    float targetDistance = 30.0f;//通常時のキャラとカメラの距離
 	// コンストラクタ
 	Player();
 
