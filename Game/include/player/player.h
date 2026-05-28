@@ -2,6 +2,7 @@
 #define PLAYER_H_
 
 #include <DxLib.h>
+#include "Collision/CollisionManager.h"
 
 /**
  *	@brief プレイヤークラス
@@ -14,7 +15,7 @@ public:
 	Player();
 
 	// 更新処理
-	void Update(int roofTopModelHandle);
+	void Update(CollisionManager* collisionManager);
 
 	// 描画処理
 	void Draw();

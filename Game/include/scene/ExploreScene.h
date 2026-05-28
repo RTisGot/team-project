@@ -27,5 +27,5 @@ public:
 
 private:
     SceneManager* m_manager; ///< シーンマネージャーへのポインタ
-    std::unique_ptr<Player> m_player; ///< プレイヤーインスタンス
+    //std::unique_ptr<Player> m_player; ///< プレイヤーインスタンス
 };

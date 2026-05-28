@@ -64,6 +64,9 @@
     <Filter Include="ソース ファイル\Collision">
       <UniqueIdentifier>{c9a6f03d-83a9-481c-b05a-1b6460b48214}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Collision">
+      <UniqueIdentifier>{96d62b92-4cc7-4993-b6ae-70a16c2bf76e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\source\main.cpp">
@@ -113,6 +116,9 @@
     </ClCompile>
     <ClCompile Include="Game\source\system\GameData.cpp">
       <Filter>ソース ファイル\system</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\source\Collision\CollisionManager.cpp">
+      <Filter>ソース ファイル\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +172,9 @@
     </ClInclude>
     <ClInclude Include="Game\include\system\GameData.h">
       <Filter>ヘッダー ファイル\system</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\include\Collision\CollisionManager.h">
+      <Filter>ヘッダー ファイル\Collision</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

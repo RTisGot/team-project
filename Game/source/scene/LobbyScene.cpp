@@ -19,6 +19,10 @@ void LobbyScene::Init()
     // プレイヤーの生成
     m_player = std::make_unique<Player>();
 
+    // 当たり判定マネージャーの生成とステージモデル登録
+    m_collisionManager = std::make_unique<CollisionManager>();
+    m_collisionManager->SetStageModel(m_roofTop->GetModelHandle());
+
     m_enemy = std::make_unique<Enemy>();
     m_enemy->Init(); // 敵の初期位置を設定
 
@@ -32,7 +36,7 @@ void LobbyScene::Update()
     // プレイヤー更新（入力・移動・カメラ更新を含む）
     if (m_player && m_roofTop)
     {
-        m_player->Update(m_roofTop->GetModelHandle());
+        m_player->Update(m_collisionManager.get());
     }
 
     if (m_enemy)

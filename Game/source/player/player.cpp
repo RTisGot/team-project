@@ -1,4 +1,5 @@
-#include "../../include/player/player.h"
+#include "player/player.h"
+#include "Collision/CollisionManager.h"
 #include <math.h>
 
 #define MOVE_SPEED 10.0f
@@ -40,7 +41,7 @@ Player::Player()
 
 // 更新処理
 // 入力・移動・カメラ更新
-void Player::Update(int roofTopModelHandle)
+void Player::Update(CollisionManager* collisionManager)
 {
 	// 画面サイズ
 	int screenX;
@@ -168,46 +169,19 @@ void Player::Update(int roofTopModelHandle)
 	}
 
 	//重力
-	/*m_VelocityY += m_Gravity;
-	m_Position.y += m_VelocityY;*/
+	m_VelocityY += m_Gravity;
+	m_Position.y += m_VelocityY;
 
-	//TODO:屋上との当たり判定の仮実装
-	if (roofTopModelHandle != -1)
+	// 外部マネージャーへ当たり判定を委譲
+	if (collisionManager != nullptr)
 	{
 		float playerHeight = 2.0f;
 		float playerRadius = 2.0f;
-
-		VECTOR lineStart = VAdd(m_Position, VGet(0.0f, playerHeight, 0.0f));
-		VECTOR lineEnd = VAdd(m_Position, VGet(0.0f, -playerHeight, 0.0f));
-
-		MV1_COLL_RESULT_POLY hitLine = MV1CollCheck_Line(roofTopModelHandle, -1, lineStart, lineEnd);
-
-		if(hitLine.HitFlag==TRUE)
-		{
-			if (m_VelocityY < 0.0f)
-			{
-				m_Position.y = hitLine.HitPosition.y;
-				m_VelocityY = 0.0f;
-				m_IsGround = true;
-			}
-		}
-		else
-		{
-			m_IsGround = false;
-		}
-
-		VECTOR center = VAdd(m_Position, VGet(0.0f, playerHeight, 0.0f));
-		MV1_COLL_RESULT_POLY_DIM hitSphere = MV1CollCheck_Sphere(roofTopModelHandle, -1, center, playerRadius);
-
-		for(int i=0;i<hitSphere.HitNum; i++)
-		{
-			if(hitSphere.Dim[i].Normal.y<0.5f)
-			{
-				m_Position = VAdd(m_Position, VScale(hitSphere.Dim[i].Normal, 1.0f));
-			}
-		}
-		MV1CollResultPolyDimTerminate(hitSphere);
+		
+		collisionManager->ResolveStageCollision(m_Position, m_VelocityY, m_IsGround, playerHeight, playerRadius);
 	}
+
+	// 場外落下時の復帰処理
 	if (m_Position.y <= 0.0f)
 	{
 		m_Position.y = 400.0f;

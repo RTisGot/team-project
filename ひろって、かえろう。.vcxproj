@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\source\audio\AudioManager.cpp" />
+    <ClCompile Include="Game\source\Collision\CollisionManager.cpp" />
     <ClCompile Include="Game\source\main.cpp" />
     <ClCompile Include="Game\source\map\Enemy.cpp" />
     <ClCompile Include="Game\source\map\Map.cpp" />
@@ -37,6 +38,7 @@
     <ClCompile Include="Game\source\ui\UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Game\include\Collision\CollisionManager.h" />
     <ClInclude Include="Game\include\enemy\Enemy.h" />
     <ClInclude Include="Game\include\map\AudioManager.h" />
     <ClInclude Include="Game\include\map\Map.h" />
