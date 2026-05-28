@@ -16,25 +16,24 @@ m_AnimIndex(0),
 m_AttachIndex(0),
 m_TotalTime(0.0f),
 m_PlayTime(0.0f),
-m_MoveTime(0)
+m_MoveTime(0),
+m_EnemyHeight(10.0f),
+m_EnemyRadius(5.0f),
+m_VelocityY(0.0f),
+m_IsGround(false)
 {
 			   
 }
 
 Enemy::~Enemy()
 {
-	// モデルの解放
-	if (m_ModelHandle != -1)
-	{
-		MV1DeleteModel(m_ModelHandle);
-		m_ModelHandle = -1;
-	}
+	
 }
 
 const static float ENEMY_MOVE_SPEED = 0.05f; //敵の移動速度
 const static float ENEMY_ANGLE_SPEED = 0.2f; //敵の角度変化速度
 const static float ENEMY_JUMP_POWER = 0.25f; //ジャンプ力
-const static float ENEMY_GRAVITY = 0.01f; //敵の重力
+const static float ENEMY_GRAVITY = -0.01f;
 const static float ENEMY_MAX_FALL_SPEED = -1.5f; //敵の落下速度の下限
 const static float ENEMY_HIT_HEIGHT = 1.3f; //当たり判定用の高さ
 const static int ENEMY_ANIMATION_NUM = 4; //敵のアニメーション総数
@@ -42,7 +41,7 @@ const static int ENEMY_ANIMATION_NUM = 4; //敵のアニメーション総数
 void Enemy::Init()
 {
     // 座標
-    m_Position = VGet(300.0f, 400.0f, 0.0f);
+    m_Position = VGet(200.0f, 400.0f, 0.0f);
 
 	// モデルの読み込み
 	m_ModelHandle = MV1LoadModel("Game/assets/models/enemy/enemy.mv1");
@@ -73,6 +72,12 @@ void Enemy::Init()
     m_PlayTime = 0.0f;
 
     m_MoveTime = 0;
+
+    m_EnemyHeight = 10.0f;
+    m_EnemyRadius = 5.0f;
+
+    m_VelocityY = 0.0f;
+    m_IsGround = false;
 
 }
 
@@ -127,43 +132,29 @@ void Enemy::AngleUpdate()
 }
 
 // 敵の動きの更新
-void Enemy::MoveUpdate() {
-    m_MoveVec = VGet(0.0f, 0.0f, 0.0f);
+void Enemy::MoveUpdate()
+{
+        m_MoveVec = VGet(0.0f, 0.0f, 0.0f);
 
-    //一定時間X軸正方向に移動→X軸負の方向に移動を繰り返す
-    if (m_MoveTime < 180) {
-        m_MoveVec = VGet(ENEMY_MOVE_SPEED, 0.0f, 0.0f);
-    }
-    else {
-        m_MoveVec = VGet(-ENEMY_MOVE_SPEED, 0.0f, 0.0f);
-    }
+        if (m_MoveTime < 180)
+        {
+            m_MoveVec = VGet(ENEMY_MOVE_SPEED, 0.0f, 0.0f);
+        }
+        else
+        {
+            m_MoveVec = VGet(-ENEMY_MOVE_SPEED, 0.0f, 0.0f);
+        }
 
-    m_MoveTime++;
-    if (m_MoveTime > 360) m_MoveTime = 0;
+        m_MoveTime++;
 
-    //落下状態の計算
-    if (m_JumpStatus == OBJ_FALL) {
-        // Ｙ軸方向の速度を重力分減算する
-        m_JumpPower -= ENEMY_GRAVITY;
+        if (m_MoveTime > 360)
+        {
+            m_MoveTime = 0;
+        }
 
-        // 落下速度が下限を超えていたら修正する
-        if (m_JumpPower < ENEMY_MAX_FALL_SPEED) m_JumpPower = ENEMY_MAX_FALL_SPEED;
-
-        // 移動ベクトルのＹ成分をＹ軸方向の速度にする
-        m_MoveVec.y = m_JumpPower;
-    }
-
-    //マップとの当たり判定
-    //{
-    //    VECTOR PolyPos1, PolyPos2;
-    //    PolyPos1 = m_Position;
-    //    PolyPos2 = VGet(PolyPos1.x, PolyPos1.y + 1.0f, PolyPos1.z);
-
-    //    Map_CheckCollision(&m_Position, PolyPos1, PolyPos2, m_MoveVec, &m_JumpStatus, &m_JumpPower);
-    //}
-
-    //敵の座標の更新
-    MV1SetPosition(m_ModelHandle, m_Position);
+        // 座標更新
+        m_Position = VAdd(m_Position, m_MoveVec);
+    
 }
 
 //敵のアニメーション
@@ -171,17 +162,36 @@ void Enemy::Animation() {
  
 }
 
-void Enemy::Update()
+void Enemy::Update(CollisionManager* collisionManager)
 {
     //敵の移動処理
     MoveUpdate();
+
+    // 重力
+    m_VelocityY += ENEMY_GRAVITY;
+    m_Position.y += m_VelocityY;
+
+    // ステージ衝突
+    if (collisionManager != nullptr)
+    {
+        collisionManager->ResolveStageCollision(
+            m_Position,
+            m_VelocityY,
+            m_IsGround,
+            m_EnemyHeight,
+            m_EnemyRadius
+        );
+    }
 
     //敵の方向を変える
     AngleUpdate();
 
     //敵のアニメーション
     Animation();
+
+    MV1SetPosition(m_ModelHandle, m_Position);
 }
+
 
 void Enemy::Draw()
 {
@@ -194,6 +204,11 @@ void Enemy::Draw()
 }
 
 //終了処理
-void Enemy::Finalize() {
-    MV1DeleteModel(m_ModelHandle);
+void Enemy::Finalize()
+{
+    if (m_ModelHandle != -1)
+    {
+        MV1DeleteModel(m_ModelHandle);
+        m_ModelHandle = -1;
+    }
 }
