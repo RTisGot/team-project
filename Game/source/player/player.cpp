@@ -291,5 +291,5 @@ void Player::Draw()
     VECTOR topSphere = VAdd(m_Position, VGet(0.0f, m_PlayerHeight - m_PlayerRadius, 0.0f));
 
     // DxLibの組み込み3D描画関数を使ってカプセル風に描画
-   // DrawCapsule3D(bottomSphere, topSphere, m_PlayerRadius, 16, color, color, TRUE);
+    //DrawCapsule3D(bottomSphere, topSphere, m_PlayerRadius, 16, color, color, TRUE);
 }

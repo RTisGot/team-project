@@ -23,7 +23,7 @@ RoofTop::~RoofTop()
 bool RoofTop::Init()
 {
 	// モデルの読み込み
-	m_modelHandle = MV1LoadModel("Game/assets/models/map/rooftop.mv1");
+	m_modelHandle = MV1LoadModel("Game/assets/models/map/建物 1 1 1 2 3.fbm/建物 1 1 1 2 3.mv1");
 
     m_itemModelHandle = MV1LoadModel("Game/assets/models/item/AHOHIRU.mv1");
 	if (m_modelHandle == -1)
