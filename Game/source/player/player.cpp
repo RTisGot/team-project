@@ -56,18 +56,9 @@ void Player::LoadModel()
     //現在のアニメーションの再生時間管理
     m_AnimTime = 0.0f;
     MV1SetAttachAnimTime(m_Modelhandle, m_AnimAttachIndex, m_AnimTime);
-   
-   
-    // 横幅（X軸）と奥行き（Z軸）のうち、大きい方をベースに「半径」を計算
-    float sizeX = maxPos.x - minPos.x;
-    float sizeZ = maxPos.z - minPos.z;
-    m_PlayerRadius = (sizeX > sizeZ ? sizeX : sizeZ) / 2.0f;
-
-    // 縦幅（Y軸）から「高さ」を計算
-    m_PlayerHeight = maxPos.y - minPos.y;
-
-    //プレイヤーの半径を少し小さく
-    m_PlayerRadius *= 0.8f;
+  
+    m_PlayerRadius = 5.0f;  // キャラクターの半径
+    m_PlayerHeight = 10.0f;  // キャラクターの全体高さ
 }
 
 // 更新処理
@@ -227,10 +218,10 @@ void Player::Update(CollisionManager* collisionManager)
 	// 外部マネージャーへ当たり判定を委譲
 	if (collisionManager != nullptr)
 	{
-		float halfheight =m_PlayerHeight / 2.0f;
-		float playerRadius = 2.0f;
+		float halfheight =m_PlayerHeight;
+		float playerRadius = m_PlayerRadius;
 		
-		collisionManager->ResolveStageCollision(m_Position, m_VelocityY, m_IsGround, playerHeight, playerRadius);
+		collisionManager->ResolveStageCollision(m_Position, m_VelocityY, m_IsGround, halfheight, playerRadius);
 	}
 
 	// 場外落下時の復帰処理
@@ -288,9 +279,20 @@ void Player::Draw()
     // 新しい向きをセット
     MV1SetRotationXYZ(m_Modelhandle, VGet(0.0f, m_PlayerAngle, 0.0f));
 
-	// 3Dモデルに新しい座標をセット
-	MV1SetPosition(m_Modelhandle, m_Position);
+    // 3Dモデルに新しい座標をセット
+    VECTOR drawPos = m_Position;
+    drawPos.y += (m_PlayerHeight * 0.9f);
 
-	// 3Dモデルの描画
+    MV1SetPosition(m_Modelhandle, drawPos);
+
+    // 3Dモデルの描画
     MV1DrawModel(m_Modelhandle);
+
+    int color = GetColor(255, 255, 255);
+
+    VECTOR bottomSphere = VAdd(m_Position, VGet(0.0f, m_PlayerRadius - m_PlayerHeight, 0.0f));
+    VECTOR topSphere = VAdd(m_Position, VGet(0.0f, m_PlayerHeight - m_PlayerRadius, 0.0f));
+
+    // DxLibの組み込み3D描画関数を使ってカプセル風に描画
+    DrawCapsule3D(bottomSphere, topSphere, m_PlayerRadius, 16, color, color, TRUE);
 }

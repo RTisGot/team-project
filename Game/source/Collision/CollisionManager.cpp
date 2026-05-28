@@ -21,12 +21,12 @@ void CollisionManager::ResolveStageCollision(VECTOR& position, float& velocityY,
 
     // 足元の判定
     VECTOR lineStart = VAdd(position, VGet(0.0f, height * 0.5f, 0.0f));
-    VECTOR lineEnd   = VAdd(position, VGet(0.0f, -height, 0.0f));
+    VECTOR lineEnd = VAdd(position, VGet(0.0f, -2.0, 0.0f));
     MV1_COLL_RESULT_POLY hitLineFloor = MV1CollCheck_Line(m_StageModelHandle, -1, lineStart, lineEnd);
 
     if (hitLineFloor.HitFlag == TRUE)
     {
-        if (velocityY < 0.0f)
+        if (velocityY <= 0.0f)
         {
             // キャラのY座標を当たった位置に修正
             position.y = hitLineFloor.HitPosition.y;
