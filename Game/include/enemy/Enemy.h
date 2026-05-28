@@ -1,6 +1,7 @@
 #ifndef ENEMY_H_
 #define ENEMY_H_	
 #include "DxLib.h"
+#include <Collision/CollisionManager.h>
 
 class Enemy
 {
@@ -22,7 +23,7 @@ public:
     void MoveUpdate();
 
 	// 更新処理
-	void Update();
+	void Update(CollisionManager* collisionManager);
 
     // アニメーション処理
     void Animation();
@@ -51,5 +52,11 @@ private:
     float m_PlayTime;           ///< 行動開始からの時間
 
     int m_MoveTime;               ///< 移動時間
+
+    float m_EnemyHeight;        ///< 敵の全体高さ
+    float m_EnemyRadius;        ///< 敵の横幅の半径
+
+    float m_VelocityY;          ///< Y方向の速度
+    bool  m_IsGround;           ///< 接地フラグ
 };
 #endif
