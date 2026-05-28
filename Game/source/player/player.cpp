@@ -1,5 +1,6 @@
 #include "../../include/player/player.h"
 #include <math.h>
+#include<Dxlib.h>
 
 #define MOVE_SPEED 10.0f
 
@@ -8,22 +9,25 @@
 // プレイヤーとカメラ情報を初期化
 Player::Player()
 {
-	// プレイヤー座標
+    
+    m_Modelhandle = -1;
+
+    m_AnimAttachIndex = -1;
+    m_AnimTotalTime = 0.0f;
+    m_AnimTime = 0.0f;
+	// 座標
 	m_Position = VGet(200.0f, 400.0f, 0.0f);
 
-	// プレイヤー向き
+	// 向き
 	m_PlayerAngle = 0.0f;
 
-	// カメラ横回転
-	m_CameraYaw = 0.0f;
+// カメラ制御
+	m_CameraYaw = 0.0f; //横回転
+	m_CameraPitch = 0.3f;//縦回転
 
-	// カメラ縦回転
-	m_CameraPitch = 0.3f;
+	m_CameraDistance = 50.0f; //距離
 
-	// カメラ距離
-	m_CameraDistance = 50.0f;
-
-	// マウス感度
+// マウス感度
 	m_MouseSensitivity = 0.005f;
 
 	// ジャンプ・物理
@@ -36,6 +40,33 @@ Player::Player()
 	m_MoveSpeed = 1.0f;
 	m_DashMultiplier = 2.0f;  // 2倍速
 	m_IsDashing = false;
+
+    LoadModel();
+}
+
+
+void Player::LoadModel()
+{
+    m_Modelhandle = MV1LoadModel("Game/assets/models/Character/Character.mv1");
+    //animationをアタッチ
+    m_AnimAttachIndex = MV1AttachAnim(m_Modelhandle, 0);
+    //アニメーションの総時間を取得
+    m_AnimTotalTime = MV1GetAttachAnimTotalTime(m_Modelhandle, m_AnimAttachIndex);
+    //現在のアニメーションの再生時間管理
+    m_AnimTime = 0.0f;
+    MV1SetAttachAnimTime(m_Modelhandle, m_AnimAttachIndex, m_AnimTime);
+   
+   
+    // 横幅（X軸）と奥行き（Z軸）のうち、大きい方をベースに「半径」を計算
+    float sizeX = maxPos.x - minPos.x;
+    float sizeZ = maxPos.z - minPos.z;
+    m_PlayerRadius = (sizeX > sizeZ ? sizeX : sizeZ) / 2.0f;
+
+    // 縦幅（Y軸）から「高さ」を計算
+    m_PlayerHeight = maxPos.y - minPos.y;
+
+    //プレイヤーの半径を少し小さく
+    m_PlayerRadius *= 0.8f;
 }
 
 // 更新処理
@@ -108,6 +139,7 @@ void Player::Update(int roofTopModelHandle)
 	if (CheckHitKey(KEY_INPUT_W))
 	{
 		move = VAdd(move, forward);
+        
 	}
 
 	// 後退
@@ -128,7 +160,7 @@ void Player::Update(int roofTopModelHandle)
 		move = VSub(move, right);
 	}
 
-	// 上昇
+	/*// 上昇
 	if (CheckHitKey(KEY_INPUT_E))
 	{
 		move.y += 1.0f;
@@ -139,7 +171,7 @@ void Player::Update(int roofTopModelHandle)
 	{
 		move.y -= 1.0f;
 	}
-
+    */
 	// プレイヤー移動
 	if (VSize(move) > 0.0f)
 	{
@@ -149,12 +181,32 @@ void Player::Update(int roofTopModelHandle)
 		// 移動
 		float speed = m_MoveSpeed;
 
+        //ダッシュ中の速度管理
 		if (m_IsDashing)
 		{
 			speed *= m_DashMultiplier;
 		}
 
+      // アニメーションの更新
+        if (m_Modelhandle != -1 && m_AnimAttachIndex != -1)
+        {
+            // 0.5f ずつ時間を進める
+            m_AnimTime += 0.5f;
+
+            // アニメーションのループ処理
+            if (m_AnimTime >= m_AnimTotalTime)
+            {
+                m_AnimTime -= m_AnimTotalTime;
+            }
+
+            //3Dモデルに反映
+            MV1SetAttachAnimTime(m_Modelhandle, m_AnimAttachIndex, m_AnimTime);
+        }
+        //プレイヤーの位置を更新
 		m_Position = VAdd(m_Position, VScale(move, speed));
+
+        //プレイヤー
+       m_PlayerAngle = atan2f(move.x, move.z);
 	}
 
 	// ジャンプ入力
@@ -168,18 +220,21 @@ void Player::Update(int roofTopModelHandle)
 	}
 
 	//重力
-	/*m_VelocityY += m_Gravity;
-	m_Position.y += m_VelocityY;*/
+	m_VelocityY += m_Gravity;
+	m_Position.y += m_VelocityY;
 
 	//TODO:屋上との当たり判定の仮実装
 	if (roofTopModelHandle != -1)
 	{
-		float playerHeight = 2.0f;
+		float halfheight =m_PlayerHeight / 2.0f;
 		float playerRadius = 2.0f;
 
-		VECTOR lineStart = VAdd(m_Position, VGet(0.0f, playerHeight, 0.0f));
-		VECTOR lineEnd = VAdd(m_Position, VGet(0.0f, -playerHeight, 0.0f));
-
+		VECTOR lineStart = VAdd(m_Position, VGet(0.0f, halfheight, 10.0f));
+		VECTOR lineEnd = VAdd(m_Position, VGet(0.0f, -5.0, 100.0f));
+        
+        /*VECTOR lineStart = VAdd(m_Position, VGet(0.0f, minPos.y, 10.0f));
+        VECTOR lineEnd = VAdd(m_Position, VGet(0.0f, -minPos.y, 100.0f));
+        */
 		MV1_COLL_RESULT_POLY hitLine = MV1CollCheck_Line(roofTopModelHandle, -1, lineStart, lineEnd);
 
 		if(hitLine.HitFlag==TRUE)
@@ -196,8 +251,8 @@ void Player::Update(int roofTopModelHandle)
 			m_IsGround = false;
 		}
 
-		VECTOR center = VAdd(m_Position, VGet(0.0f, playerHeight, 0.0f));
-		MV1_COLL_RESULT_POLY_DIM hitSphere = MV1CollCheck_Sphere(roofTopModelHandle, -1, center, playerRadius);
+		VECTOR center = VAdd(m_Position, VGet(0.0f, halfheight, 0.0f));
+		MV1_COLL_RESULT_POLY_DIM hitSphere = MV1CollCheck_Sphere(roofTopModelHandle, -1, center, m_PlayerRadius);
 
 		for(int i=0;i<hitSphere.HitNum; i++)
 		{
@@ -225,11 +280,7 @@ void Player::Update(int roofTopModelHandle)
 	{
 		m_IsDashing = false;
 	}
-
-	// プレイヤーの向き
-	// マウス方向へ向ける
-	m_PlayerAngle = m_CameraYaw + DX_PI_F;
-
+    
 	// カメラ位置
 	VECTOR cameraPos =
 	{
@@ -260,81 +311,15 @@ void Player::Update(int roofTopModelHandle)
 	SetCameraPositionAndTarget_UpVecY(cameraPos,targetPos);
 }
 
-// 描画処理
-// キューブ描画
+// 描画処理(キャラクター描画)
 void Player::Draw()
 {
-	// キューブサイズ
-	float size = 2.0f;
-
-	// 頂点
-	VECTOR v[8] =
-	{
-		VGet(-size, -size, -size),	// 左下奥
-		VGet(size, -size, -size),	// 右下奥
-		VGet(size,  size, -size),	// 右上奥
-		VGet(-size,  size, -size),	// 左上奥
-
-		VGet(-size, -size,  size),	// 左下手前
-		VGet(size, -size,  size),	// 右下手前
-		VGet(size,  size,  size),	// 右上手前
-		VGet(-size,  size,  size),	// 左上手前
-	};
-
-	// Y軸回転
-	float s = sinf(m_PlayerAngle);
-	float c = cosf(m_PlayerAngle);
-
-	auto RotateY = [&](VECTOR p)
-		{
-			VECTOR r;
-			r.x = p.x * c + p.z * s;
-			r.y = p.y;
-			r.z = -p.x * s + p.z * c;
-			return r;
-		};
-
-	// 回転＋移動
-	for (int i = 0; i < 8; i++)
-	{
-		v[i] = RotateY(v[i]);
-
-		v[i] = VAdd(v[i], m_Position);
-	}
-
-	// 色
-	int col = GetColor(255, 0, 0);
-
-	// 前面
-	DrawTriangle3D(v[0], v[1], v[2], col, TRUE);
-	DrawTriangle3D(v[0], v[2], v[3], col, TRUE);
-
-	// 背面
-	DrawTriangle3D(v[5], v[4], v[7], col, TRUE);
-	DrawTriangle3D(v[5], v[7], v[6], col, TRUE);
-
-	// 左面
-	DrawTriangle3D(v[4], v[0], v[3], col, TRUE);
-	DrawTriangle3D(v[4], v[3], v[7], col, TRUE);
-
-	// 右面
-	DrawTriangle3D(v[1], v[5], v[6], col, TRUE);
-	DrawTriangle3D(v[1], v[6], v[2], col, TRUE);
-
-	// 上面
-	DrawTriangle3D(v[3], v[2], v[6], col, TRUE);
-	DrawTriangle3D(v[3], v[6], v[7], col, TRUE);
-
-	// 下面
-	DrawTriangle3D(v[4], v[5], v[1], col, TRUE);
-	DrawTriangle3D(v[4], v[1], v[0], col, TRUE);
-
-	// 新しい向きをセット
-	//1SetRotationXYZ(modelHandle, VGet(0.0f, angle, 0.0f));
+    // 新しい向きをセット
+    MV1SetRotationXYZ(m_Modelhandle, VGet(0.0f, m_PlayerAngle, 0.0f));
 
 	// 3Dモデルに新しい座標をセット
-	//1SetPosition(modelHandle, position);
+	MV1SetPosition(m_Modelhandle, m_Position);
 
 	// 3Dモデルの描画
-	//1DrawModel(modelHandle);
+    MV1DrawModel(m_Modelhandle);
 }
