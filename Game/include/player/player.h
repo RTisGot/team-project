@@ -11,6 +11,13 @@ class Player
 {
 public:
 
+    //キャラクターのモデルを読み込み
+    int m_Modelhandle;
+    int   m_AnimAttachIndex;  // アタッチしたアニメーションの識別番号
+    float m_AnimTotalTime;    // アニメーションの総時間
+    float m_AnimTime;         //現在のアニメーションの再生時間管理
+    float m_PlayerHeight; // キャラクターの頭から足元までの高さ
+    float m_PlayerRadius; // キャラクターの横幅の半径
 	// コンストラクタ
 	Player();
 
@@ -20,8 +27,12 @@ public:
 	// 描画処理
 	void Draw();
 
+    void LoadModel();
 	// プレイヤー座標の取得
 	VECTOR GetPosition() const { return m_Position; }
+
+    //キャラクターのモデルのサイズを計算
+    VECTOR minPos, maxPos;
 
 private:
 

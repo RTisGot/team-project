@@ -2,7 +2,7 @@
 #define ENEMY_H_	
 #include "DxLib.h"
 
-struct Enemy
+class Enemy
 {
 public:
 
@@ -15,16 +15,41 @@ public:
 	// 初期化処理
 	void Init();
 
+    // 敵の向き更新
+    void AngleUpdate();
+    
+    // 敵の移動更新
+    void MoveUpdate();
+
 	// 更新処理
 	void Update();
 
+    // アニメーション処理
+    void Animation();
+
 	// 描画処理
 	void Draw();
+  
+    // 敵座標の取得
+    void Finalize();
 
 private:
-	
-	VECTOR m_position;
-	int m_modelHandle;	///< モデルハンドル
 
+    int m_ModelHandle;	            ///< モデルハンドル
+    VECTOR m_Position;              ///< 敵座標
+    VECTOR m_TargetMoveDirection;   ///< モデルが向くべき方向
+    VECTOR m_MoveVec;               ///< 移動ベクトル
+
+    float m_Angle;              ///< 敵の向き
+    float m_JumpPower;          ///< ジャンプ力
+    int m_JumpStatus;           ///< ジャンプ状態
+    int m_Action;               ///< 現在の行動
+    int m_PrevAction;           ///< 前回の行動
+    int m_AnimIndex;            ///< アニメーションのインデックス
+    int m_AttachIndex;          ///< モデルのアタッチメントインデックス
+    float m_TotalTime;          ///< 経過時間
+    float m_PlayTime;           ///< 行動開始からの時間
+
+    int m_MoveTime;               ///< 移動時間
 };
 #endif
