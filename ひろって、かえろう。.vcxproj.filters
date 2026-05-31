@@ -192,4 +192,12 @@
       <Filter>ヘッダー ファイル\system</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Game\source\PixelShader.txt.txt">
+      <Filter>ソース ファイル</Filter>
+    </Text>
+    <Text Include="Game\source\VertexShader.txt.txt">
+      <Filter>ソース ファイル</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

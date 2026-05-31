@@ -62,6 +62,10 @@
     <ClInclude Include="Game\include\system\LightManager.h" />
     <ClInclude Include="Game\include\ui\UIManager.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Game\source\PixelShader.txt.txt" />
+    <Text Include="Game\source\VertexShader.txt.txt" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

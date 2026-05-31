@@ -74,11 +74,12 @@ void Player::LoadModel()
     m_PlayerRadius = 5.0f;  // キャラクターの半径
     m_PlayerHeight = 10.0f;  // キャラクターの全体高さ
 
+  
     // 頂点シェーダーの読み込み（コンパイル）
-    m_VSHandle = LoadVertexShader("Game/assets/shaders/VertexShader.fx");
+    m_VSHandle = LoadVertexShader("D:\\teamproject\\Game\\source\\VertexShader.txt");
 
     // ピクセルシェーダーの読み込み（コンパイル）
-    m_PSHandle = LoadPixelShader("Game/assets/shaders/PixelShader.fx");
+    m_PSHandle = LoadPixelShader("D:\\teamproject\\Game\\source\\PixelShader.txt");
 
    /* m_OutlineVSHandle = LoadVertexShader("Game/assets/shaders/OutlineVS.fx");
     m_OutlinePSHandle = LoadPixelShader("Game/assets/shaders/OutlinePS.fx");
@@ -402,7 +403,7 @@ void Player::Draw()
     VECTOR drawPos = m_Position;
     drawPos.y += (m_PlayerHeight * 1.6f);
     MV1SetPosition(m_Modelhandle, drawPos);
-    // 毎フレーム描画状態をリセット（他処理の影響を消す）
+    // 毎フレーム描画状態をリセット（
     SetDrawBright(255, 255, 255);
     SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
     SetUseBackCulling(TRUE);

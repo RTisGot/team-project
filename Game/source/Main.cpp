@@ -11,6 +11,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     // 文字コードをUTF-8として扱う
     SetUseCharCodeFormat(DX_CHARCODEFORMAT_UTF8);
 
+    //ver.DirectX11
+    DxLib::SetUseDirect3DVersion(DX_DIRECT3D_11);
+
     // DXライブラリの初期化
     if (DxLib_Init() < 0)
     {
