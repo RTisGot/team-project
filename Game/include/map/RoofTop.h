@@ -1,6 +1,7 @@
 #pragma once
 #include <DxLib.h>
 #include <memory>
+#include <follower/follower.h>
 #include "object/Door.h"
 
 /**
@@ -23,7 +24,7 @@ public:
 	 * @brief 更新処理
 	 * @param playerPos プレイヤーの座標
 	 */
-	void Update(const VECTOR& playerPos);
+	void Update(const VECTOR& playerPos,float playerAngle);
 
 	void Draw();
 
@@ -33,4 +34,5 @@ private:
 	int m_modelHandle;				///< 屋上のモデルハンドル
     int m_itemModelHandle;
 	std::unique_ptr<Door> m_door;	///< ドアのスマートポインタ
+    std::unique_ptr<Follower> m_follower;
 };

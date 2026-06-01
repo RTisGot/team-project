@@ -5,6 +5,7 @@
 #include "player/Player.h"
 #include "enemy/Enemy.h"
 #include "map/RoofTop.h"
+#include "follower/follower.h"
 #include "system/LightManager.h"
 #include "Collision/CollisionManager.h"
 #include <memory>

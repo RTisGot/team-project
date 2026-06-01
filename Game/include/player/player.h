@@ -32,6 +32,8 @@ public:
 	// プレイヤー座標の取得
 	VECTOR GetPosition() const { return m_Position; }
 
+    float GetAngle() const { return m_PlayerAngle; }
+
     //キャラクターのモデルのサイズを計算
     VECTOR minPos, maxPos;
 

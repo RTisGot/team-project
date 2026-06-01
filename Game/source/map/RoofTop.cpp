@@ -1,10 +1,12 @@
 #include "map/RoofTop.h"
+#include "follower/follower.h"
 #include <DxLib.h>
 
 RoofTop::RoofTop()
 	: m_modelHandle(-1)
 	, m_itemModelHandle(-1)
 	, m_door(std::make_unique<Door>())
+    , m_follower(std::make_unique<Follower>())
 {
 }
 
@@ -37,15 +39,24 @@ bool RoofTop::Init()
 		return false;
 	}
 
+    m_follower = std::make_unique<Follower>();
+    m_follower->LoadModel();
 	return true;
 }
 
-void RoofTop::Update(const VECTOR& playerPos)
+void RoofTop::Update(const VECTOR& playerPos, float playerAngle)
 {
 	if (m_door)
 	{
 		m_door->Update(playerPos);
 	}
+
+    if (m_follower)
+    {
+        m_follower->SetTargetPosition(playerPos);
+        m_follower->SetTargetAngle(playerAngle);
+        m_follower->Update();
+    }
 }
 
 void RoofTop::Draw()
@@ -66,4 +77,9 @@ void RoofTop::Draw()
 	{
 		m_door->Draw();
 	}
+
+    if (m_follower)
+    {
+        m_follower->Draw();
+    }
 }
