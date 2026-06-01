@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="Game\source\audio\AudioManager.cpp" />
     <ClCompile Include="Game\source\Collision\CollisionManager.cpp" />
+    <ClCompile Include="Game\source\Collision\EnemyCollision.cpp" />
     <ClCompile Include="Game\source\Collision\StageCollider.cpp" />
     <ClCompile Include="Game\source\enemy\Enemy.cpp" />
     <ClCompile Include="Game\source\main.cpp" />
@@ -42,6 +43,7 @@
   <ItemGroup>
     <ClInclude Include="Game\include\audio\AudioManager.h" />
     <ClInclude Include="Game\include\Collision\CollisionManager.h" />
+    <ClInclude Include="Game\include\Collision\EnemyCollision.h" />
     <ClInclude Include="Game\include\Collision\StageCollider.h" />
     <ClInclude Include="Game\include\enemy\Enemy.h" />
     <ClInclude Include="Game\include\map\Map.h" />
