@@ -2,9 +2,12 @@
 #include "scene/SceneManager.h"
 #include "scene/TitleScene.h"
 #include <memory>
+#include <system/Define.h>
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+    SetGraphMode(SCREEN_WIDTH, SCREEN_HEIGHT, 32);
+
     // ウインドウモードで起動
     ChangeWindowMode(true);
 
@@ -19,6 +22,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     {
         return -1;
     }
+
+
+    
 
     // 描画先を裏画面にする
     SetDrawScreen(DX_SCREEN_BACK);

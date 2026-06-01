@@ -2,6 +2,7 @@
 #include "scene/LobbyScene.h"
 #include <DxLib.h>
 #include <memory>
+#include <scene/LoadingScene.h>
 
 TitleScene::TitleScene(SceneManager* manager)
     : m_manager(manager)
@@ -18,8 +19,13 @@ void TitleScene::Update()
     // スペースキーが押されたか判定
     if (CheckHitKey(KEY_INPUT_SPACE) == 1)
     {
-        // 次のシーン(LobbyScene)を生成して遷移
-        m_manager->ChangeScene(std::make_shared<LobbyScene>(m_manager));
+        auto lobbyScene =
+            std::make_shared<LobbyScene>(m_manager);
+
+        m_manager->ChangeScene(
+            std::make_shared<LoadingScene>(
+                m_manager,
+                lobbyScene));
     }
 }
 
