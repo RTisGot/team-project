@@ -67,6 +67,12 @@
     <Filter Include="ヘッダー ファイル\Collision">
       <UniqueIdentifier>{96d62b92-4cc7-4993-b6ae-70a16c2bf76e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\follower">
+      <UniqueIdentifier>{cfab32ab-ed44-44ce-80b0-96ffcd0c3138}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\follower">
+      <UniqueIdentifier>{a8ab366f-f689-469c-ab9b-28b788fcecc1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\source\main.cpp">
@@ -125,6 +131,9 @@
     </ClCompile>
     <ClCompile Include="Game\source\enemy\Enemy.cpp">
       <Filter>ソース ファイル\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\source\follower\follower.cpp">
+      <Filter>ソース ファイル\follower</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -190,6 +199,9 @@
     </ClInclude>
     <ClInclude Include="Game\include\system\Define.h">
       <Filter>ヘッダー ファイル\system</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\include\follower\follower.h">
+      <Filter>ヘッダー ファイル\follower</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
