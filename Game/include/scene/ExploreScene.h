@@ -2,6 +2,13 @@
 #include "scene/BaseScene.h"
 #include "scene/SceneManager.h"
 #include <memory>
+#include <map/KindergartenMap.h>
+#include "player/Player.h"
+#include "enemy/Enemy.h"
+#include "map/RoofTop.h"
+#include "system/LightManager.h"
+#include "Collision/CollisionManager.h"
+#include <DxLib.h>
 /**
  * @file ExploreScene.h
  * @brief 
@@ -28,4 +35,9 @@ public:
 private:
     SceneManager* m_manager; ///< シーンマネージャーへのポインタ
     //std::unique_ptr<Player> m_player; ///< プレイヤーインスタンス
+    std::unique_ptr<KindergartenMap> m_kindergartenMap;
+    std::unique_ptr<Player> m_player; ///< プレイヤーインスタンス
+    std::unique_ptr<CollisionManager> m_collisionManager; ///< 当たり判定マネージャー
+    std::unique_ptr<LightManager> m_lightManager; ///< ライトマネージャー
+    std::unique_ptr<Enemy> m_enemy; ///< 敵インスタンス
 };

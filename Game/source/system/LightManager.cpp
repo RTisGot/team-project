@@ -13,7 +13,7 @@ LightManager::~LightManager()
 
 bool LightManager::Init()
 {
-	SetUseLighting(FALSE);
+	//SetUseLighting(FALSE);
 	return true;
 }
 

@@ -11,7 +11,7 @@ void Camera_Initialize() {
     SetCameraPositionAndTarget_UpVecY(VGet(0.0f, 1.2f, -3.8f), VGet(0.0f, 1.0f, 0.0f));
 
     //ライティング処理をOFF
-    SetUseLighting(FALSE);
+   // SetUseLighting(FALSE);
 }
 
 //カメラ情報更新
