@@ -12,7 +12,12 @@ private:
     float m_DisplayHP;//表示用のHP
 
 public:
-    HP();
+    HP()
+    {
+        m_MAXHP = 100.0f;  //最大HP100
+        m_currentHP = m_MAXHP; //現在のHPを最大HPで初期化
+        m_DisplayHP = m_MAXHP;
+    }
     void Update();
 
     void ApplyDamage(float damage); //受けたダメージを適用する関数

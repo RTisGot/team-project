@@ -21,10 +21,10 @@ bool ShipMap::Init()
     return true;
 }
 
-void ShipMap::Update(const VECTOR& playerPos)
+/*void ShipMap::Update(const VECTOR& playerPos)
 {
     // プレイヤーの位置に応じた処理をここに追加
-}
+}*/
 
 void ShipMap::Draw()
 {
