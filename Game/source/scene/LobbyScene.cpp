@@ -1,5 +1,6 @@
 #include "scene/LobbyScene.h"
-
+#include "scene/LoadingScene.h"
+#include "scene/ExploreScene.h"
 LobbyScene::LobbyScene(SceneManager* manager)
     : m_manager(manager)
 {
@@ -42,6 +43,17 @@ void LobbyScene::Update()
     if (m_enemy)
     {
         m_enemy->Update(m_collisionManager.get());
+    }
+
+    if (CheckHitKey(KEY_INPUT_RETURN) == 1)
+    {
+        auto exploreScene =
+            std::make_shared<ExploreScene>(m_manager);
+
+        m_manager->ChangeScene(
+            std::make_shared<LoadingScene>(
+                m_manager,
+                exploreScene));
     }
 }
 

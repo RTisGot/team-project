@@ -25,7 +25,7 @@
     <ClCompile Include="Game\source\Collision\StageCollider.cpp" />
     <ClCompile Include="Game\source\enemy\Enemy.cpp" />
     <ClCompile Include="Game\source\main.cpp" />
-    <ClCompile Include="Game\source\map\Map.cpp" />
+    <ClCompile Include="Game\source\map\KindergartenMap.cpp" />
     <ClCompile Include="Game\source\map\RoofTop.cpp" />
     <ClCompile Include="Game\source\object\Door.cpp" />
     <ClCompile Include="Game\source\player\Player.cpp" />
@@ -46,7 +46,7 @@
     <ClInclude Include="Game\include\Collision\EnemyCollision.h" />
     <ClInclude Include="Game\include\Collision\StageCollider.h" />
     <ClInclude Include="Game\include\enemy\Enemy.h" />
-    <ClInclude Include="Game\include\map\Map.h" />
+    <ClInclude Include="Game\include\map\KindergartenMap.h" />
     <ClInclude Include="Game\include\map\RoofTop.h" />
     <ClInclude Include="Game\include\object\Door.h" />
     <ClInclude Include="Game\include\object\GameObject.h" />

@@ -10,6 +10,9 @@
 #include <memory>
 #include <DxLib.h>
 
+
+class Player;
+
 /**
  * @brief 屋上シーン
  */
