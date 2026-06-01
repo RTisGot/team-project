@@ -84,7 +84,7 @@
     <ClCompile Include="Game\source\audio\AudioManager.cpp">
       <Filter>ソース ファイル\audio</Filter>
     </ClCompile>
-    <ClCompile Include="Game\source\map\KindergartenMap.cpp">
+    <ClCompile Include="Game\source\map\Map.cpp">
       <Filter>ソース ファイル\map</Filter>
     </ClCompile>
     <ClCompile Include="Game\source\scene\SceneManager.cpp">
@@ -126,11 +126,11 @@
     <ClCompile Include="Game\source\enemy\Enemy.cpp">
       <Filter>ソース ファイル\enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Game\source\Collision\EnemyCollision.cpp">
-      <Filter>ソース ファイル\Collision</Filter>
+    <ClCompile Include="Game\include\HP\HP.h">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Game\source\map\ShipMap.cpp">
-      <Filter>ソース ファイル\map</Filter>
+    <ClCompile Include="Game\source\HP\HP.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -140,7 +140,7 @@
     <ClInclude Include="Game\include\enemy\Enemy.h">
       <Filter>ヘッダー ファイル\enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Game\include\map\KindergartenMap.h">
+    <ClInclude Include="Game\include\map\Map.h">
       <Filter>ヘッダー ファイル\map</Filter>
     </ClInclude>
     <ClInclude Include="Game\include\scene\BaseScene.h">
@@ -197,19 +197,5 @@
     <ClInclude Include="Game\include\system\Define.h">
       <Filter>ヘッダー ファイル\system</Filter>
     </ClInclude>
-    <ClInclude Include="Game\include\Collision\EnemyCollision.h">
-      <Filter>ヘッダー ファイル\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\include\map\ShipMap.h">
-      <Filter>ヘッダー ファイル\map</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Game\source\PixelShader.txt.txt">
-      <Filter>ソース ファイル</Filter>
-    </Text>
-    <Text Include="Game\source\VertexShader.txt.txt">
-      <Filter>ソース ファイル</Filter>
-    </Text>
   </ItemGroup>
 </Project>

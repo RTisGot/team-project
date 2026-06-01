@@ -19,11 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Game\include\HP\HP.h" />
     <ClCompile Include="Game\source\audio\AudioManager.cpp" />
     <ClCompile Include="Game\source\Collision\CollisionManager.cpp" />
     <ClCompile Include="Game\source\Collision\EnemyCollision.cpp" />
     <ClCompile Include="Game\source\Collision\StageCollider.cpp" />
     <ClCompile Include="Game\source\enemy\Enemy.cpp" />
+    <ClCompile Include="Game\source\HP\HP.cpp" />
     <ClCompile Include="Game\source\main.cpp" />
     <ClCompile Include="Game\source\map\KindergartenMap.cpp" />
     <ClCompile Include="Game\source\map\RoofTop.cpp" />
@@ -65,10 +67,6 @@
     <ClInclude Include="Game\include\system\GameData.h" />
     <ClInclude Include="Game\include\system\LightManager.h" />
     <ClInclude Include="Game\include\ui\UIManager.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Game\source\PixelShader.txt.txt" />
-    <Text Include="Game\source\VertexShader.txt.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

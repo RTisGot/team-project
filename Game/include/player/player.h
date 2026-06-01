@@ -3,6 +3,7 @@
 
 #include <DxLib.h>
 #include "collision/CollisionManager.h"
+#include "../HP/HP.h"
 
 /**
  *	@brief プレイヤークラス
@@ -22,6 +23,8 @@ public:
 	// コンストラクタ
 	Player();
 
+    //HPの更新
+    HP* GetHP() { return &m_PlayerHP; }
 	// 更新処理
 	void Update(CollisionManager* collisionManager);
 
@@ -46,17 +49,34 @@ private:
 	float m_CameraPitch;	// カメラ縦回転
 	float m_CameraDistance;	// カメラ距離
 	float m_MouseSensitivity;	// マウス感度
+    float m_TargetCameraDistance; // カメラ距離
+    float m_BaseCameraDistance; // ホイールで変更する基準のカメラ距離
+    VECTOR m_CameraTargetActual; // 実際のカメラ注視点
+    int m_LastWheelRot; // マウスホイールの回転量
+
+    // 注視点
+    VECTOR targetPos =
+    {
+        m_Position.x,
+        m_Position.y + 10.0f,
+        m_Position.z
+    };
 
 	// ジャンプ・物理
 	float m_VelocityY;	// Y速度
 	float m_Gravity;	// 重力
 	float m_JumpPower;	// ジャンプ力
 	bool  m_IsGround;	// 接地フラグ
+    float m_StunTimer;  //硬直時間
+    int m_PrevJumpKeyState;//ジャンプの前のフレームのキー入力状態(押されているか)
 
 	// ダッシュ関連
 	float m_MoveSpeed;		// 通常速度
 	float m_DashMultiplier;	// ダッシュ倍率
 	bool  m_IsDashing;		// ダッシュ中フラグ
+
+    //HP------------
+    HP m_PlayerHP; // プレイヤーのHP管理
 
     int m_VSHandle; // 頂点シェーダーのハンドル
     int m_PSHandle; // ピクセルシェーダーのハンドル
@@ -67,6 +87,7 @@ private:
     int m_CBufferHandle; // 定数バッファのハンドル
 
     void GetShaderConstantBufferAddress();
+
 };
 
 #endif
