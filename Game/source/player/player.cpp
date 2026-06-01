@@ -17,6 +17,7 @@ Player::Player()
     m_AnimAttachIndex = -1;
     m_AnimTotalTime = 0.0f;
     m_AnimTime = 0.0f;
+
 	// 座標
 	m_Position = VGet(200.0f, 400.0f, 0.0f);
 
@@ -30,8 +31,8 @@ Player::Player()
 // カメラ制御
 	m_CameraYaw = 0.0f; //横回転
 	m_CameraPitch = 0.3f;//縦回転
-    float targetDistance = 30.0f;//通常時のキャラとカメラの距離
-
+    m_TargetCameraDistance = 30.0f;//通常時のキャラとカメラの距離
+    m_BaseCameraDistance = 30.0f; //ホイール時の基準距離
     
 	m_CameraDistance = 30.0f; //距離
 
@@ -43,11 +44,16 @@ Player::Player()
 	m_Gravity = -0.2f;		// 重力
 	m_JumpPower = 3.0f;		// ジャンプ力
 	m_IsGround = true;		// 接地フラグ
+    m_StunTimer = 0.0f;    //着地硬直時間
+    m_PrevJumpKeyState = 0;//ジャンプの前のフレームのキー入力状態(押されているか)
 
 	// ダッシュ関連
 	m_MoveSpeed = 1.0f;
 	m_DashMultiplier = 2.0f;  // 2倍速
 	m_IsDashing = false;
+
+    //ホイールの回転量を初期化
+    m_LastWheelRot = 0;
 
    
     //shaderのハンドルを初期化
@@ -89,10 +95,16 @@ void Player::LoadModel()
    
 }
 
-// 更新処理
-// 入力・移動・カメラ更新
+// -----------------更新処理----------------------------------------------
 void Player::Update(CollisionManager* collisionManager)
 {
+    // 着地硬直の処理
+    if (m_StunTimer > 0.0f)
+    {
+        m_StunTimer -= 1.0f; // 1
+
+    }
+
 	// 画面サイズ
 	int screenX;
 	int screenY;
@@ -105,6 +117,12 @@ void Player::Update(CollisionManager* collisionManager)
 
 	GetMousePoint(&mouseX, &mouseY);
 
+    //マウスホイールの回転量を取得
+    m_LastWheelRot = GetMouseWheelRotVol();
+
+    // ジャンプキーの状態を取得
+    int currentJumpKeyState = CheckHitKey(KEY_INPUT_SPACE);
+
 	// 画面中央
 	int centerX = screenX / 2;
 	int centerY = screenY / 2;
@@ -116,28 +134,21 @@ void Player::Update(CollisionManager* collisionManager)
 	// マウスを中央へ戻す
 	SetMousePoint(centerX, centerY);
 
-// カメラ回転
-
+    // カメラ回転
 	m_CameraYaw += moveX * m_MouseSensitivity;//横
 	m_CameraPitch += moveY * m_MouseSensitivity;//縦
 
+    
 	// カメラ縦回転制限
 	// 真上・真下防止
-	if (m_CameraPitch > 1.0f)
-	{
-		m_CameraPitch = 1.0f;
-	}
-
-	if (m_CameraPitch < -1.0f)
-	{
-		m_CameraPitch = -1.0f;
-	}
+	if (m_CameraPitch > 1.0f)m_CameraPitch = 1.0f;
+	if (m_CameraPitch < -1.0f)	m_CameraPitch = -1.0f;
 
 	// カメラ前方向
 	VECTOR forward =
 	{
 		cosf(m_CameraPitch) * sinf(m_CameraYaw),
-		-sinf(m_CameraPitch),
+		0.0f,
 		cosf(m_CameraPitch) * cosf(m_CameraYaw)
 	};
 
@@ -151,13 +162,33 @@ void Player::Update(CollisionManager* collisionManager)
 
 	// 入力方向
 	VECTOR move = VGet(0.0f, 0.0f, 0.0f);
+   
+        if (CheckHitKey(KEY_INPUT_W))move = VAdd(move, forward);//前進
+        if (CheckHitKey(KEY_INPUT_S))move = VSub(move, forward);//後退
+        if (CheckHitKey(KEY_INPUT_D))move = VAdd(move, right);//右
+        if (CheckHitKey(KEY_INPUT_A))move = VSub(move, right);//左
+    
 
-	if (CheckHitKey(KEY_INPUT_W))move = VAdd(move, forward);//前進
-	if (CheckHitKey(KEY_INPUT_S))move = VSub(move, forward);//後退
-	if (CheckHitKey(KEY_INPUT_D))move = VAdd(move, right);//右
-	if (CheckHitKey(KEY_INPUT_A))move = VSub(move, right);//左
-	
+        if (m_StunTimer > 0.0f)
+        {
+            move = VGet(0.0f, 0.0f, 0.0f); // W/A/S/Dを押していても、移動方向を強制的にリセット
+        }
+        else
+        {
+           //ジャンプキーの状態を取得
+            int currentJumpKeyState = CheckHitKey(KEY_INPUT_SPACE);
+            // ジャンプの入力があった場合、前のフレームでは押されていなかった場合にジャンプ処理を行う
+            if (currentJumpKeyState == 1 && m_PrevJumpKeyState == 0)
+            {
+                if (m_IsGround)
+                {
+                    m_VelocityY = m_JumpPower;
+                    m_IsGround = false;
+                }
+            }
+        }
 
+   
 	/*// 上昇
 	if (CheckHitKey(KEY_INPUT_E))
 	{
@@ -170,6 +201,28 @@ void Player::Update(CollisionManager* collisionManager)
 		move.y -= 1.0f;
 	}
     */
+
+   
+
+    // ホイールでカメラ距離を変更
+    if (m_LastWheelRot != 0)
+    {
+        m_BaseCameraDistance -= m_LastWheelRot * 1.5f;// ホイールの回転量に応じて基準距離を変更
+    }
+        // カメラ距離の制限
+        if (m_BaseCameraDistance < 15.0f)  m_BaseCameraDistance = 15.0f;  // 最短距離
+        if (m_BaseCameraDistance > 60.0f) m_BaseCameraDistance = 60.0f; // 最長距離
+    
+        // ダッシュ入力
+        if (CheckHitKey(KEY_INPUT_LSHIFT))
+        {
+            m_IsDashing = true;
+        }
+        else
+        {
+            m_IsDashing = false;
+        }
+
 	// プレイヤー移動
 	if (VSize(move) > 0.0f)
 	{
@@ -183,13 +236,14 @@ void Player::Update(CollisionManager* collisionManager)
 		if (m_IsDashing)
 		{
 			speed *= m_DashMultiplier;
-            targetDistance = 40.0f; //ダッシュ中のカメラ距離
+            m_TargetCameraDistance = m_BaseCameraDistance + 10.0f; //ダッシュ中のカメラ距離
 		}
         else
         {
-            targetDistance = 30.0f; //通常時のカメラ距離
+            m_TargetCameraDistance = m_BaseCameraDistance; //通常時のカメラ距離
         }
 
+        
       // アニメーションの更新
         if (m_Modelhandle != -1 && m_AnimAttachIndex != -1)
         {
@@ -208,7 +262,7 @@ void Player::Update(CollisionManager* collisionManager)
         //プレイヤーの位置を更新
 		m_Position = VAdd(m_Position, VScale(move, speed));
 
-    // プレイヤーの移動に合わせてカメラも移動---------------
+    
         // プレイヤーの向きを移動方向に合わせる
         float targetAngle = atan2f(move.x, move.z);
         // プレイヤーの向きを徐々に目標角度に近づける
@@ -218,21 +272,19 @@ void Player::Update(CollisionManager* collisionManager)
         while (diff < -DX_PI_F) diff += DX_PI_F * 2.0f;
         while (diff > DX_PI_F) diff -= DX_PI_F * 2.0f;
         float rotateSpeed = 0.12f; // 回転速度
+
         // プレイヤーの向きを更新
         m_PlayerAngle += diff * rotateSpeed;
 
-            m_CameraDistance += (targetDistance - m_CameraDistance) * 0.1f;
+           
 	}
 
-	// ジャンプ入力
-	if (CheckHitKey(KEY_INPUT_SPACE))
-	{
-		if (m_IsGround)
-		{
-			m_VelocityY = m_JumpPower;
-			m_IsGround = false;
-		}
-	}
+    m_CameraDistance += (m_TargetCameraDistance - m_CameraDistance) * 0.1f;
+
+	
+
+    //空中かどうか判定
+    bool wasGround = m_IsGround;
 
 	//重力
 	m_VelocityY += m_Gravity;
@@ -247,6 +299,13 @@ void Player::Update(CollisionManager* collisionManager)
 		collisionManager->ResolveStageCollision(m_Position, m_VelocityY, m_IsGround, halfheight, playerRadius);
 	}
 
+    // 着地した瞬間の処理(前フレで空中だった場合)
+    if (m_IsGround == true && wasGround == false)
+    {
+        m_StunTimer = 5.0f;//落下硬直
+        m_VelocityY = 0.0f;
+    }
+
 	// 場外落下時の復帰処理
 	if (m_Position.y <= 0.0f)
 	{
@@ -256,15 +315,7 @@ void Player::Update(CollisionManager* collisionManager)
 		m_VelocityY = 0.0f;
 	}
 
-	// ダッシュ入力
-	if (CheckHitKey(KEY_INPUT_LSHIFT))
-	{
-		m_IsDashing = true;
-	}
-	else
-	{
-		m_IsDashing = false;
-	}
+	
     
 	// カメラ位置
 	VECTOR cameraPos =
@@ -284,16 +335,21 @@ void Player::Update(CollisionManager* collisionManager)
 		m_CameraDistance
 	};
 
-	// 注視点
-	VECTOR targetPos =
-	{
-		m_Position.x,
-		m_Position.y + 10.0f,
-		m_Position.z
-	};
+	
+    m_PrevJumpKeyState = currentJumpKeyState;
 
-	// カメラ設定
-	SetCameraPositionAndTarget_UpVecY(cameraPos,targetPos);
+    //キャラの頭上を注視点とす
+    VECTOR idealTargetPos = VGet(m_Position.x, m_Position.y + 10.0f, m_Position.z);
+
+    //キャラに少し遅れてついてくる
+    m_CameraTargetActual = VAdd(m_CameraTargetActual, VScale(VSub(idealTargetPos, m_CameraTargetActual), 0.80f));
+
+    // カメラ設定
+    DxLib::SetCameraPositionAndTarget_UpVecY(cameraPos, m_CameraTargetActual);
+	
+//----------HP処理---------------
+    // HPの更新
+    m_PlayerHP.Update();
 }
 
 // 描画処理(キャラクター描画)
