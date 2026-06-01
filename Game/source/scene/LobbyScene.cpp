@@ -1,7 +1,9 @@
 #include "scene/LobbyScene.h"
+#include "scene/ExploreScene.h"
 
 LobbyScene::LobbyScene(SceneManager* manager)
     : m_manager(manager)
+    , m_isPlayerInRoom(false)
 {
 }
 
@@ -13,6 +15,7 @@ void LobbyScene::Init()
     // TPS視点用にマウスカーソルを非表示
     SetMouseDispFlag(FALSE);
 
+    // 屋上の生成と初期化
     m_roofTop = std::make_unique<RoofTop>();
     m_roofTop->Init();
 
@@ -23,8 +26,9 @@ void LobbyScene::Init()
     m_collisionManager = std::make_unique<CollisionManager>();
     m_collisionManager->Init(m_roofTop->GetModelHandle());
 
+    // 敵の生成と初期化
     m_enemy = std::make_unique<Enemy>();
-    m_enemy->Init(); // 敵の初期位置を設定
+    m_enemy->Init();
 
     // ライトマネージャーの生成と初期化
     m_lightManager = std::make_unique<LightManager>();
@@ -37,6 +41,28 @@ void LobbyScene::Update()
     if (m_player && m_roofTop)
     {
         m_player->Update(m_collisionManager.get());
+
+        // 部屋の範囲を定義
+        VECTOR roomMin = VGet(-500.0f, -100.0f, -500.0f);
+        VECTOR roomMax = VGet(500.0f, 1000.0f, 500.0f);
+
+        // プレイヤーが部屋の中にいるかどうかを判定
+        VECTOR pos = m_player->GetPosition();
+        if (pos.x >= roomMin.x && pos.x <= roomMax.x &&
+            pos.y >= roomMin.y && pos.y <= roomMax.y &&
+            pos.z >= roomMin.z && pos.z <= roomMax.z)
+        {
+            m_isPlayerInRoom = true;
+
+            if (CheckHitKey(KEY_INPUT_F) == 1)
+            {
+                m_manager->ChangeScene(std::make_shared<ExploreScene>(m_manager));
+            }
+        }
+        else
+        {
+            m_isPlayerInRoom = false;
+        }
     }
 
     if (m_enemy)
@@ -66,7 +92,7 @@ void LobbyScene::Draw()
     }
 
     // デバッグ用UI描画
-    DrawString(10, 10, "Game Scene - WASD移動 / マウス視点移動 ", GetColor(255, 255, 255));
+    DrawString(10, 10, "Lobby Scene - WASD移動 / マウス視点移動 ", GetColor(255, 255, 255));
 }
 
 void LobbyScene::DrawDebugGrid()

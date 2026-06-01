@@ -1,5 +1,5 @@
 #include "scene/ExploreScene.h"
-#include "player/player.h" // Player の完全型が必要な箇所（デストラクタ定義）でインクルード
+#include "player/player.h"
 
 ExploreScene::ExploreScene(SceneManager* manager)
     : m_manager(manager)

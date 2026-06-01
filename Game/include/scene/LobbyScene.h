@@ -29,6 +29,8 @@ private:
      */
     void DrawDebugGrid();
 
+    bool m_isPlayerInRoom; ///< プレイヤーが部屋にいるかどうかのフラグ
+
     SceneManager* m_manager; ///< シーンマネージャー
     std::unique_ptr<Player> m_player; ///< プレイヤーインスタンス
     std::unique_ptr<CollisionManager> m_collisionManager; ///< 当たり判定マネージャー
