@@ -27,6 +27,7 @@
     <ClCompile Include="Game\source\main.cpp" />
     <ClCompile Include="Game\source\map\KindergartenMap.cpp" />
     <ClCompile Include="Game\source\map\RoofTop.cpp" />
+    <ClCompile Include="Game\source\map\ShipMap.cpp" />
     <ClCompile Include="Game\source\object\Door.cpp" />
     <ClCompile Include="Game\source\player\Player.cpp" />
     <ClCompile Include="Game\source\scene\ExploreScene.cpp" />
@@ -48,6 +49,7 @@
     <ClInclude Include="Game\include\enemy\Enemy.h" />
     <ClInclude Include="Game\include\map\KindergartenMap.h" />
     <ClInclude Include="Game\include\map\RoofTop.h" />
+    <ClInclude Include="Game\include\map\ShipMap.h" />
     <ClInclude Include="Game\include\object\Door.h" />
     <ClInclude Include="Game\include\object\GameObject.h" />
     <ClInclude Include="Game\include\player\Player.h" />

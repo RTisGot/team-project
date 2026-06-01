@@ -24,9 +24,6 @@ void LobbyScene::Init()
     m_collisionManager = std::make_unique<CollisionManager>();
     m_collisionManager->Init(m_roofTop->GetModelHandle());
 
-    m_enemy = std::make_unique<Enemy>();
-    m_enemy->Init(); // 敵の初期位置を設定
-
     // ライトマネージャーの生成と初期化
     m_lightManager = std::make_unique<LightManager>();
     m_lightManager->Init();
@@ -38,11 +35,6 @@ void LobbyScene::Update()
     if (m_player && m_roofTop)
     {
         m_player->Update(m_collisionManager.get());
-    }
-
-    if (m_enemy)
-    {
-        m_enemy->Update(m_collisionManager.get());
     }
 
     if (CheckHitKey(KEY_INPUT_RETURN) == 1)
@@ -69,12 +61,6 @@ void LobbyScene::Draw()
     if (m_player)
     {
         m_player->Draw();
-    }
-
-    // 敵描画
-    if (m_enemy)
-    {
-        m_enemy->Draw();
     }
 
     // デバッグ用UI描画
