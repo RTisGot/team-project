@@ -14,7 +14,7 @@ KindergartenMap::~KindergartenMap()
         m_modelHandle = -1;
     }
 }
-//"D:\グループ制作\Game\assets\models\map\建物 1 1 1 2 3.fbm"
+
 bool KindergartenMap::Init()
 {
     m_modelHandle =

@@ -1,5 +1,4 @@
 #include "scene/ExploreScene.h"
-#include "player/player.h"
 
 ExploreScene::ExploreScene(SceneManager* manager)
     : m_manager(manager)
@@ -10,7 +9,6 @@ ExploreScene::~ExploreScene() = default; // Player が定義済みの翻訳単�
 
 void ExploreScene::Init()
 {
-   
     // カメラのクリップ距離を設定
     SetCameraNearFar(16.0f, 5000.0f);
 
@@ -28,7 +26,7 @@ void ExploreScene::Init()
     m_collisionManager->Init(m_kindergartenMap->GetModelHandle());
 
     m_enemy = std::make_unique<Enemy>();
-    m_enemy->Init(); // 敵の初期位置を設定
+    m_enemy->Init();
 
     // ライトマネージャーの生成と初期化
     m_lightManager = std::make_unique<LightManager>();
@@ -37,7 +35,6 @@ void ExploreScene::Init()
 
 void ExploreScene::Update()
 {
-
     // プレイヤー更新（入力・移動・カメラ更新を含む）
     if (m_player && m_kindergartenMap)
     {

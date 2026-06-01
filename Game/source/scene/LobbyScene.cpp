@@ -1,6 +1,7 @@
 #include "scene/LobbyScene.h"
 #include "scene/LoadingScene.h"
 #include "scene/ExploreScene.h"
+
 LobbyScene::LobbyScene(SceneManager* manager)
     : m_manager(manager)
     , m_isPlayerInRoom(false)
@@ -64,22 +65,6 @@ void LobbyScene::Update()
             m_isPlayerInRoom = false;
         }
     }
-
-    if (m_enemy)
-    {
-        m_enemy->Update(m_collisionManager.get());
-    }
-
-    if (CheckHitKey(KEY_INPUT_RETURN) == 1)
-    {
-        auto exploreScene =
-            std::make_shared<ExploreScene>(m_manager);
-
-        m_manager->ChangeScene(
-            std::make_shared<LoadingScene>(
-                m_manager,
-                exploreScene));
-    }
 }
 
 void LobbyScene::Draw()
@@ -94,12 +79,6 @@ void LobbyScene::Draw()
     if (m_player)
     {
         m_player->Draw();
-    }
-
-    // 敵描画
-    if (m_enemy)
-    {
-        m_enemy->Draw();
     }
 
     // デバッグ用UI描画

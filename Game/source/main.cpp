@@ -2,14 +2,20 @@
 #include "scene/SceneManager.h"
 #include "scene/TitleScene.h"
 #include <memory>
+#include <system/Define.h>
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+    SetGraphMode(SCREEN_WIDTH, SCREEN_HEIGHT, 32);
+
     // ウインドウモードで起動
     ChangeWindowMode(true);
 
     // 文字コードをUTF-8として扱う
     SetUseCharCodeFormat(DX_CHARCODEFORMAT_UTF8);
+
+    //ver.DirectX11
+    DxLib::SetUseDirect3DVersion(DX_DIRECT3D_11);
 
     // DXライブラリの初期化
     if (DxLib_Init() < 0)
@@ -22,8 +28,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     // 画面の背景色を設定
     SetBackgroundColor(0, 0, 0);
-
-
 
     // シーンマネージャーの初期化
     SceneManager sceneManager;
