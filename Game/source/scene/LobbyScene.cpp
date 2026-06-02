@@ -45,23 +45,28 @@ void LobbyScene::Update()
     {
         m_player->Update(m_collisionManager.get());
 
-        // プレイヤーが部屋の中にいるかどうかを判定
-        VECTOR pos = m_player->GetPosition();
-        if (pos.x >= m_roomMin.x && pos.x <= m_roomMax.x &&
-            pos.y >= m_roomMin.y && pos.y <= m_roomMax.y &&
-            pos.z >= m_roomMin.z && pos.z <= m_roomMax.z)
-        {
-            m_isPlayerInRoom = true;
+        m_roofTop->Update(
+            m_player->GetPosition(),
+            m_player->GetAngle()
+        );
+    }
 
-            if (CheckHitKey(KEY_INPUT_F) == 1)
-            {
-                m_manager->ChangeScene(std::make_shared<ExploreScene>(m_manager));
-            }
-        }
-        else
+    // プレイヤーが部屋の中にいるかどうかを判定
+    VECTOR pos = m_player->GetPosition();
+    if (pos.x >= m_roomMin.x && pos.x <= m_roomMax.x &&
+        pos.y >= m_roomMin.y && pos.y <= m_roomMax.y &&
+        pos.z >= m_roomMin.z && pos.z <= m_roomMax.z)
+    {
+        m_isPlayerInRoom = true;
+
+        if (CheckHitKey(KEY_INPUT_F) == 1)
         {
-            m_isPlayerInRoom = false;
+            m_manager->ChangeScene(std::make_shared<ExploreScene>(m_manager));
         }
+    }
+    else
+    {
+        m_isPlayerInRoom = false;
     }
 }
 

@@ -1,8 +1,10 @@
 #include "map/RoofTop.h"
+#include "follower/follower.h"
 #include <DxLib.h>
 
 RoofTop::RoofTop()
 	: m_modelHandle(-1)
+    , m_follower(std::make_unique<Follower>())
 {
 }
 
@@ -25,13 +27,22 @@ bool RoofTop::Init()
 	{
 		return false; // モデルの読み込みに失敗
 	}
-
+    
+    if (m_follower)
+    {
+        m_follower->LoadModel();
+    }
 	return true;
 }
 
-void RoofTop::Update(const VECTOR& playerPos)
+void RoofTop::Update(const VECTOR& playerPos, float playerAngle)
 {
-
+    if (m_follower)
+    {
+        m_follower->SetTargetPosition(playerPos);
+        m_follower->SetTargetAngle(playerAngle);
+        m_follower->Update();
+    }
 }
 
 void RoofTop::Draw()
@@ -44,4 +55,9 @@ void RoofTop::Draw()
 	{
 		DrawString(100, 100, "屋上モデルが読み込まれていません", GetColor(255, 0, 0));
 	}
+
+    if (m_follower)
+    {
+        m_follower->Draw();
+    }
 }
