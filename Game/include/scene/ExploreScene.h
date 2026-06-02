@@ -1,13 +1,22 @@
 #pragma once
 #include "scene/BaseScene.h"
 #include "scene/SceneManager.h"
+#include "player/Player.h"
+#include "enemy/Enemy.h"
+#include "map/KindergartenMap.h"
+#include "system/LightManager.h"
+#include "Collision/CollisionManager.h"
 #include <memory>
+#include <DxLib.h>
+
 /**
  * @file ExploreScene.h
- * @brief 
+ * @brief 探索シーンの定義
  */
 
 class Player;
+class CollisionManager;
+class LightManager;
 
 /**
  * @class ExploreScene
@@ -19,7 +28,7 @@ class ExploreScene : public BaseScene
 {
 public:
     ExploreScene(SceneManager* manager);
-    ~ExploreScene() override; // 定義を cpp に移動して Player を不完全型として保持できるようにする
+    ~ExploreScene() override;
 
     void Init() override;
     void Update() override;
@@ -27,5 +36,9 @@ public:
 
 private:
     SceneManager* m_manager; ///< シーンマネージャーへのポインタ
-    //std::unique_ptr<Player> m_player; ///< プレイヤーインスタンス
+    std::unique_ptr<Player> m_player; ///< プレイヤーインスタンス
+    std::unique_ptr<CollisionManager> m_collisionManager; ///< 当たり判定マネージャー
+    std::unique_ptr<KindergartenMap> m_kindergartenMap; ///< 保育園マップインスタンス
+    std::unique_ptr<LightManager> m_lightManager; ///< ライトマネージャー
+    std::unique_ptr<Enemy> m_enemy; ///< 敵インスタンス
 };
