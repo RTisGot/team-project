@@ -5,6 +5,8 @@
 LobbyScene::LobbyScene(SceneManager* manager)
     : m_manager(manager)
     , m_isPlayerInRoom(false)
+    , m_roomMin(VGet(0.0f, 0.0f, 0.0f))
+    , m_roomMax(VGet(0.0f, 0.0f, 0.0f))
 {
 }
 
@@ -27,17 +29,13 @@ void LobbyScene::Init()
     m_collisionManager = std::make_unique<CollisionManager>();
     m_collisionManager->Init(m_roofTop->GetModelHandle());
 
-    // 敵の生成と初期化
-    m_enemy = std::make_unique<Enemy>();
-    m_enemy->Init();
-
     // ライトマネージャーの生成と初期化
     m_lightManager = std::make_unique<LightManager>();
     m_lightManager->Init();
 
     // 部屋の範囲を定義
-    m_roomMin = VGet(150.0f, 340.0f, -190.0f);
-    m_roomMax = VGet(170.0f, 360.0f, -155.0f);
+    m_roomMin = VGet(240.0f, 544.0f, -304.0f);
+    m_roomMax = VGet(272.0f, 576.0f, -248.0f);
 }
 
 void LobbyScene::Update()
@@ -47,23 +45,28 @@ void LobbyScene::Update()
     {
         m_player->Update(m_collisionManager.get());
 
-        // プレイヤーが部屋の中にいるかどうかを判定
-        VECTOR pos = m_player->GetPosition();
-        if (pos.x >= m_roomMin.x && pos.x <= m_roomMax.x &&
-            pos.y >= m_roomMin.y && pos.y <= m_roomMax.y &&
-            pos.z >= m_roomMin.z && pos.z <= m_roomMax.z)
-        {
-            m_isPlayerInRoom = true;
+        m_roofTop->Update(
+            m_player->GetPosition(),
+            m_player->GetAngle()
+        );
+    }
 
-            if (CheckHitKey(KEY_INPUT_F) == 1)
-            {
-                m_manager->ChangeScene(std::make_shared<ExploreScene>(m_manager));
-            }
-        }
-        else
+    // プレイヤーが部屋の中にいるかどうかを判定
+    VECTOR pos = m_player->GetPosition();
+    if (pos.x >= m_roomMin.x && pos.x <= m_roomMax.x &&
+        pos.y >= m_roomMin.y && pos.y <= m_roomMax.y &&
+        pos.z >= m_roomMin.z && pos.z <= m_roomMax.z)
+    {
+        m_isPlayerInRoom = true;
+
+        if (CheckHitKey(KEY_INPUT_F) == 1)
         {
-            m_isPlayerInRoom = false;
+            m_manager->ChangeScene(std::make_shared<ExploreScene>(m_manager));
         }
+    }
+    else
+    {
+        m_isPlayerInRoom = false;
     }
 }
 

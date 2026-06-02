@@ -3,8 +3,8 @@
 #include "scene/BaseScene.h"
 #include "scene/SceneManager.h"
 #include "player/Player.h"
-#include "enemy/Enemy.h"
 #include "map/RoofTop.h"
+#include "follower/follower.h"
 #include "system/LightManager.h"
 #include "Collision/CollisionManager.h"
 #include <memory>
@@ -40,7 +40,6 @@ private:
 
     SceneManager* m_manager; ///< シーンマネージャー
     std::unique_ptr<Player> m_player; ///< プレイヤーインスタンス
-    std::unique_ptr<Enemy> m_enemy; ///< 敵インスタンス
     std::unique_ptr<CollisionManager> m_collisionManager; ///< 当たり判定マネージャー
     std::unique_ptr<RoofTop> m_roofTop; ///< 屋上インスタンス
     std::unique_ptr<LightManager> m_lightManager; ///< ライトマネージャー
