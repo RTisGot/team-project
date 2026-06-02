@@ -3,7 +3,6 @@
 
 RoofTop::RoofTop()
 	: m_modelHandle(-1)
-	, m_door(std::make_unique<Door>())
 {
 }
 
