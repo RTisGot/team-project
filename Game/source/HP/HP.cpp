@@ -1,4 +1,4 @@
-#include "../include/HP/HP.h"
+#include "hp/HP.h"
 
 HP::HP()
 {

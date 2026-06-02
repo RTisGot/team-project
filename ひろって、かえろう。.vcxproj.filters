@@ -129,9 +129,6 @@
     <ClCompile Include="Game\source\enemy\Enemy.cpp">
       <Filter>ソース ファイル\enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Game\include\HP\HP.h">
-      <Filter>ヘッダー ファイル\hp</Filter>
-    </ClCompile>
     <ClCompile Include="Game\source\map\KindergartenMap.cpp">
       <Filter>ソース ファイル\map</Filter>
     </ClCompile>
@@ -214,6 +211,9 @@
     </ClInclude>
     <ClInclude Include="Game\include\map\KindergartenMap.h">
       <Filter>ヘッダー ファイル\map</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\include\hp\HP.h">
+      <Filter>ヘッダー ファイル\hp</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

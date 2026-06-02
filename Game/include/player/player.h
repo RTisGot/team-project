@@ -3,7 +3,7 @@
 
 #include <DxLib.h>
 #include "collision/CollisionManager.h"
-#include "../HP/HP.h"
+#include "hp/HP.h"
 
 /**
  *	@brief プレイヤークラス
