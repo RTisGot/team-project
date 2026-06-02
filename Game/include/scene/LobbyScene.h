@@ -31,8 +31,12 @@ private:
      * @brief デバッグ用床グリッドの描画
      */
     void DrawDebugGrid();
+    void DrawRoomDebug();
 
     bool m_isPlayerInRoom; ///< プレイヤーが部屋にいるかどうかのフラグ
+
+    VECTOR m_roomMin;
+    VECTOR m_roomMax;
 
     SceneManager* m_manager; ///< シーンマネージャー
     std::unique_ptr<Player> m_player; ///< プレイヤーインスタンス
