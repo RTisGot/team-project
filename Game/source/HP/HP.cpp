@@ -1,11 +1,6 @@
 #include "../include/HP/HP.h"
 
-HP::HP()
-{
-    m_MAXHP = 100.0f;  //最大HP100
-    m_currentHP = m_MAXHP; //現在のHPを最大HPで初期化
-    m_DisplayHP = m_MAXHP;
-}
+
 
 void HP::Update()
 {

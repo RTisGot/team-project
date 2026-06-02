@@ -8,7 +8,7 @@ public:
 
     bool Init();
 
-    void Update(const VECTOR& playerPos);
+ //   void Update(const VECTOR& playerPos);
     void Draw();
 
     int GetModelHandle() const { return m_modelHandle; }
