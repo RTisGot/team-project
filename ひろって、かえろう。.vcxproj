@@ -50,7 +50,6 @@
     <ClInclude Include="Game\include\follower\follower.h" />
     <ClInclude Include="Game\include\HP\HP.h" />
     <ClInclude Include="Game\include\map\KindergartenMap.h" />
-    <ClInclude Include="Game\include\map\Map.h" />
     <ClInclude Include="Game\include\map\RoofTop.h" />
     <ClInclude Include="Game\include\map\ShipMap.h" />
     <ClInclude Include="Game\include\object\Door.h" />

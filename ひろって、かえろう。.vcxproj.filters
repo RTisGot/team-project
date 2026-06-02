@@ -73,6 +73,12 @@
     <Filter Include="ヘッダー ファイル\follower">
       <UniqueIdentifier>{a8ab366f-f689-469c-ab9b-28b788fcecc1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\hp">
+      <UniqueIdentifier>{572268f1-c5b8-41ea-a538-d18ad1d433e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\hp">
+      <UniqueIdentifier>{1023fa51-aaa2-4a64-beb8-8153c2fb41c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\source\main.cpp">
@@ -132,6 +138,15 @@
     <ClCompile Include="Game\source\follower\follower.cpp">
       <Filter>ソース ファイル\follower</Filter>
     </ClCompile>
+    <ClCompile Include="Game\source\map\KindergartenMap.cpp">
+      <Filter>ソース ファイル\map</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\source\map\ShipMap.cpp">
+      <Filter>ソース ファイル\map</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\source\HP\HP.cpp">
+      <Filter>ソース ファイル\hp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\include\player\Player.h">
@@ -139,9 +154,6 @@
     </ClInclude>
     <ClInclude Include="Game\include\enemy\Enemy.h">
       <Filter>ヘッダー ファイル\enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\include\map\Map.h">
-      <Filter>ヘッダー ファイル\map</Filter>
     </ClInclude>
     <ClInclude Include="Game\include\scene\BaseScene.h">
       <Filter>ヘッダー ファイル\scene</Filter>
@@ -199,6 +211,15 @@
     </ClInclude>
     <ClInclude Include="Game\include\follower\follower.h">
       <Filter>ヘッダー ファイル\follower</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\include\map\KindergartenMap.h">
+      <Filter>ヘッダー ファイル\map</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\include\map\ShipMap.h">
+      <Filter>ヘッダー ファイル\map</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\include\HP\HP.h">
+      <Filter>ヘッダー ファイル\hp</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

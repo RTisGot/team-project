@@ -32,9 +32,6 @@ public:
 
 private:
     int m_modelHandle;              ///< 屋上のモデルハンドル
-    int m_itemModelHandle;          ///< アイテムモデル
-
-    std::unique_ptr<Door> m_door;   ///< ドア
 
     // お供キャラクター
     std::unique_ptr<Follower> m_follower;
