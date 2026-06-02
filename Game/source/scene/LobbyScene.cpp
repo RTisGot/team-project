@@ -29,17 +29,13 @@ void LobbyScene::Init()
     m_collisionManager = std::make_unique<CollisionManager>();
     m_collisionManager->Init(m_roofTop->GetModelHandle());
 
-    // 敵の生成と初期化
-    m_enemy = std::make_unique<Enemy>();
-    m_enemy->Init();
-
     // ライトマネージャーの生成と初期化
     m_lightManager = std::make_unique<LightManager>();
     m_lightManager->Init();
 
     // 部屋の範囲を定義
-    m_roomMin = VGet(150.0f, 340.0f, -190.0f);
-    m_roomMax = VGet(170.0f, 360.0f, -155.0f);
+    m_roomMin = VGet(240.0f, 544.0f, -304.0f);
+    m_roomMax = VGet(272.0f, 576.0f, -248.0f);
 }
 
 void LobbyScene::Update()

@@ -363,3 +363,9 @@ MigrationBackup/
 FodyWeavers.xsd
 
 Log.txt
+docs
+coding_rules.md
+comment_rules.md
+folder_rules.md
+.github
+copilot-instructions.md

@@ -33,7 +33,7 @@ Player::Player()
     m_AnimTime = 0.0f;
 
 	// 座標
-	m_Position = VGet(200.0f, 400.0f, 0.0f);
+	m_Position = VGet(200.0f, 580.0f, 0.0f);
 
 	// 向き
 	m_PlayerAngle = 0.0f;
@@ -340,7 +340,7 @@ void Player::Update(CollisionManager* collisionManager)
 	// 場外落下時の復帰処理
 	if (m_Position.y <= 0.0f)
 	{
-		m_Position.y = 400.0f;
+		m_Position.y = 580.0f;
 		m_Position.x = 200.0f;
 		m_Position.z = 0.0f;
 		m_VelocityY = 0.0f;
