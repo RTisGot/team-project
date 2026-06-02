@@ -22,10 +22,11 @@ void TitleScene::Update()
         auto lobbyScene =
             std::make_shared<LobbyScene>(m_manager);
 
-        m_manager->ChangeScene(
+        /*m_manager->ChangeScene(
             std::make_shared<LoadingScene>(
                 m_manager,
-                lobbyScene));
+                lobbyScene));*/
+        m_manager->ChangeScene(std::make_shared<LobbyScene>(m_manager));
     }
 }
 
