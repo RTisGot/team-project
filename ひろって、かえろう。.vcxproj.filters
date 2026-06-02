@@ -67,6 +67,12 @@
     <Filter Include="ヘッダー ファイル\Collision">
       <UniqueIdentifier>{96d62b92-4cc7-4993-b6ae-70a16c2bf76e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\hp">
+      <UniqueIdentifier>{6f732b2f-ebb0-4094-854d-b51577910625}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\hp">
+      <UniqueIdentifier>{979cd3c6-e511-46e9-ae31-b6689da6909f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\source\main.cpp">
@@ -83,9 +89,6 @@
     </ClCompile>
     <ClCompile Include="Game\source\audio\AudioManager.cpp">
       <Filter>ソース ファイル\audio</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\source\map\Map.cpp">
-      <Filter>ソース ファイル\map</Filter>
     </ClCompile>
     <ClCompile Include="Game\source\scene\SceneManager.cpp">
       <Filter>ソース ファイル\scene</Filter>
@@ -127,10 +130,19 @@
       <Filter>ソース ファイル\enemy</Filter>
     </ClCompile>
     <ClCompile Include="Game\include\HP\HP.h">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ヘッダー ファイル\hp</Filter>
     </ClCompile>
-    <ClCompile Include="Game\source\HP\HP.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Game\source\map\KindergartenMap.cpp">
+      <Filter>ソース ファイル\map</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\source\map\ShipMap.cpp">
+      <Filter>ソース ファイル\map</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\source\Collision\EnemyCollision.cpp">
+      <Filter>ソース ファイル\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\source\hp\HP.cpp">
+      <Filter>ソース ファイル\hp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -139,9 +151,6 @@
     </ClInclude>
     <ClInclude Include="Game\include\enemy\Enemy.h">
       <Filter>ヘッダー ファイル\enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\include\map\Map.h">
-      <Filter>ヘッダー ファイル\map</Filter>
     </ClInclude>
     <ClInclude Include="Game\include\scene\BaseScene.h">
       <Filter>ヘッダー ファイル\scene</Filter>
@@ -196,6 +205,15 @@
     </ClInclude>
     <ClInclude Include="Game\include\system\Define.h">
       <Filter>ヘッダー ファイル\system</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\include\Collision\EnemyCollision.h">
+      <Filter>ヘッダー ファイル\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\include\map\ShipMap.h">
+      <Filter>ヘッダー ファイル\map</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\include\map\KindergartenMap.h">
+      <Filter>ヘッダー ファイル\map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

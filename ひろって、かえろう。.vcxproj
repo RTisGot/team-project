@@ -25,7 +25,7 @@
     <ClCompile Include="Game\source\Collision\EnemyCollision.cpp" />
     <ClCompile Include="Game\source\Collision\StageCollider.cpp" />
     <ClCompile Include="Game\source\enemy\Enemy.cpp" />
-    <ClCompile Include="Game\source\HP\HP.cpp" />
+    <ClCompile Include="Game\source\hp\HP.cpp" />
     <ClCompile Include="Game\source\main.cpp" />
     <ClCompile Include="Game\source\map\KindergartenMap.cpp" />
     <ClCompile Include="Game\source\map\RoofTop.cpp" />
