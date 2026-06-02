@@ -25,7 +25,6 @@
     <ClCompile Include="Game\source\enemy\Enemy.cpp" />
     <ClCompile Include="Game\source\follower\follower.cpp" />
     <ClCompile Include="Game\source\main.cpp" />
-    <ClCompile Include="Game\source\map\Map.cpp" />
     <ClCompile Include="Game\source\map\RoofTop.cpp" />
     <ClCompile Include="Game\source\object\Door.cpp" />
     <ClCompile Include="Game\source\player\Player.cpp" />

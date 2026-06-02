@@ -31,18 +31,12 @@ bool RoofTop::Init()
 
 void RoofTop::Update(const VECTOR& playerPos, float playerAngle)
 {
-
-	if (m_door)
-	{
-		m_door->Update(playerPos);
-	}
-
-    if (m_follower)
+ /*   if (m_follower)
     {
         m_follower->SetTargetPosition(playerPos);
         m_follower->SetTargetAngle(playerAngle);
         m_follower->Update();
-    }
+    }*/
 }
 
 void RoofTop::Draw()
@@ -56,16 +50,8 @@ void RoofTop::Draw()
 		DrawString(100, 100, "屋上モデルが読み込まれていません", GetColor(255, 0, 0));
 	}
 
-    MV1SetPosition(m_itemModelHandle, VGet(250.0f, 400.0f, 0.0f));
-    MV1DrawModel(m_itemModelHandle);
-
-	if (m_door)
-	{
-		m_door->Draw();
-	}
-
-    if (m_follower)
+   /* if (m_follower)
     {
         m_follower->Draw();
-    }
+    }*/
 }
