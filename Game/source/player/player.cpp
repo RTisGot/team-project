@@ -3,9 +3,23 @@
 #include<Dxlib.h>
 #include <cstring>
 #include<vector>
+#include <fstream>
 
 #define MOVE_SPEED 10.0f
 
+// ファイルをバイナリとして丸ごとメモリに読み込むヘルパー関数
+static std::vector<char> LoadFileToMemory(const char* filepath)
+{
+    std::ifstream file(filepath, std::ios::binary | std::ios::ate);
+    if (!file.is_open()) return std::vector<char>(); // 失敗時は空の配列
+
+    std::streamsize size = file.tellg();
+    std::vector<char> buffer(size);
+    file.seekg(0, std::ios::beg);
+    file.read(buffer.data(), size);
+
+    return buffer;
+}
 
 // コンストラクタ
 // プレイヤーとカメラ情報を初期化
@@ -81,16 +95,33 @@ void Player::LoadModel()
     m_PlayerHeight = 10.0f;  // キャラクターの全体高さ
 
   
-    // 頂点シェーダーの読み込み（コンパイル）
-    m_VSHandle = LoadVertexShader("D:\\teamproject\\Game\\source\\VertexShader.txt");
+    // --- 頂点シェーダーの読み込み ---
+    int vsFileHandle = FileRead_open("Game/assets/shaders/VertexShader.vso");
+    if (vsFileHandle != 0) {
+        int64_t fileSize = FileRead_size("Game/assets/shaders/VertexShader.vso");
+        std::vector<char> vsBuffer(fileSize);
+        FileRead_read(vsBuffer.data(), (int)fileSize, vsFileHandle);
+        FileRead_close(vsFileHandle);
 
-    // ピクセルシェーダーの読み込み（コンパイル）
-    m_PSHandle = LoadPixelShader("D:\\teamproject\\Game\\source\\PixelShader.txt");
+        m_VSHandle = LoadVertexShaderFromMem(vsBuffer.data(), vsBuffer.size());
+    }
+    else {
+        m_VSHandle = -1;
+    }
 
-   /* m_OutlineVSHandle = LoadVertexShader("Game/assets/shaders/OutlineVS.fx");
-    m_OutlinePSHandle = LoadPixelShader("Game/assets/shaders/OutlinePS.fx");
-    */
-    m_CBufferHandle = CreateShaderConstantBuffer(32);
+    // --- ピクセルシェーダーの読み込み ---
+    int psFileHandle = FileRead_open("Game/assets/shaders/PixelShader.pso");
+    if (psFileHandle != 0) {
+        int64_t fileSize = FileRead_size("Game/assets/shaders/PixelShader.pso");
+        std::vector<char> psBuffer(fileSize);
+        FileRead_read(psBuffer.data(), (int)fileSize, psFileHandle);
+        FileRead_close(psFileHandle);
+
+        m_PSHandle = LoadPixelShaderFromMem(psBuffer.data(), psBuffer.size());
+    }
+    else {
+        m_PSHandle = -1;
+    }
 
    
 }
@@ -302,7 +333,7 @@ void Player::Update(CollisionManager* collisionManager)
     // 着地した瞬間の処理(前フレで空中だった場合)
     if (m_IsGround == true && wasGround == false)
     {
-        m_StunTimer = 5.0f;//落下硬直
+        m_StunTimer = 2.0f;//落下硬直
         m_VelocityY = 0.0f;
     }
 
@@ -357,7 +388,7 @@ void Player::Draw()
 {
     DrawFormatString(20, 20, GetColor(255, 255, 0),
         "VS=%d PS=%d Model=%d", m_VSHandle, m_PSHandle, m_Modelhandle);
-   /* // 新しい向きをセット
+    // 新しい向きをセット
     MV1SetRotationXYZ(m_Modelhandle, VGet(0.0f, m_PlayerAngle, 0.0f));
 
     // 3Dモデルに新しい座標をセット
@@ -452,8 +483,8 @@ void Player::Draw()
     // 後片付け
     DxLib::SetUseVertexShader(-1);
     DxLib::SetUsePixelShader(-1);
-    */
-    if (m_Modelhandle == -1) return;
+    
+   /* if (m_Modelhandle == -1) return;
     // モデル姿勢
     MV1SetRotationXYZ(m_Modelhandle, VGet(0.0f, m_PlayerAngle, 0.0f));
     VECTOR drawPos = m_Position;
@@ -478,15 +509,6 @@ void Player::Draw()
     // テクスチャをPSの t0 に設定
     int texHandle = MV1GetTextureGraphHandle(m_Modelhandle, 0);
     SetUseTextureToShader(0, texHandle);
-    // ---------------------------------------------------------
-    // PixelShader 定数セット（PixelShader.fx と一致）
-    // c0 : LightDir.xyz + pad
-    // c1 : LightColor.rgb + pad
-    // c2 : RimColor.rgb + RimIntensity
-    // c3 : MidThreshold, DarkThreshold, Smooth, ShadowMin
-    // c4 : MidShadowStrength, DarkShadowStrength, SpecPower, SpecStrength
-    // c5 : CameraPos.xyz + pad
-    // ---------------------------------------------------------
     DxLib::FLOAT4 c0, c1, c2, c3, c4, c5;
     c0.x = 0.0f;  c0.y = 1.0f;  c0.z = 0.0f;  c0.w = 0.0f;
     c1.x = 1.0f;  c1.y = 1.0f;  c1.z = 1.0f;  c1.w = 1.0f;
@@ -513,7 +535,7 @@ void Player::Draw()
     SetUseTextureToShader(0, -1);
     SetUseVertexShader(-1);
     SetUsePixelShader(-1);
-    SetUseBackCulling(TRUE);
+    SetUseBackCulling(TRUE);*/
 }
     
 
