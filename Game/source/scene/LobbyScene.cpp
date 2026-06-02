@@ -37,6 +37,11 @@ void LobbyScene::Update()
     if (m_player && m_roofTop)
     {
         m_player->Update(m_collisionManager.get());
+
+        m_roofTop->Update(
+            m_player->GetPosition(),
+            m_player->GetAngle()
+        );
     }
 
     if (m_enemy)

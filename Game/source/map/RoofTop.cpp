@@ -39,8 +39,10 @@ bool RoofTop::Init()
 		return false;
 	}
 
-    m_follower = std::make_unique<Follower>();
-    m_follower->LoadModel();
+    if (m_follower)
+    {
+        m_follower->LoadModel();
+    }
 	return true;
 }
 
