@@ -1,7 +1,5 @@
 #pragma once
 #include <DxLib.h>
-#include <memory>
-#include "object/Door.h"
 
 /**
  * @file RoofTop.h
@@ -31,6 +29,4 @@ public:
 	
 private:
 	int m_modelHandle;				///< 屋上のモデルハンドル
-    int m_itemModelHandle;
-	std::unique_ptr<Door> m_door;	///< ドアのスマートポインタ
 };

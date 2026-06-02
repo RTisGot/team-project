@@ -3,7 +3,6 @@
 
 RoofTop::RoofTop()
 	: m_modelHandle(-1)
-	, m_itemModelHandle(-1)
 	, m_door(std::make_unique<Door>())
 {
 }
@@ -14,9 +13,7 @@ RoofTop::~RoofTop()
 	if (m_modelHandle != -1)
 	{
 		MV1DeleteModel(m_modelHandle);
-        MV1DeleteModel(m_itemModelHandle);
 		m_modelHandle = -1;
-        m_itemModelHandle = -1;
 	}
 }
 
@@ -24,17 +21,9 @@ bool RoofTop::Init()
 {
 	// モデルの読み込み
     m_modelHandle = MV1LoadModel("Game/assets/models/map/RoofTop.mv1");
-	//m_modelHandle = MV1LoadModel("Game/assets/models/map/建物 1 1 1 2 3.fbm/建物 1 1 1 2 3.mv1");
-
-    m_itemModelHandle = MV1LoadModel("Game/assets/models/item/AHOHIRU.mv1");
 	if (m_modelHandle == -1)
 	{
 		return false; // モデルの読み込みに失敗
-	}
-
-	if (m_door && !m_door->Init())
-	{
-		return false;
 	}
 
 	return true;
@@ -42,10 +31,7 @@ bool RoofTop::Init()
 
 void RoofTop::Update(const VECTOR& playerPos)
 {
-	if (m_door)
-	{
-		m_door->Update(playerPos);
-	}
+
 }
 
 void RoofTop::Draw()
@@ -57,13 +43,5 @@ void RoofTop::Draw()
 	else
 	{
 		DrawString(100, 100, "屋上モデルが読み込まれていません", GetColor(255, 0, 0));
-	}
-
-    MV1SetPosition(m_itemModelHandle, VGet(250.0f, 400.0f, 0.0f));
-    MV1DrawModel(m_itemModelHandle);
-
-	if (m_door)
-	{
-		m_door->Draw();
 	}
 }
