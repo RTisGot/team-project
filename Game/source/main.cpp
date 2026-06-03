@@ -1,8 +1,8 @@
 #include "DxLib.h"
 #include "scene/SceneManager.h"
 #include "scene/TitleScene.h"
-#include <memory>
-#include <system/Define.h>
+#include "system/Define.h"
+#include "system/GameTimer.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -33,13 +33,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     SceneManager sceneManager;
     sceneManager.Init(std::make_shared<TitleScene>(&sceneManager));
 
+    // ゲームタイマーの初期化
+    GameTimer gameTimer;
+    gameTimer.Init();
+
     // メインループ
     while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
     {
         ClearDrawScreen();
 
+        // ゲームタイマーの更新
+        gameTimer.Update();
+
+        const float deltaTime = gameTimer.GetDeltaTime();
+
         // 現在のシーンの更新と描画
-        sceneManager.Update();
+        sceneManager.Update(deltaTime);
         sceneManager.Draw();
 
         ScreenFlip();

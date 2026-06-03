@@ -147,6 +147,9 @@
     <ClCompile Include="Game\source\HP\HP.cpp">
       <Filter>ソース ファイル\hp</Filter>
     </ClCompile>
+    <ClCompile Include="Game\source\system\GameTimer.cpp">
+      <Filter>ソース ファイル\system</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\include\player\Player.h">
@@ -220,6 +223,9 @@
     </ClInclude>
     <ClInclude Include="Game\include\HP\HP.h">
       <Filter>ヘッダー ファイル\hp</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\include\system\GameTimer.h">
+      <Filter>ヘッダー ファイル\system</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

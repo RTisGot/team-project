@@ -23,7 +23,7 @@ public:
      * @param initialScene 最初に再生するシーン
      */
     void Init(std::shared_ptr<BaseScene> initialScene);
-    void Update();
+    void Update(float deltaTime);
     void Draw();
 
     /**

@@ -39,6 +39,7 @@
     <ClCompile Include="Game\source\system\camera.cpp" />
     <ClCompile Include="Game\source\system\Config.cpp" />
     <ClCompile Include="Game\source\system\GameData.cpp" />
+    <ClCompile Include="Game\source\system\GameTimer.cpp" />
     <ClCompile Include="Game\source\system\LightManager.cpp" />
     <ClCompile Include="Game\source\ui\UIManager.cpp" />
   </ItemGroup>
@@ -65,6 +66,7 @@
     <ClInclude Include="Game\include\system\Config.h" />
     <ClInclude Include="Game\include\system\Define.h" />
     <ClInclude Include="Game\include\system\GameData.h" />
+    <ClInclude Include="Game\include\system\GameTimer.h" />
     <ClInclude Include="Game\include\system\LightManager.h" />
     <ClInclude Include="Game\include\ui\UIManager.h" />
   </ItemGroup>

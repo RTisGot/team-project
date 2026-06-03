@@ -19,7 +19,7 @@ public:
     ~TitleScene() override = default;
 
     void Init() override;
-    void Update() override;
+    void Update(float deltaTime) override;
     void Draw() override;
     void Loadgraph();
 

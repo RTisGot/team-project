@@ -38,7 +38,6 @@ void StageCollider::ResolveStageCollision(VECTOR& position, float& velocityY, bo
     {
         isGround = false;
     }
-
     // 足元球（段差や低いオブジェクト用）
     VECTOR centerBottom = VAdd(position, VGet(0.0f, radius, 0.0f));
     MV1_COLL_RESULT_POLY_DIM hitBottom = MV1CollCheck_Sphere(m_StageModelHandle, -1, centerBottom, radius);
@@ -65,4 +64,14 @@ void StageCollider::ResolveStageCollision(VECTOR& position, float& velocityY, bo
         }
     }
     MV1CollResultPolyDimTerminate(hitTop);
+
+    // デバッグ
+    DrawFormatString(
+        20,
+        120,
+        GetColor(255, 255, 255),
+        "Hit=%d PosY=%.1f",
+        hitLineFloor.HitFlag,
+        position.y
+    );
 }

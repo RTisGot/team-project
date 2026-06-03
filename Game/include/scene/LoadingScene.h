@@ -13,7 +13,7 @@ public:
         std::shared_ptr<BaseScene> nextScene);
 
     void Init() override;
-    void Update() override;
+    void Update(float deltaTime) override;
     void Draw() override;
 
 private:

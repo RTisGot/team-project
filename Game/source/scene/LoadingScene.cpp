@@ -19,7 +19,7 @@ void LoadingScene::Init()
     m_LogoHandle = LoadGraph("Game/assets/UI/TeamLogo.png");
 }
 
-void LoadingScene::Update()
+void LoadingScene::Update(float deltaTime)
 {
     m_Frame++;
 

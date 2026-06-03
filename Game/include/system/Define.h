@@ -1,11 +1,15 @@
 #ifndef DEF_DEFINE_H
 #define DEF_DEFINE_H
 
-//オブジェクトのジャンプ関連の列挙体
+/**
+ * @file Define.h
+ * @brief ゲーム全体で使用する定数や列挙体の定義
+ */
 
 constexpr int SCREEN_WIDTH = 1280;
 constexpr int SCREEN_HEIGHT = 720;
 
+//オブジェクトのジャンプ関連の列挙体
 typedef enum {
     OBJ_NO_JUMP, //ジャンプしていない
     OBJ_JUMP, //ジャンプ

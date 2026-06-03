@@ -1,11 +1,9 @@
 #include "player/player.h"
 #include <math.h>
-#include<Dxlib.h>
+#include <Dxlib.h>
 #include <cstring>
-#include<vector>
+#include <vector>
 #include <fstream>
-
-#define MOVE_SPEED 10.0f
 
 // ファイルをバイナリとして丸ごとメモリに読み込むヘルパー関数
 static std::vector<char> LoadFileToMemory(const char* filepath)
@@ -33,7 +31,7 @@ Player::Player()
     m_AnimTime = 0.0f;
 
 	// 座標
-	m_Position = VGet(200.0f, 580.0f, 0.0f);
+	m_Position = VGet(300.0f, 580.0f, 0.0f);
 
 	// 向き
 	m_PlayerAngle = 0.0f;
@@ -50,19 +48,28 @@ Player::Player()
     
 	m_CameraDistance = 30.0f; //距離
 
+    m_CameraHeightActual = m_Position.y; //カメラの高さ
+
+    m_CameraTargetActual =
+    {
+        m_Position.x,
+        m_Position.y + 10.0f,
+        m_Position.z
+    };
+
 // マウス感度
 	m_MouseSensitivity = 0.005f;
 
 	// ジャンプ・物理
 	m_VelocityY = 0.0f;		// Y速度
-	m_Gravity = -0.2f;		// 重力
-	m_JumpPower = 3.0f;		// ジャンプ力
+	m_Gravity = -400.0f;		// 重力
+	m_JumpPower = 110.0f;		// ジャンプ力
 	m_IsGround = true;		// 接地フラグ
     m_StunTimer = 0.0f;    //着地硬直時間
     m_PrevJumpKeyState = 0;//ジャンプの前のフレームのキー入力状態(押されているか)
 
 	// ダッシュ関連
-	m_MoveSpeed = 1.0f;
+	m_MoveSpeed = 50.0f;
 	m_DashMultiplier = 2.0f;  // 2倍速
 	m_IsDashing = false;
 
@@ -127,12 +134,15 @@ void Player::LoadModel()
 }
 
 // -----------------更新処理----------------------------------------------
-void Player::Update(CollisionManager* collisionManager)
+void Player::Update(float deltaTime, CollisionManager* collisionManager)
 {
+    // フレームレートが極端に低い場合の補正
+    deltaTime = min(deltaTime, 0.05f);
+
     // 着地硬直の処理
     if (m_StunTimer > 0.0f)
     {
-        m_StunTimer -= 1.0f; // 1
+        m_StunTimer -= deltaTime;
 
     }
 
@@ -169,6 +179,11 @@ void Player::Update(CollisionManager* collisionManager)
 	m_CameraYaw += moveX * m_MouseSensitivity;//横
 	m_CameraPitch += moveY * m_MouseSensitivity;//縦
 
+    // カメラの高さをプレイヤーの高さに近づける
+    float targetY = m_Position.y;
+
+    // 着地硬直中はカメラの高さを少し上げる
+    m_CameraHeightActual += (targetY - m_CameraHeightActual) * 8.0f * deltaTime;
     
 	// カメラ縦回転制限
 	// 真上・真下防止
@@ -178,9 +193,9 @@ void Player::Update(CollisionManager* collisionManager)
 	// カメラ前方向
 	VECTOR forward =
 	{
-		cosf(m_CameraPitch) * sinf(m_CameraYaw),
+		sinf(m_CameraYaw),
 		0.0f,
-		cosf(m_CameraPitch) * cosf(m_CameraYaw)
+		cosf(m_CameraYaw)
 	};
 
 	// カメラ右方向
@@ -279,7 +294,7 @@ void Player::Update(CollisionManager* collisionManager)
         if (m_Modelhandle != -1 && m_AnimAttachIndex != -1)
         {
             // 0.5f ずつ時間を進める
-            m_AnimTime += 0.3f;
+            m_AnimTime += 18.0f * deltaTime;
 
             // アニメーションのループ処理
             if (m_AnimTime >= m_AnimTotalTime)
@@ -291,7 +306,7 @@ void Player::Update(CollisionManager* collisionManager)
             MV1SetAttachAnimTime(m_Modelhandle, m_AnimAttachIndex, m_AnimTime);
         }
         //プレイヤーの位置を更新
-		m_Position = VAdd(m_Position, VScale(move, speed));
+        m_Position = VAdd(m_Position, VScale(move, speed * deltaTime));
 
     
         // プレイヤーの向きを移動方向に合わせる
@@ -302,26 +317,25 @@ void Player::Update(CollisionManager* collisionManager)
         //(DX_PI_F = 180)
         while (diff < -DX_PI_F) diff += DX_PI_F * 2.0f;
         while (diff > DX_PI_F) diff -= DX_PI_F * 2.0f;
-        float rotateSpeed = 0.12f; // 回転速度
+        float rotateSpeed = 5.0f; // 回転速度
 
         // プレイヤーの向きを更新
-        m_PlayerAngle += diff * rotateSpeed;
+        m_PlayerAngle += diff * rotateSpeed * deltaTime;
 
            
 	}
+    constexpr float cameraFollowSpeed = 6.0f;
 
-    m_CameraDistance += (m_TargetCameraDistance - m_CameraDistance) * 0.1f;
-
-	
+    m_CameraDistance += (m_TargetCameraDistance - m_CameraDistance) * cameraFollowSpeed * deltaTime;
 
     //空中かどうか判定
     bool wasGround = m_IsGround;
 
 	//重力
-	m_VelocityY += m_Gravity;
-	m_Position.y += m_VelocityY;
+	m_VelocityY += m_Gravity * deltaTime;
+	m_Position.y += m_VelocityY * deltaTime;
 
-	// 外部マネージャーへ当たり判定を委譲
+    // ステージとの当たり判定
 	if (collisionManager != nullptr)
 	{
 		float halfheight =m_PlayerHeight;
@@ -333,47 +347,47 @@ void Player::Update(CollisionManager* collisionManager)
     // 着地した瞬間の処理(前フレで空中だった場合)
     if (m_IsGround == true && wasGround == false)
     {
-        m_StunTimer = 2.0f;//落下硬直
+        m_StunTimer = 0.05f;//落下硬直
         m_VelocityY = 0.0f;
     }
 
 	// 場外落下時の復帰処理
 	if (m_Position.y <= 0.0f)
 	{
+		m_Position.x = 300.0f;
 		m_Position.y = 580.0f;
-		m_Position.x = 200.0f;
 		m_Position.z = 0.0f;
 		m_VelocityY = 0.0f;
 	}
-
-	
-    
-	// カメラ位置
-	VECTOR cameraPos =
-	{
-		m_Position.x -
-		cosf(m_CameraPitch) *
-		sinf(m_CameraYaw) *
-		m_CameraDistance,
-
-		m_Position.y +
-		sinf(m_CameraPitch) *
-		m_CameraDistance,
-
-		m_Position.z -
-		cosf(m_CameraPitch) *
-		cosf(m_CameraYaw) *
-		m_CameraDistance
-	};
-
-	
-    m_PrevJumpKeyState = currentJumpKeyState;
 
     //キャラの頭上を注視点とす
     VECTOR idealTargetPos = VGet(m_Position.x, m_Position.y + 10.0f, m_Position.z);
 
     //キャラに少し遅れてついてくる
-    m_CameraTargetActual = VAdd(m_CameraTargetActual, VScale(VSub(idealTargetPos, m_CameraTargetActual), 0.80f));
+    constexpr float targetFollowSpeed = 15.0f;
+
+    // カメラの注視点をキャラの頭上に近づける
+    m_CameraTargetActual = VAdd(m_CameraTargetActual, VScale(VSub(idealTargetPos, m_CameraTargetActual), targetFollowSpeed * deltaTime));
+
+    // カメラ位置
+    VECTOR cameraPos =
+    {
+        m_Position.x -
+        cosf(m_CameraPitch) *
+        sinf(m_CameraYaw) *
+        m_CameraDistance,
+
+        m_CameraHeightActual +
+        sinf(m_CameraPitch) *
+        m_CameraDistance,
+
+        m_Position.z -
+        cosf(m_CameraPitch) *
+        cosf(m_CameraYaw) *
+        m_CameraDistance
+    };
+	
+    m_PrevJumpKeyState = currentJumpKeyState;
 
     // カメラ設定
     DxLib::SetCameraPositionAndTarget_UpVecY(cameraPos, m_CameraTargetActual);

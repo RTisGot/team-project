@@ -14,11 +14,11 @@ void SceneManager::Init(std::shared_ptr<BaseScene> initialScene)
     }
 }
 
-void SceneManager::Update()
+void SceneManager::Update(float deltaTime)
 {
     if (m_currentScene)
     {
-        m_currentScene->Update();
+        m_currentScene->Update(deltaTime);
     }
 }
 

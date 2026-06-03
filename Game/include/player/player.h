@@ -26,7 +26,7 @@ public:
     //HPの更新
     HP* GetHP() { return &m_PlayerHP; }
 	// 更新処理
-	void Update(CollisionManager* collisionManager);
+    void Update(float deltaTime, CollisionManager* collisionManager);
 
 	// 描画処理
 	void Draw();
@@ -55,6 +55,7 @@ private:
     float m_BaseCameraDistance; // ホイールで変更する基準のカメラ距離
     VECTOR m_CameraTargetActual; // 実際のカメラ注視点
     int m_LastWheelRot; // マウスホイールの回転量
+    float m_CameraHeightActual; // 実際のカメラの高さ
 
     // 注視点
     VECTOR targetPos =

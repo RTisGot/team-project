@@ -33,12 +33,12 @@ void ExploreScene::Init()
     m_lightManager->Init();
 }
 
-void ExploreScene::Update()
+void ExploreScene::Update(float deltaTime)
 {
     // プレイヤー更新（入力・移動・カメラ更新を含む）
     if (m_player && m_kindergartenMap)
     {
-        m_player->Update(m_collisionManager.get());
+        m_player->Update(deltaTime, m_collisionManager.get());
     }
 
     if (m_enemy)

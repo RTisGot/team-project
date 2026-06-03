@@ -38,12 +38,12 @@ void LobbyScene::Init()
     m_roomMax = VGet(272.0f, 576.0f, -248.0f);
 }
 
-void LobbyScene::Update()
+void LobbyScene::Update(float deltaTime)
 {
     // プレイヤー更新（入力・移動・カメラ更新を含む）
     if (m_player && m_roofTop)
     {
-        m_player->Update(m_collisionManager.get());
+        m_player->Update(deltaTime,m_collisionManager.get());
 
         m_roofTop->Update(
             m_player->GetPosition(),

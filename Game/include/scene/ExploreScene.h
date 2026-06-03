@@ -31,7 +31,7 @@ public:
     ~ExploreScene() override;
 
     void Init() override;
-    void Update() override;
+    void Update(float deltaTime) override;
     void Draw() override;
 
 private:

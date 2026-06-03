@@ -23,6 +23,8 @@ bool RoofTop::Init()
 	// モデルの読み込み
     m_modelHandle = MV1LoadModel("Game/assets/models/map/RoofTop.mv1");
     MV1SetScale(m_modelHandle, VGet(1.6f, 1.6f, 1.6f));
+    MV1SetupCollInfo(m_modelHandle, -1, 8, 8, 8);
+
 	if (m_modelHandle == -1)
 	{
 		return false; // モデルの読み込みに失敗
