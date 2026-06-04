@@ -10,6 +10,7 @@
 #include <memory>
 #include <DxLib.h>
 #include <object/PlayObject.h>
+#include <ui/UIManager.h>
 
 /**
  * @file ExploreScene.h
@@ -44,6 +45,7 @@ private:
     std::unique_ptr<LightManager> m_lightManager; ///< ライトマネージャー
     std::unique_ptr<Enemy> m_enemy; ///< 敵インスタンス
     std::unique_ptr<PlayObject> m_playObject; ///< 遊具インスタンス
+    std::unique_ptr<UIManager> m_UIManager; ///< UIマネージャー
 };
 
 #endif // DEF_EXPLORESCENE_H

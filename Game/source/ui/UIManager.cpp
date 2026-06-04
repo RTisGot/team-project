@@ -2,21 +2,31 @@
 #include "../../include/ui/UIManager.h"
 #include "../../include/player/Player.h"
 #include "../../include/HP/HP.h" // HPクラスの関数を呼ぶのでインクルード
+#include <system/Define.h>
 
 UIManager::UIManager()
 {
     m_UIBGHandle = -1;
     m_UIBarHandle = -1;
+    m_SkillUIHandle = -1;
 }
 
 void UIManager::LoadResources()
 {
     m_UIBGHandle = LoadGraph("Game/assets/ui/ui_bg.png");
     m_UIBarHandle = LoadGraph("Game/assets/ui/ui_bar.png");
+    m_SkillUIHandle = LoadGraph("Game/assets/ui/skill_ui.png");
 }
 
 void UIManager::Draw(Player* player)
 {
+
+    // 左下スキルUI
+    if (m_SkillUIHandle != -1)
+    {
+        DrawGraph(10,580,m_SkillUIHandle,TRUE);
+    }
+
     //playerを取得できなかったら返す
     if (player == nullptr) return;
 
@@ -27,8 +37,8 @@ void UIManager::Draw(Player* player)
 
   
     // HPゲージとテキスト表記の描画
-    int sx = 80;
-    int sy = 600;
+    int sx = 960;
+    int sy = 670;
     int w = 300;
     int h = 20;
 

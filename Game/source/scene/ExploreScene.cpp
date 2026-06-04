@@ -34,6 +34,9 @@ void ExploreScene::Init()
     // ライトマネージャーの生成と初期化
     m_lightManager = std::make_unique<LightManager>();
     m_lightManager->Init();
+
+        m_UIManager = std::make_unique<UIManager>();
+        m_UIManager->LoadResources();
 }
 
 void ExploreScene::Update(float deltaTime)
@@ -84,6 +87,11 @@ void ExploreScene::Draw()
     {
         m_enemy->Draw();
     }
+
+    if(m_UIManager)
+    {
+        m_UIManager->Draw(m_player.get());
+    }  
 
     DrawString(
         10,
