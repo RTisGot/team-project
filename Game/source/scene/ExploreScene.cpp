@@ -18,6 +18,9 @@ void ExploreScene::Init()
     m_kindergartenMap = std::make_unique<KindergartenMap>();
     m_kindergartenMap->Init();
 
+    m_playObject = std::make_unique<PlayObject>();
+    m_playObject->Init();
+
     // プレイヤーの生成
     m_player = std::make_unique<Player>();
 
@@ -51,6 +54,11 @@ void ExploreScene::Update(float deltaTime)
     {
         m_kindergartenMap->Update();
     }
+
+    if (m_playObject)
+    {
+        m_playObject->Update();
+    }
 }
 
 void ExploreScene::Draw()
@@ -58,6 +66,11 @@ void ExploreScene::Draw()
     if (m_kindergartenMap)
     {
         m_kindergartenMap->Draw();
+    }
+
+    if (m_playObject)
+    {
+        m_playObject->Draw();
     }
 
     // プレイヤー描画
@@ -77,4 +90,19 @@ void ExploreScene::Draw()
         10,
         "Explore Scene",
         GetColor(255, 255, 255));
+
+    // プレイヤー座標を取得して表示
+    VECTOR playerPos = { 0.0f, 0.0f, 0.0f };
+    if (m_player)
+    {
+        playerPos = m_player->GetPosition();
+    }
+    DrawFormatString(
+        10,
+        100,
+        GetColor(255, 255, 255),
+        "Player Pos : %.1f %.1f %.1f",
+        playerPos.x,
+        playerPos.y,
+        playerPos.z);
 }

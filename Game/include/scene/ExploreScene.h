@@ -9,6 +9,7 @@
 #include "Collision/CollisionManager.h"
 #include <memory>
 #include <DxLib.h>
+#include <object/PlayObject.h>
 
 /**
  * @file ExploreScene.h
@@ -42,6 +43,7 @@ private:
     std::unique_ptr<KindergartenMap> m_kindergartenMap; ///< 保育園マップインスタンス
     std::unique_ptr<LightManager> m_lightManager; ///< ライトマネージャー
     std::unique_ptr<Enemy> m_enemy; ///< 敵インスタンス
+    std::unique_ptr<PlayObject> m_playObject; ///< 遊具インスタンス
 };
 
 #endif // DEF_EXPLORESCENE_H
