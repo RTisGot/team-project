@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DEF_LOADINGSCENE_H
+#define DEF_LOADINGSCENE_H
 
 #include "scene/BaseScene.h"
 #include <memory>
@@ -24,3 +25,5 @@ private:
     int m_LogoHandle;
     int m_Frame;
 };
+
+#endif // DEF_LOADINGSCENE_H

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DEF_TITLESCENE_H
+#define DEF_TITLESCENE_H
 #include "scene/BaseScene.h"
 #include "scene/SceneManager.h"
 
@@ -42,3 +43,5 @@ private:
     int m_Timer;           // ロゴ用のタイマー
     float m_Alpha;         // ロゴの不透明度
 };
+
+#endif // DEF_TITLESCENE_H

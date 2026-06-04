@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DEF_GAMETIMER_H
+#define DEF_GAMETIMER_H
 
 /**
  * @file GameTimer.h
@@ -23,3 +24,5 @@ private:
 
     float m_FPS = 60.0f;
 };
+
+#endif // DEF_GAMETIMER_H

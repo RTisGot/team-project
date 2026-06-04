@@ -1,5 +1,6 @@
-#pragma once
-#pragma once
+#ifndef DEF_LOBBYSCENE_H
+#define DEF_LOBBYSCENE_H
+
 #include "scene/BaseScene.h"
 #include "scene/SceneManager.h"
 #include "player/Player.h"
@@ -44,3 +45,5 @@ private:
     std::unique_ptr<RoofTop> m_roofTop; ///< 屋上インスタンス
     std::unique_ptr<LightManager> m_lightManager; ///< ライトマネージャー
 };
+
+#endif // DEF_LOBBYSCENE_H

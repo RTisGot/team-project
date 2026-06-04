@@ -1,1 +1,5 @@
-#pragma once
+#ifndef DEF_AUDIOMANAGER_H
+#define DEF_AUDIOMANAGER_H
+
+
+#endif // DEF_AUDIOMANAGER_H

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DEF_LIGHTMANAGER_H
+#define DEF_LIGHTMANAGER_H
 
 /**
  * @file LightManager.h
@@ -19,3 +20,5 @@ public:
 private:
 	int m_sunLightHandle; // 太陽光のライトハンドル
 };
+
+#endif // DEF_LIGHTMANAGER_H

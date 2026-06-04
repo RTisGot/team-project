@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DEF_SHIPMAP_H
+#define DEF_SHIPMAP_H
 
 #include <DxLib.h>
 
@@ -37,3 +38,5 @@ private:
     int m_modelHandle; ///< 船マップモデル
     VECTOR m_scale;
 };
+
+#endif // DEF_SHIPMAP_H

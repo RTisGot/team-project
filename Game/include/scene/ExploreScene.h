@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DEF_EXPLORESCENE_H
+#define DEF_EXPLORESCENE_H
 #include "scene/BaseScene.h"
 #include "scene/SceneManager.h"
 #include "player/Player.h"
@@ -42,3 +43,5 @@ private:
     std::unique_ptr<LightManager> m_lightManager; ///< ライトマネージャー
     std::unique_ptr<Enemy> m_enemy; ///< 敵インスタンス
 };
+
+#endif // DEF_EXPLORESCENE_H

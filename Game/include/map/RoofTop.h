@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DEF_ROOF_TOP_H
+#define DEF_ROOF_TOP_H
 #include <DxLib.h>
 #include <memory>
 #include <follower/follower.h>
@@ -36,3 +37,5 @@ private:
     // お供キャラクター
     std::unique_ptr<Follower> m_follower;
 };
+
+#endif // DEF_ROOF_TOP_H
