@@ -162,6 +162,12 @@
     <ClCompile Include="Game\source\item\OrbActor.cpp">
       <Filter>ソース ファイル\item</Filter>
     </ClCompile>
+    <ClCompile Include="Game\source\item\OrbManager.cpp">
+      <Filter>ソース ファイル\item</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\source\item\OrbLoader.cpp">
+      <Filter>ソース ファイル\item</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\include\player\Player.h">
@@ -246,6 +252,12 @@
       <Filter>ヘッダー ファイル\item</Filter>
     </ClInclude>
     <ClInclude Include="Game\include\item\OrbActor.h">
+      <Filter>ヘッダー ファイル\item</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\include\item\OrbManager.h">
+      <Filter>ヘッダー ファイル\item</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\include\item\OrbLoader.h">
       <Filter>ヘッダー ファイル\item</Filter>
     </ClInclude>
   </ItemGroup>

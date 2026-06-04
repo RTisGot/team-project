@@ -11,16 +11,16 @@ class OrbActor
 {
 public:
     OrbActor();
-    ~OrbActor() = default;
+    ~OrbActor();
 
     /**
      * @brief 初期化
      * @param id オーブの識別子
      * @param position オーブの初期位置
      */
-    bool Init(uint32_t id, const VECTOR& position);
+    bool Init(uint32_t id, const VECTOR& position, int modelHandle);
 
-    void Update(Player* player);
+    void Update();
     void Draw() const;
 
     /**
@@ -48,6 +48,9 @@ public:
 
     // オーブが収集されたかどうかを取得する
     bool IsCollected() const;
+
+    // オーブの位置を取得する
+    const VECTOR& GetPosition() const;
 
 private:
     OrbData m_Data; // オーブのデータ

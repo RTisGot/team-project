@@ -26,6 +26,8 @@
     <ClCompile Include="Game\source\follower\follower.cpp" />
     <ClCompile Include="Game\source\HP\HP.cpp" />
     <ClCompile Include="Game\source\item\OrbActor.cpp" />
+    <ClCompile Include="Game\source\item\OrbLoader.cpp" />
+    <ClCompile Include="Game\source\item\OrbManager.cpp" />
     <ClCompile Include="Game\source\main.cpp" />
     <ClCompile Include="Game\source\map\KindergartenMap.cpp" />
     <ClCompile Include="Game\source\map\PlayEquipment.cpp" />
@@ -54,6 +56,8 @@
     <ClInclude Include="Game\include\HP\HP.h" />
     <ClInclude Include="Game\include\item\OrbActor.h" />
     <ClInclude Include="Game\include\item\OrbData.h" />
+    <ClInclude Include="Game\include\item\OrbLoader.h" />
+    <ClInclude Include="Game\include\item\OrbManager.h" />
     <ClInclude Include="Game\include\map\KindergartenMap.h" />
     <ClInclude Include="Game\include\map\PlayEquipment.h" />
     <ClInclude Include="Game\include\map\RoofTop.h" />

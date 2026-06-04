@@ -1,5 +1,6 @@
 #include "map/RoofTop.h"
 #include "follower/follower.h"
+#include "item/OrbLoader.h"
 #include <DxLib.h>
 
 RoofTop::RoofTop()
