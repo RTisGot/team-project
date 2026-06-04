@@ -57,7 +57,7 @@ Player::Player()
         m_Position.z
     };
 
-// マウス感度
+    // マウス感度
 	m_MouseSensitivity = 0.005f;
 
 	// ジャンプ・物理
