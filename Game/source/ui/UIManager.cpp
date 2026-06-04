@@ -9,6 +9,11 @@ UIManager::UIManager()
     m_UIBGHandle = -1;
     m_UIBarHandle = -1;
     m_SkillUIHandle = -1;
+        for (int i = 0; i < 4; ++i)
+        {
+            m_CookieHandle[i] = -1;
+        }
+        m_SkillCount = 0;
 }
 
 void UIManager::LoadResources()
@@ -16,6 +21,13 @@ void UIManager::LoadResources()
     m_UIBGHandle = LoadGraph("Game/assets/ui/ui_bg.png");
     m_UIBarHandle = LoadGraph("Game/assets/ui/ui_bar.png");
     m_SkillUIHandle = LoadGraph("Game/assets/ui/skill_ui.png");
+
+    m_CookieHandle[0] = LoadGraph("Game/assets/ui/cookie_0.png");
+    m_CookieHandle[1] = LoadGraph("Game/assets/ui/cookie_1.png");
+    m_CookieHandle[2] = LoadGraph("Game/assets/ui/cookie_2.png");
+    m_CookieHandle[3] = LoadGraph("Game/assets/ui/cookie_3.png");
+
+    m_SkillCount = 3;
 }
 
 void UIManager::Draw(Player* player)
@@ -25,6 +37,13 @@ void UIManager::Draw(Player* player)
     if (m_SkillUIHandle != -1)
     {
         DrawGraph(10,580,m_SkillUIHandle,TRUE);
+        // クッキーアイコンの描画
+        if (m_CookieHandle[0] != -1)
+        {
+            int cookieX = 120; // クッキーアイコンのX座標
+            int cookieY = 620; // クッキーアイコンのY座標
+            DrawGraph(cookieX, cookieY, m_CookieHandle[m_SkillCount], TRUE);
+        }
     }
 
     //playerを取得できなかったら返す
