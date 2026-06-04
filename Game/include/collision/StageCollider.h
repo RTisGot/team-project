@@ -1,4 +1,6 @@
-#pragma once
+#ifndef DEF_STAGECOLLIDER_H
+#define DEF_STAGECOLLIDER_H
+
 #include <DxLib.h>
 
 /**
@@ -46,3 +48,5 @@ public:
 private:
     int m_StageModelHandle; ///< ステージモデルのハンドル
 };
+
+#endif // DEF_STAGECOLLIDER_H

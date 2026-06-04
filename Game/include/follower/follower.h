@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DEF_FOLLOWER_H
+#define DEF_FOLLOWER_H
 
 #include <DxLib.h>
 
@@ -25,3 +26,5 @@ private:
     float m_Angle;
     float m_TargetAngle;
 };
+
+#endif // DEF_FOLLOWER_H

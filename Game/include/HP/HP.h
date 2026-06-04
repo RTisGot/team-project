@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DEF_HP_H
+#define DEF_HP_H
 //キャラクターの体力管理
 
 //前方宣言
@@ -23,3 +24,5 @@ public:
     float GetMaxHP() const { return m_MAXHP; }
     float GetDisplayHP() const { return m_DisplayHP; }
 };
+
+#endif // DEF_HP_H

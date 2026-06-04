@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DEF_GAMEDATA_H
+#define DEF_GAMEDATA_H
 /**
  * @file GameData.h
  * @brief ゲーム全体で使用するデータや定数の定義
@@ -26,3 +27,5 @@ public:
     //TODO: 今後正式に仕様が決まったらMapやお供など追加予定
 
 };
+
+#endif // DEF_GAMEDATA_H

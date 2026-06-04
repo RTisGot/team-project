@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DEF_BASESCENE_H
+#define DEF_BASESCENE_H
 
 /**
 * @file BaseScene.h
@@ -19,3 +20,5 @@ public:
 	virtual void Update(float deltaTime) = 0;
 	virtual void Draw() = 0;
 };
+
+#endif // DEF_BASESCENE_H

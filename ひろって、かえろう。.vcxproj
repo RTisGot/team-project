@@ -27,6 +27,7 @@
     <ClCompile Include="Game\source\HP\HP.cpp" />
     <ClCompile Include="Game\source\main.cpp" />
     <ClCompile Include="Game\source\map\KindergartenMap.cpp" />
+    <ClCompile Include="Game\source\map\PlayEquipment.cpp" />
     <ClCompile Include="Game\source\map\RoofTop.cpp" />
     <ClCompile Include="Game\source\map\ShipMap.cpp" />
     <ClCompile Include="Game\source\object\Door.cpp" />
@@ -51,6 +52,7 @@
     <ClInclude Include="Game\include\follower\follower.h" />
     <ClInclude Include="Game\include\HP\HP.h" />
     <ClInclude Include="Game\include\map\KindergartenMap.h" />
+    <ClInclude Include="Game\include\map\PlayEquipment.h" />
     <ClInclude Include="Game\include\map\RoofTop.h" />
     <ClInclude Include="Game\include\map\ShipMap.h" />
     <ClInclude Include="Game\include\object\Door.h" />

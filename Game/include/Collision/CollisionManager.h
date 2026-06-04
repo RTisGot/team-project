@@ -1,4 +1,6 @@
-#pragma once
+#ifndef DEF_COLLISIONMANAGER_H
+#define DEF_COLLISIONMANAGER_H
+
 #include <vector>
 #include <memory>
 #include <DxLib.h>
@@ -27,3 +29,5 @@ public:
 private:
     std::unique_ptr<StageCollider> m_stageCollider; ///< ステージコライダー
 };
+
+#endif // DEF_COLLISIONMANAGER_H

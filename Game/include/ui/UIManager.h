@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DEF_UIMANAGER_H
+#define DEF_UIMANAGER_H
 
 //UIを管理するクラス
 class Player;  //前方宣言
@@ -14,3 +15,5 @@ public:
     void LoadResources(); //UIのリソースを読み込む関数
     void Draw(Player* player); //UIの描画処理
 };
+
+#endif // DEF_UIMANAGER_H

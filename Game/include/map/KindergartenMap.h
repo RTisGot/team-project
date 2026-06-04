@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DEF_KINDERGARTENMAP_H
+#define DEF_KINDERGARTENMAP_H
 
 #include <DxLib.h>
 
@@ -23,3 +24,5 @@ public:
 private:
     int m_modelHandle;    ///< 保育園マップモデル
 };
+
+#endif // DEF_KINDERGARTENMAP_H

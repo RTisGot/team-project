@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DEF_SCENEMANAGER_H
+#define DEF_SCENEMANAGER_H
 #include <memory>
 #include "BaseScene.h"
 
@@ -36,3 +37,4 @@ private:
     std::shared_ptr<BaseScene> m_currentScene; ///< 現在のシーン
 };
 
+#endif // DEF_SCENEMANAGER_H
