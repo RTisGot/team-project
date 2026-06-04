@@ -30,10 +30,10 @@
     <ClCompile Include="Game\source\item\OrbManager.cpp" />
     <ClCompile Include="Game\source\main.cpp" />
     <ClCompile Include="Game\source\map\KindergartenMap.cpp" />
-    <ClCompile Include="Game\source\map\PlayEquipment.cpp" />
     <ClCompile Include="Game\source\map\RoofTop.cpp" />
     <ClCompile Include="Game\source\map\ShipMap.cpp" />
     <ClCompile Include="Game\source\object\Door.cpp" />
+    <ClCompile Include="Game\source\object\PlayObject.cpp" />
     <ClCompile Include="Game\source\player\Player.cpp" />
     <ClCompile Include="Game\source\scene\ExploreScene.cpp" />
     <ClCompile Include="Game\source\scene\LoadingScene.cpp" />
@@ -59,11 +59,11 @@
     <ClInclude Include="Game\include\item\OrbLoader.h" />
     <ClInclude Include="Game\include\item\OrbManager.h" />
     <ClInclude Include="Game\include\map\KindergartenMap.h" />
-    <ClInclude Include="Game\include\map\PlayEquipment.h" />
     <ClInclude Include="Game\include\map\RoofTop.h" />
     <ClInclude Include="Game\include\map\ShipMap.h" />
     <ClInclude Include="Game\include\object\Door.h" />
     <ClInclude Include="Game\include\object\GameObject.h" />
+    <ClInclude Include="Game\include\object\PlayObject.h" />
     <ClInclude Include="Game\include\player\Player.h" />
     <ClInclude Include="Game\include\scene\BaseScene.h" />
     <ClInclude Include="Game\include\scene\ExploreScene.h" />

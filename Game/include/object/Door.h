@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DEF_DOOR_H
+#define DEF_DOOR_H
 #include <DxLib.h>
 
 /**
@@ -42,3 +43,5 @@ private:
 	VECTOR m_interactionPos;	///< ドアとプレイヤーのインタラクション位置
 	float m_interactionRadius;	///< ドアとプレイヤーのインタラクション半径
 };
+
+#endif // DEF_DOOR_H
