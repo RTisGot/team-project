@@ -24,6 +24,7 @@ public:
     /**
      * @brief 更新処理
      * @param playerPos プレイヤーの座標
+     * @param playerAngle プレイヤーの向き
      */
     void Update(const VECTOR& playerPos, float playerAngle);
 
@@ -32,7 +33,7 @@ public:
     int GetModelHandle() const { return m_modelHandle; }
 
 private:
-    int m_modelHandle;              ///< 屋上のモデルハンドル
+    int m_modelHandle;  // 屋上のモデルハンドル
 
     // お供キャラクター
     std::unique_ptr<Follower> m_follower;

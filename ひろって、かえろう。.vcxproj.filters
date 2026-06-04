@@ -79,6 +79,12 @@
     <Filter Include="ソース ファイル\hp">
       <UniqueIdentifier>{1023fa51-aaa2-4a64-beb8-8153c2fb41c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\item">
+      <UniqueIdentifier>{937c0b8c-baba-43b6-b7f5-d90807b95467}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\item">
+      <UniqueIdentifier>{786fa638-df4e-47e1-bce3-30152c06d53c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\source\main.cpp">
@@ -149,6 +155,12 @@
     </ClCompile>
     <ClCompile Include="Game\source\system\GameTimer.cpp">
       <Filter>ソース ファイル\system</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\source\map\PlayEquipment.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\source\item\OrbActor.cpp">
+      <Filter>ソース ファイル\item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -226,6 +238,15 @@
     </ClInclude>
     <ClInclude Include="Game\include\system\GameTimer.h">
       <Filter>ヘッダー ファイル\system</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\include\map\PlayEquipment.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\include\item\OrbData.h">
+      <Filter>ヘッダー ファイル\item</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\include\item\OrbActor.h">
+      <Filter>ヘッダー ファイル\item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
