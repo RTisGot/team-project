@@ -18,7 +18,17 @@ KindergartenMap::~KindergartenMap()
 bool KindergartenMap::Init()
 {
     m_modelHandle =
-        MV1LoadModel("Game/assets/models/map/Kindergarten.fbm/KindergartenMap.mv1");
+        MV1LoadModel("Game/assets/models/map/Kindergarten.fbm/建物 1 1 1 2 3 (1).mv1");
+
+    // モデルのスケーリング
+    if (m_modelHandle != -1)
+    {
+        MV1SetScale(
+            m_modelHandle,
+            VGet(0.01f, 0.01f, 0.01f));
+    }
+
+    // モデルの読み込みに失敗した場合はエラーメッセージを出力
 
     if (m_modelHandle == -1)
     {

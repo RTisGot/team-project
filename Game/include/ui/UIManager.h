@@ -11,7 +11,7 @@ private:
     int m_UIBarHandle;//UIのバー画像のハンドル
     int m_SkillUIHandle; //スキルUIのハンドル
     int m_CookieHandle[4];
-
+    int m_CookieCount[3];
     int m_SkillCount;
 public:
     UIManager();

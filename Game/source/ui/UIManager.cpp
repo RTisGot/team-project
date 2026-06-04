@@ -13,6 +13,10 @@ UIManager::UIManager()
         {
             m_CookieHandle[i] = -1;
         }
+        for (int i = 0; i < 3; ++i)
+        {
+            m_CookieCount[i] = 0;
+        }
         m_SkillCount = 0;
 }
 
@@ -36,13 +40,22 @@ void UIManager::Draw(Player* player)
     // 左下スキルUI
     if (m_SkillUIHandle != -1)
     {
-        DrawGraph(10,580,m_SkillUIHandle,TRUE);
+        DrawGraph(10, 580, m_SkillUIHandle, TRUE);
         // クッキーアイコンの描画
         if (m_CookieHandle[0] != -1)
         {
-            int cookieX = 120; // クッキーアイコンのX座標
-            int cookieY = 620; // クッキーアイコンのY座標
-            DrawGraph(cookieX, cookieY, m_CookieHandle[m_SkillCount], TRUE);
+            const int cookieY = 620;
+            const int startX = 120;
+            const int spaceX = 50;
+
+            for (int i = 0; i < 3; i++)
+            {
+                DrawGraph(
+                    startX + (spaceX * i),
+                    cookieY,
+                    m_CookieHandle[m_CookieCount[i]],
+                    TRUE);
+            }
         }
     }
 
@@ -54,24 +67,51 @@ void UIManager::Draw(Player* player)
     //HPコンポーネントを取得できなかったら返す
     if (hpComp == nullptr) return;
 
-  
-    // HPゲージとテキスト表記の描画
-    int sx = 960;
-    int sy = 670;
-    int w = 300;
-    int h = 20;
+    const int hpBlockMax = 5;
 
-    // 背景バー
-    if (m_UIBGHandle != -1) DrawGraph(sx, sy, m_UIBGHandle, TRUE);
+    float hpRatio =
+        hpComp->GetHP() / hpComp->GetMaxHP();
 
-    // 遅れて減る白いゲージ（DisplayHP）
-    float displayRatio = hpComp->GetHP() / hpComp->GetMaxHP();
-    DrawRectGraph(sx, sy, 0, 0, (int)(w * displayRatio), h, m_UIBarHandle, TRUE); // 本来は白いバー画像
+    int currentBlock =
+        static_cast<int>(hpRatio * hpBlockMax + 0.5f);
 
-    // 現在の緑ゲージ（HP）
-    float hpRatio = hpComp->GetHP() / hpComp->GetMaxHP();
-    DrawRectGraph(sx, sy, 0, 0, (int)(w * hpRatio), h, m_UIBarHandle, TRUE);
+    const int hpBoxSize = 25;
+    const int hpSpace = 5;
 
-    
-    DrawFormatString(sx + 10, sy + 2, GetColor(255, 255, 255), "%d / %d", (int)hpComp->GetHP(), (int)hpComp->GetMaxHP());
+    for (int i = 0; i < hpBlockMax; i++)
+    {
+        int x = 1050 + i * (hpBoxSize + hpSpace);
+        int y = 650;
+
+        if (i < currentBlock)
+        {
+            DrawBox(
+                x,
+                y,
+                x + hpBoxSize,
+                y + hpBoxSize,
+                GetColor(0, 255, 0),
+                TRUE);
+        }
+        else
+        {
+            DrawBox(
+                x,
+                y,
+                x + hpBoxSize,
+                y + hpBoxSize,
+                GetColor(80, 80, 80),
+                TRUE);
+        }
+
+        // 枠
+        DrawBox(
+            x,
+            y,
+            x + hpBoxSize,
+            y + hpBoxSize,
+            GetColor(255, 255, 255),
+            FALSE);
+    }
 }
+
