@@ -1,4 +1,6 @@
 #include "player/player.h"
+#include "item/OrbManager.h"
+#include "item/OrbActor.h"
 #include <math.h>
 #include <Dxlib.h>
 #include <cstring>
@@ -40,7 +42,7 @@ Player::Player()
     SetGlobalAmbientLight(GetColorF(1.0f, 1.0f, 1.0f, 1.0f));
     SetMaterialUseVertDifColor(FALSE);
 
-// カメラ制御
+    // カメラ制御
 	m_CameraYaw = 0.0f; //横回転
 	m_CameraPitch = 0.3f;//縦回転
     m_TargetCameraDistance = 30.0f;//通常時のキャラとカメラの距離
@@ -73,17 +75,19 @@ Player::Player()
 	m_DashMultiplier = 2.0f;  // 2倍速
 	m_IsDashing = false;
 
-    //ホイールの回転量を初期化
+    // ホイールの回転量を初期化
     m_LastWheelRot = 0;
-
    
-    //shaderのハンドルを初期化
+    // shaderのハンドルを初期化
     m_VSHandle = -1;
     m_PSHandle = -1;
     m_OutlineVSHandle = -1;
     m_OutlinePSHandle = -1;
     m_CBufferHandle = -1;
     LoadModel();
+
+    // アイテム関係
+    m_OrbManager = nullptr;
 }
 
 
@@ -146,17 +150,17 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
 
     }
 
-	// 画面サイズ
-	int screenX;
-	int screenY;
+    // 画面サイズ
+    int screenX;
+    int screenY;
 
-	GetDrawScreenSize(&screenX, &screenY);
+    GetDrawScreenSize(&screenX, &screenY);
 
-	// マウス座標取得
-	int mouseX;
-	int mouseY;
+    // マウス座標取得
+    int mouseX;
+    int mouseY;
 
-	GetMousePoint(&mouseX, &mouseY);
+    GetMousePoint(&mouseX, &mouseY);
 
     //マウスホイールの回転量を取得
     m_LastWheelRot = GetMouseWheelRotVol();
@@ -164,133 +168,133 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
     // ジャンプキーの状態を取得
     int currentJumpKeyState = CheckHitKey(KEY_INPUT_SPACE);
 
-	// 画面中央
-	int centerX = screenX / 2;
-	int centerY = screenY / 2;
+    // 画面中央
+    int centerX = screenX / 2;
+    int centerY = screenY / 2;
 
-	// マウス移動量
-	int moveX = mouseX - centerX;
-	int moveY = mouseY - centerY;
+    // マウス移動量
+    int moveX = mouseX - centerX;
+    int moveY = mouseY - centerY;
 
-	// マウスを中央へ戻す
-	SetMousePoint(centerX, centerY);
+    // マウスを中央へ戻す
+    SetMousePoint(centerX, centerY);
 
     // カメラ回転
-	m_CameraYaw += moveX * m_MouseSensitivity;//横
-	m_CameraPitch += moveY * m_MouseSensitivity;//縦
+    m_CameraYaw += moveX * m_MouseSensitivity;//横
+    m_CameraPitch += moveY * m_MouseSensitivity;//縦
 
     // カメラの高さをプレイヤーの高さに近づける
     float targetY = m_Position.y;
 
     // 着地硬直中はカメラの高さを少し上げる
     m_CameraHeightActual += (targetY - m_CameraHeightActual) * 8.0f * deltaTime;
-    
-	// カメラ縦回転制限
-	// 真上・真下防止
-	if (m_CameraPitch > 1.0f)m_CameraPitch = 1.0f;
-	if (m_CameraPitch < -1.0f)	m_CameraPitch = -1.0f;
 
-	// カメラ前方向
-	VECTOR forward =
-	{
-		sinf(m_CameraYaw),
-		0.0f,
-		cosf(m_CameraYaw)
-	};
+    // カメラ縦回転制限
+    // 真上・真下防止
+    if (m_CameraPitch > 1.0f)m_CameraPitch = 1.0f;
+    if (m_CameraPitch < -1.0f)	m_CameraPitch = -1.0f;
 
-	// カメラ右方向
-	VECTOR right =
-	{
-		cosf(m_CameraYaw),
-		0.0f,
-		-sinf(m_CameraYaw)
-	};
+    // カメラ前方向
+    VECTOR forward =
+    {
+        sinf(m_CameraYaw),
+        0.0f,
+        cosf(m_CameraYaw)
+    };
 
-	// 入力方向
-	VECTOR move = VGet(0.0f, 0.0f, 0.0f);
-   
-        if (CheckHitKey(KEY_INPUT_W))move = VAdd(move, forward);//前進
-        if (CheckHitKey(KEY_INPUT_S))move = VSub(move, forward);//後退
-        if (CheckHitKey(KEY_INPUT_D))move = VAdd(move, right);//右
-        if (CheckHitKey(KEY_INPUT_A))move = VSub(move, right);//左
-    
+    // カメラ右方向
+    VECTOR right =
+    {
+        cosf(m_CameraYaw),
+        0.0f,
+        -sinf(m_CameraYaw)
+    };
 
-        if (m_StunTimer > 0.0f)
+    // 入力方向
+    VECTOR move = VGet(0.0f, 0.0f, 0.0f);
+
+    if (CheckHitKey(KEY_INPUT_W))move = VAdd(move, forward);//前進
+    if (CheckHitKey(KEY_INPUT_S))move = VSub(move, forward);//後退
+    if (CheckHitKey(KEY_INPUT_D))move = VAdd(move, right);//右
+    if (CheckHitKey(KEY_INPUT_A))move = VSub(move, right);//左
+
+
+    if (m_StunTimer > 0.0f)
+    {
+        move = VGet(0.0f, 0.0f, 0.0f); // W/A/S/Dを押していても、移動方向を強制的にリセット
+    }
+    else
+    {
+        //ジャンプキーの状態を取得
+        int currentJumpKeyState = CheckHitKey(KEY_INPUT_SPACE);
+        // ジャンプの入力があった場合、前のフレームでは押されていなかった場合にジャンプ処理を行う
+        if (currentJumpKeyState == 1 && m_PrevJumpKeyState == 0)
         {
-            move = VGet(0.0f, 0.0f, 0.0f); // W/A/S/Dを押していても、移動方向を強制的にリセット
-        }
-        else
-        {
-           //ジャンプキーの状態を取得
-            int currentJumpKeyState = CheckHitKey(KEY_INPUT_SPACE);
-            // ジャンプの入力があった場合、前のフレームでは押されていなかった場合にジャンプ処理を行う
-            if (currentJumpKeyState == 1 && m_PrevJumpKeyState == 0)
+            if (m_IsGround)
             {
-                if (m_IsGround)
-                {
-                    m_VelocityY = m_JumpPower;
-                    m_IsGround = false;
-                }
+                m_VelocityY = m_JumpPower;
+                m_IsGround = false;
             }
         }
+    }
 
-   
-	/*// 上昇
-	if (CheckHitKey(KEY_INPUT_E))
-	{
-		move.y += 1.0f;
-	}
 
-	// 下降
-	if (CheckHitKey(KEY_INPUT_Q))
-	{
-		move.y -= 1.0f;
-	}
+    /*// 上昇
+    if (CheckHitKey(KEY_INPUT_E))
+    {
+        move.y += 1.0f;
+    }
+
+    // 下降
+    if (CheckHitKey(KEY_INPUT_Q))
+    {
+        move.y -= 1.0f;
+    }
     */
 
-   
+
 
     // ホイールでカメラ距離を変更
     if (m_LastWheelRot != 0)
     {
         m_BaseCameraDistance -= m_LastWheelRot * 1.5f;// ホイールの回転量に応じて基準距離を変更
     }
-        // カメラ距離の制限
-        if (m_BaseCameraDistance < 15.0f)  m_BaseCameraDistance = 15.0f;  // 最短距離
-        if (m_BaseCameraDistance > 60.0f) m_BaseCameraDistance = 60.0f; // 最長距離
-    
-        // ダッシュ入力
-        if (CheckHitKey(KEY_INPUT_LSHIFT))
-        {
-            m_IsDashing = true;
-        }
-        else
-        {
-            m_IsDashing = false;
-        }
+    // カメラ距離の制限
+    if (m_BaseCameraDistance < 15.0f)  m_BaseCameraDistance = 15.0f;  // 最短距離
+    if (m_BaseCameraDistance > 60.0f) m_BaseCameraDistance = 60.0f; // 最長距離
 
-	// プレイヤー移動
-	if (VSize(move) > 0.0f)
-	{
-		// 正規化
-		move = VNorm(move);
+    // ダッシュ入力
+    if (CheckHitKey(KEY_INPUT_LSHIFT))
+    {
+        m_IsDashing = true;
+    }
+    else
+    {
+        m_IsDashing = false;
+    }
 
-		// 移動
-		float speed = m_MoveSpeed;
+    // プレイヤー移動
+    if (VSize(move) > 0.0f)
+    {
+        // 正規化
+        move = VNorm(move);
+
+        // 移動
+        float speed = m_MoveSpeed;
 
         //ダッシュ中の速度管理
-		if (m_IsDashing)
-		{
-			speed *= m_DashMultiplier;
+        if (m_IsDashing)
+        {
+            speed *= m_DashMultiplier;
             m_TargetCameraDistance = m_BaseCameraDistance + 10.0f; //ダッシュ中のカメラ距離
-		}
+        }
         else
         {
             m_TargetCameraDistance = m_BaseCameraDistance; //通常時のカメラ距離
         }
 
-        
-      // アニメーションの更新
+
+        // アニメーションの更新
         if (m_Modelhandle != -1 && m_AnimAttachIndex != -1)
         {
             // 0.5f ずつ時間を進める
@@ -308,7 +312,7 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
         //プレイヤーの位置を更新
         m_Position = VAdd(m_Position, VScale(move, speed * deltaTime));
 
-    
+
         // プレイヤーの向きを移動方向に合わせる
         float targetAngle = atan2f(move.x, move.z);
         // プレイヤーの向きを徐々に目標角度に近づける
@@ -322,8 +326,8 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
         // プレイヤーの向きを更新
         m_PlayerAngle += diff * rotateSpeed * deltaTime;
 
-           
-	}
+
+    }
     constexpr float cameraFollowSpeed = 6.0f;
 
     m_CameraDistance += (m_TargetCameraDistance - m_CameraDistance) * cameraFollowSpeed * deltaTime;
@@ -331,18 +335,18 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
     //空中かどうか判定
     bool wasGround = m_IsGround;
 
-	//重力
-	m_VelocityY += m_Gravity * deltaTime;
-	m_Position.y += m_VelocityY * deltaTime;
+    //重力
+    m_VelocityY += m_Gravity * deltaTime;
+    m_Position.y += m_VelocityY * deltaTime;
 
     // ステージとの当たり判定
-	if (collisionManager != nullptr)
-	{
-		float halfheight =m_PlayerHeight;
-		float playerRadius = m_PlayerRadius;
-		
-		collisionManager->ResolveStageCollision(m_Position, m_VelocityY, m_IsGround, halfheight, playerRadius);
-	}
+    if (collisionManager != nullptr)
+    {
+        float halfheight = m_PlayerHeight;
+        float playerRadius = m_PlayerRadius;
+
+        collisionManager->ResolveStageCollision(m_Position, m_VelocityY, m_IsGround, halfheight, playerRadius);
+    }
 
     // 着地した瞬間の処理(前フレで空中だった場合)
     if (m_IsGround == true && wasGround == false)
@@ -351,14 +355,14 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
         m_VelocityY = 0.0f;
     }
 
-	// 場外落下時の復帰処理
-	if (m_Position.y <= 0.0f)
-	{
-		m_Position.x = 300.0f;
-		m_Position.y = 580.0f;
-		m_Position.z = 0.0f;
-		m_VelocityY = 0.0f;
-	}
+    // 場外落下時の復帰処理
+    if (m_Position.y <= 0.0f)
+    {
+        m_Position.x = 300.0f;
+        m_Position.y = 580.0f;
+        m_Position.z = 0.0f;
+        m_VelocityY = 0.0f;
+    }
 
     //キャラの頭上を注視点とす
     VECTOR idealTargetPos = VGet(m_Position.x, m_Position.y + 10.0f, m_Position.z);
@@ -386,14 +390,37 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
         cosf(m_CameraYaw) *
         m_CameraDistance
     };
-	
+
     m_PrevJumpKeyState = currentJumpKeyState;
 
     // カメラ設定
     DxLib::SetCameraPositionAndTarget_UpVecY(cameraPos, m_CameraTargetActual);
-	
-//----------HP処理---------------
-    // HPの更新
+
+    // アイテム処理
+    if (CheckHitKey(KEY_INPUT_E))
+    {
+        if(m_OrbManager==nullptr)
+        {
+            return;
+        }
+        auto orb = m_OrbManager->FindNearestOrb(GetPosition(), 50.0f);
+
+        if (orb && m_HoldingOrbId == 0)
+        {
+            orb->GetData().m_State = OrbState::Player;
+
+            m_HoldingOrbId = orb->GetData().m_Id;
+        }
+    }
+
+    // Gでオーブを放す
+    if (CheckHitKey(KEY_INPUT_G))
+    {
+        DropOrb();
+    }
+
+    //----------HP処理---------------
+        // HPの更新
     m_PlayerHP.Update();
 }
 
@@ -552,4 +579,36 @@ void Player::Draw()
     SetUseBackCulling(TRUE);*/
 }
     
+void Player::SetOrbManager(OrbManager* orbManager)
+{
+    m_OrbManager = orbManager;
+}
 
+void Player::DropOrb()
+{
+    if (m_HoldingOrbId == 0)
+    {
+        return;
+    }
+
+    auto orb = m_OrbManager->FindOrbById(m_HoldingOrbId);
+
+    if (!orb)
+    {
+        return;
+    }
+
+    VECTOR dropPos = GetPosition();
+
+    dropPos.x += 10.0f;
+
+    orb->SetPosition(dropPos);
+
+    orb->GetData().m_State = OrbState::World;
+
+    orb->SetGround(false);
+
+    orb->SetVelocityY(0.0f);
+
+    m_HoldingOrbId = 0;
+}

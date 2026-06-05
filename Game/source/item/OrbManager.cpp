@@ -1,5 +1,6 @@
 #include "item/OrbManager.h"
 #include "item/OrbActor.h"
+#include "player/player.h"
 
 OrbManager::~OrbManager()
 {
@@ -12,16 +13,25 @@ OrbManager::~OrbManager()
 
 bool OrbManager::Init()
 {
-    m_OrbModelHandle = MV1LoadModel("Game/assets/models/map/blueOrb.mv1");
+    m_OrbModelHandle = MV1LoadModel("Game/assets/models/item/blueOrb.mv1");
 
     return m_OrbModelHandle >= 0;
 }
 
-void OrbManager::Update()
+void OrbManager::Update(Player* player, CollisionManager* collisionManager)
 {
     for (auto& orb : m_Orbs)
     {
-        orb->Update();
+        if (orb->GetData().m_State == OrbState::Player)
+        {
+            VECTOR pos =player->GetPosition();
+
+            pos.y += 15.0f;
+
+            orb->SetPosition(pos);
+        }
+
+        orb->Update(collisionManager);
     }
 }
 
@@ -59,7 +69,7 @@ OrbManager::FindNearestOrb(const VECTOR& position, float range)
 
     for (auto& orb : m_Orbs)
     {
-        if (orb->IsCollected())
+        if (orb->GetData().m_State != OrbState::World)
         {
             continue;
         }
@@ -86,4 +96,18 @@ OrbManager::FindNearestOrb(const VECTOR& position, float range)
     }
 
     return result;
+}
+
+std::shared_ptr<OrbActor>
+OrbManager::FindOrbById(uint32_t id)
+{
+    for (auto& orb : m_Orbs)
+    {
+        if (orb->GetData().m_Id == id)
+        {
+            return orb;
+        }
+    }
+
+    return nullptr;
 }

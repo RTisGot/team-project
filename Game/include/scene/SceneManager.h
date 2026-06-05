@@ -1,7 +1,8 @@
 #ifndef DEF_SCENEMANAGER_H
 #define DEF_SCENEMANAGER_H
-#include <memory>
+
 #include "BaseScene.h"
+#include <memory>
 
 /**
  * @file SceneManager.h

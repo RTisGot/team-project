@@ -1,5 +1,6 @@
 #ifndef DEF_TITLESCENE_H
 #define DEF_TITLESCENE_H
+
 #include "scene/BaseScene.h"
 #include "scene/SceneManager.h"
 

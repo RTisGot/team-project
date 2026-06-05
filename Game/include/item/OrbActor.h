@@ -6,6 +6,7 @@
 #include <DxLib.h>
 
 class Player;
+class CollisionManager;
 
 class OrbActor
 {
@@ -20,7 +21,7 @@ public:
      */
     bool Init(uint32_t id, const VECTOR& position, int modelHandle);
 
-    void Update();
+    void Update(CollisionManager* collisionManager);
     void Draw() const;
 
     /**
@@ -31,32 +32,35 @@ public:
      */
     bool CanPickup(const VECTOR& playerPos, float range) const;
 
-    /**
-     * @brief オーブのデータを取得する
-     * @return オーブのデータ
-     */
+    // 重力の更新
+    void UpdateGravity();
+
+    // オーブのデータを取得する
     const OrbData& GetData() const;
 
-    /**
-     * @brief オーブのデータを取得する（編集可能）
-     * @return オーブのデータ
-     */
+    // オーブのデータを取得する（編集可能）
     OrbData& GetData();
-
-    // オーブが収集されたかどうかを設定する
-    void SetCollected(bool collected);
-
-    // オーブが収集されたかどうかを取得する
-    bool IsCollected() const;
 
     // オーブの位置を取得する
     const VECTOR& GetPosition() const;
+
+    // オーブの位置を設定する
+    void SetPosition(const VECTOR& position);
+
+    // オーブが地面に接しているかどうかを設定する
+    void SetGround(bool isGround);
+
+    // Y方向の速度を設定する
+    void SetVelocityY(float velocityY);
 
 private:
     OrbData m_Data; // オーブのデータ
     VECTOR m_Position{};    // オーブの位置
     VECTOR m_Rotation{};    // オーブの回転
     int m_ModelHandle = -1; // オーブのモデルハンドル
+
+    float m_VelocityY = 0.0f;   // Y方向の速度
+    bool m_IsGround = false;    // 地面に接しているかどうか
 };
 
 #endif // ORB_ACTOR_H

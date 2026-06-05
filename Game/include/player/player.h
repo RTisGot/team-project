@@ -5,6 +5,8 @@
 #include "collision/CollisionManager.h"
 #include "hp/HP.h"
 
+class OrbManager;
+
 /**
  *	@brief プレイヤークラス
  */
@@ -40,11 +42,18 @@ public:
     //キャラクターのモデルのサイズを計算
     VECTOR minPos, maxPos;
 
+    // オーブマネージャーのセット
+    void SetOrbManager(OrbManager* orbManager);
+    // オーブを放す処理
+    void DropOrb();
+
 private:
 
 	// プレイヤー情報
 	VECTOR m_Position;		// プレイヤー座標
 	float m_PlayerAngle;	// プレイヤーの向き
+    uint32_t m_HoldingOrbId = 0;    // プレイヤーが持っているオーブのID
+    OrbManager* m_OrbManager; // オーブマネージャーへのポインタ
 
 	// カメラ情報
 	float m_CameraYaw;		// カメラ横回転
@@ -90,7 +99,6 @@ private:
     int m_CBufferHandle; // 定数バッファのハンドル
 
     void GetShaderConstantBufferAddress();
-
 };
 
 #endif

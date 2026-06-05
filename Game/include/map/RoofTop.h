@@ -1,9 +1,9 @@
 #ifndef DEF_ROOF_TOP_H
 #define DEF_ROOF_TOP_H
+
+#include "follower/follower.h"
 #include <DxLib.h>
 #include <memory>
-#include <follower/follower.h>
-#include "object/Door.h"
 
 /**
  * @file RoofTop.h

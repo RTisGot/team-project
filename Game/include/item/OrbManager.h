@@ -6,6 +6,8 @@
 #include <DxLib.h>
 
 class OrbActor; 
+class Player;
+class CollisionManager;
 
 class OrbManager
 {
@@ -16,7 +18,7 @@ public:
 
     bool Init();
 
-    void Update();
+    void Update(Player* player, CollisionManager* collisionManager);
 
     void Draw() const;
 
@@ -35,10 +37,17 @@ public:
      */
     std::shared_ptr<OrbActor> FindNearestOrb(const VECTOR& position, float range);
 
+    /*
+     * @brief オーブIDからオーブを検索する
+     * @param id 検索するオーブのID
+     * @return 該当するオーブへの共有ポインタ。該当するオーブがない場合はnullptr。
+     */
+    std::shared_ptr<OrbActor>FindOrbById(uint32_t id);
 private:
 
     int m_OrbModelHandle = -1; // オーブのモデルハンドル
     std::vector<std::shared_ptr<OrbActor>> m_Orbs;  // オーブのリスト
+    Player* m_Player; // プレイヤーへのポインタ
 };
 
 #endif // ORB_MANAGER_H

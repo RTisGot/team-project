@@ -25,23 +25,15 @@ bool OrbLoader::LoadFromJson(
         return false;
     }
 
+    // オーブの情報を読み込んでオーブマネージャーに登録する
     for (const auto& orb : root["orbs"])
     {
-        uint32_t id =
-            orb["id"];
+        uint32_t id = orb["id"];
+        float x = orb["x"];
+        float y = orb["y"];
+        float z = orb["z"];
 
-        float x =
-            orb["x"];
-
-        float y =
-            orb["y"];
-
-        float z =
-            orb["z"];
-
-        orbManager.CreateOrb(
-            id,
-            VGet(x, y, z));
+        orbManager.CreateOrb(id, VGet(x, y, z));
     }
 
     return true;
