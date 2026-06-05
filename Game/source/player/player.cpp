@@ -32,23 +32,23 @@ Player::Player()
     m_AnimTotalTime = 0.0f;
     m_AnimTime = 0.0f;
 
-	// 座標
-	m_Position = VGet(300.0f, 580.0f, 0.0f);
+    // 座標
+    m_Position = VGet(300.0f, 580.0f, 0.0f);
 
-	// 向き
-	m_PlayerAngle = 0.0f;
+    // 向き
+    m_PlayerAngle = 0.0f;
 
     SetUseLighting(FALSE);
     SetGlobalAmbientLight(GetColorF(1.0f, 1.0f, 1.0f, 1.0f));
     SetMaterialUseVertDifColor(FALSE);
 
     // カメラ制御
-	m_CameraYaw = 0.0f; //横回転
-	m_CameraPitch = 0.3f;//縦回転
+    m_CameraYaw = 0.0f; //横回転
+    m_CameraPitch = 0.3f;//縦回転
     m_TargetCameraDistance = 30.0f;//通常時のキャラとカメラの距離
     m_BaseCameraDistance = 30.0f; //ホイール時の基準距離
-    
-	m_CameraDistance = 30.0f; //距離
+
+    m_CameraDistance = 30.0f; //距離
 
     m_CameraHeightActual = m_Position.y; //カメラの高さ
 
@@ -60,24 +60,24 @@ Player::Player()
     };
 
     // マウス感度
-	m_MouseSensitivity = 0.005f;
+    m_MouseSensitivity = 0.005f;
 
-	// ジャンプ・物理
-	m_VelocityY = 0.0f;		// Y速度
-	m_Gravity = -400.0f;		// 重力
-	m_JumpPower = 110.0f;		// ジャンプ力
-	m_IsGround = true;		// 接地フラグ
+    // ジャンプ・物理
+    m_VelocityY = 0.0f;		// Y速度
+    m_Gravity = -400.0f;		// 重力
+    m_JumpPower = 110.0f;		// ジャンプ力
+    m_IsGround = true;		// 接地フラグ
     m_StunTimer = 0.0f;    //着地硬直時間
     m_PrevJumpKeyState = 0;//ジャンプの前のフレームのキー入力状態(押されているか)
 
-	// ダッシュ関連
-	m_MoveSpeed = 50.0f;
-	m_DashMultiplier = 2.0f;  // 2倍速
-	m_IsDashing = false;
+    // ダッシュ関連
+    m_MoveSpeed = 50.0f;
+    m_DashMultiplier = 2.0f;  // 2倍速
+    m_IsDashing = false;
 
     // ホイールの回転量を初期化
     m_LastWheelRot = 0;
-   
+
     // shaderのハンドルを初期化
     m_VSHandle = -1;
     m_PSHandle = -1;
@@ -101,11 +101,11 @@ void Player::LoadModel()
     //現在のアニメーションの再生時間管理
     m_AnimTime = 0.0f;
     MV1SetAttachAnimTime(m_Modelhandle, m_AnimAttachIndex, m_AnimTime);
-  
+
     m_PlayerRadius = 5.0f;  // キャラクターの半径
     m_PlayerHeight = 10.0f;  // キャラクターの全体高さ
 
-  
+
     // --- 頂点シェーダーの読み込み ---
     int vsFileHandle = FileRead_open("Game/assets/shaders/VertexShader.vso");
     if (vsFileHandle != 0) {
@@ -134,7 +134,7 @@ void Player::LoadModel()
         m_PSHandle = -1;
     }
 
-   
+
 }
 
 // -----------------更新処理----------------------------------------------
@@ -399,7 +399,7 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
     // アイテム処理
     if (CheckHitKey(KEY_INPUT_E))
     {
-        if(m_OrbManager==nullptr)
+        if (m_OrbManager == nullptr)
         {
             return;
         }
@@ -438,13 +438,15 @@ void Player::Draw()
 
     MV1SetPosition(m_Modelhandle, drawPos);
 
-   // 3Dモデルの描画
+    // 3Dモデルの描画
     MV1DrawModel(m_Modelhandle);
-    
+
     int color = GetColor(255, 255, 255);
 
     VECTOR bottomSphere = VAdd(m_Position, VGet(0.0f, m_PlayerRadius - m_PlayerHeight, 0.0f));
     VECTOR topSphere = VAdd(m_Position, VGet(0.0f, m_PlayerHeight - m_PlayerRadius, 0.0f));
+
+
 
 
     if (m_VSHandle != -1 && m_PSHandle != -1)
@@ -522,61 +524,61 @@ void Player::Draw()
     // 後片付け
     DxLib::SetUseVertexShader(-1);
     DxLib::SetUsePixelShader(-1);
-    
-   /* if (m_Modelhandle == -1) return;
-    // モデル姿勢
-    MV1SetRotationXYZ(m_Modelhandle, VGet(0.0f, m_PlayerAngle, 0.0f));
-    VECTOR drawPos = m_Position;
-    drawPos.y += (m_PlayerHeight * 1.6f);
-    MV1SetPosition(m_Modelhandle, drawPos);
-    // 毎フレーム描画状態をリセット（
-    SetDrawBright(255, 255, 255);
-    SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
-    SetUseBackCulling(TRUE);
-    SetUseTextureToShader(0, -1);
-    SetUseVertexShader(-1);
-    SetUsePixelShader(-1);
-    // シェーダーが無ければ通常描画
-    if (m_VSHandle == -1 || m_PSHandle == -1)
-    {
-        MV1DrawModel(m_Modelhandle);
-        return;
-    }
-    // シェーダー適用
-    SetUseVertexShader(m_VSHandle);
-    SetUsePixelShader(m_PSHandle);
-    // テクスチャをPSの t0 に設定
-    int texHandle = MV1GetTextureGraphHandle(m_Modelhandle, 0);
-    SetUseTextureToShader(0, texHandle);
-    DxLib::FLOAT4 c0, c1, c2, c3, c4, c5;
-    c0.x = 0.0f;  c0.y = 1.0f;  c0.z = 0.0f;  c0.w = 0.0f;
-    c1.x = 1.0f;  c1.y = 1.0f;  c1.z = 1.0f;  c1.w = 1.0f;
-    c2.x = 0.90f; c2.y = 0.95f; c2.z = 1.00f; c2.w = 0.20f;
-    c3.x = 0.55f; // MidThreshold
-    c3.y = 0.30f; // DarkThreshold
-    c3.z = 0.08f; // Smooth
-    c3.w = 0.65f; // ShadowMin（上げると明るい）
-    c4.x = 0.78f; // MidShadowStrength
-    c4.y = 0.55f; // DarkShadowStrength
-    c4.z = 48.0f; // SpecPower
-    c4.w = 0.08f; // SpecStrength
-    VECTOR cam = GetCameraPosition();
-    c5.x = cam.x; c5.y = cam.y; c5.z = cam.z; c5.w = 0.0f;
-    SetPSConstF(0, c0);
-    SetPSConstF(1, c1);
-    SetPSConstF(2, c2);
-    SetPSConstF(3, c3);
-    SetPSConstF(4, c4);
-    SetPSConstF(5, c5);
-    // 本体描画（1回だけ）
-    MV1DrawModel(m_Modelhandle);
-    // 後片付け
-    SetUseTextureToShader(0, -1);
-    SetUseVertexShader(-1);
-    SetUsePixelShader(-1);
-    SetUseBackCulling(TRUE);*/
+
+    /* if (m_Modelhandle == -1) return;
+     // モデル姿勢
+     MV1SetRotationXYZ(m_Modelhandle, VGet(0.0f, m_PlayerAngle, 0.0f));
+     VECTOR drawPos = m_Position;
+     drawPos.y += (m_PlayerHeight * 1.6f);
+     MV1SetPosition(m_Modelhandle, drawPos);
+     // 毎フレーム描画状態をリセット（
+     SetDrawBright(255, 255, 255);
+     SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
+     SetUseBackCulling(TRUE);
+     SetUseTextureToShader(0, -1);
+     SetUseVertexShader(-1);
+     SetUsePixelShader(-1);
+     // シェーダーが無ければ通常描画
+     if (m_VSHandle == -1 || m_PSHandle == -1)
+     {
+         MV1DrawModel(m_Modelhandle);
+         return;
+     }
+     // シェーダー適用
+     SetUseVertexShader(m_VSHandle);
+     SetUsePixelShader(m_PSHandle);
+     // テクスチャをPSの t0 に設定
+     int texHandle = MV1GetTextureGraphHandle(m_Modelhandle, 0);
+     SetUseTextureToShader(0, texHandle);
+     DxLib::FLOAT4 c0, c1, c2, c3, c4, c5;
+     c0.x = 0.0f;  c0.y = 1.0f;  c0.z = 0.0f;  c0.w = 0.0f;
+     c1.x = 1.0f;  c1.y = 1.0f;  c1.z = 1.0f;  c1.w = 1.0f;
+     c2.x = 0.90f; c2.y = 0.95f; c2.z = 1.00f; c2.w = 0.20f;
+     c3.x = 0.55f; // MidThreshold
+     c3.y = 0.30f; // DarkThreshold
+     c3.z = 0.08f; // Smooth
+     c3.w = 0.65f; // ShadowMin（上げると明るい）
+     c4.x = 0.78f; // MidShadowStrength
+     c4.y = 0.55f; // DarkShadowStrength
+     c4.z = 48.0f; // SpecPower
+     c4.w = 0.08f; // SpecStrength
+     VECTOR cam = GetCameraPosition();
+     c5.x = cam.x; c5.y = cam.y; c5.z = cam.z; c5.w = 0.0f;
+     SetPSConstF(0, c0);
+     SetPSConstF(1, c1);s
+     SetPSConstF(2, c2);
+     SetPSConstF(3, c3);
+     SetPSConstF(4, c4);
+     SetPSConstF(5, c5);
+     // 本体描画（1回だけ）
+     MV1DrawModel(m_Modelhandle);
+     // 後片付け
+     SetUseTextureToShader(0, -1);
+     SetUseVertexShader(-1);
+     SetUsePixelShader(-1);
+     SetUseBackCulling(TRUE);*/
 }
-    
+
 void Player::SetOrbManager(OrbManager* orbManager)
 {
     m_OrbManager = orbManager;
