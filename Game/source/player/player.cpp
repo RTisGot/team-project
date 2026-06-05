@@ -7,6 +7,15 @@
 #include <vector>
 #include <fstream>
 
+// CelToonPS.fx の cbuffer CelParams : register(b4) と同じ並び
+struct CelPSConstantBuffer
+{
+    DxLib::FLOAT4 LightDir;
+    DxLib::FLOAT4 LightColor;
+    DxLib::FLOAT4 ShadowParams;
+    DxLib::FLOAT4 ShadeParams;
+};
+
 // ファイルをバイナリとして丸ごとメモリに読み込むヘルパー関数
 static std::vector<char> LoadFileToMemory(const char* filepath)
 {
@@ -38,11 +47,10 @@ Player::Player()
 	// 向き
 	m_PlayerAngle = 0.0f;
 
-    SetUseLighting(FALSE);
-    SetGlobalAmbientLight(GetColorF(1.0f, 1.0f, 1.0f, 1.0f));
-    SetMaterialUseVertDifColor(FALSE);
+    DxLib::SetLightDirection(DxLib::VGet(-0.4f, -0.92f, -0.35f)); // シェーダー内のLの逆方向（光の進む向き）
+   
 
-    // カメラ制御
+// カメラ制御
 	m_CameraYaw = 0.0f; //横回転
 	m_CameraPitch = 0.3f;//縦回転
     m_TargetCameraDistance = 30.0f;//通常時のキャラとカメラの距離
@@ -107,9 +115,9 @@ void Player::LoadModel()
 
   
     // --- 頂点シェーダーの読み込み ---
-    int vsFileHandle = FileRead_open("Game/assets/shaders/VertexShader.vso");
+    int vsFileHandle = FileRead_open("Game/assets/shaders/SkinMesh4_CelVS.vso");
     if (vsFileHandle != 0) {
-        int64_t fileSize = FileRead_size("Game/assets/shaders/VertexShader.vso");
+        int64_t fileSize = FileRead_size("Game/assets/shaders/SkinMesh4_CelVS.vso");
         std::vector<char> vsBuffer(fileSize);
         FileRead_read(vsBuffer.data(), (int)fileSize, vsFileHandle);
         FileRead_close(vsFileHandle);
@@ -121,9 +129,9 @@ void Player::LoadModel()
     }
 
     // --- ピクセルシェーダーの読み込み ---
-    int psFileHandle = FileRead_open("Game/assets/shaders/PixelShader.pso");
+    int psFileHandle = FileRead_open("Game/assets/shaders/CelToonPS.pso");
     if (psFileHandle != 0) {
-        int64_t fileSize = FileRead_size("Game/assets/shaders/PixelShader.pso");
+        int64_t fileSize = FileRead_size("Game/assets/shaders/CelToonPS.pso");
         std::vector<char> psBuffer(fileSize);
         FileRead_read(psBuffer.data(), (int)fileSize, psFileHandle);
         FileRead_close(psFileHandle);
@@ -134,7 +142,15 @@ void Player::LoadModel()
         m_PSHandle = -1;
     }
 
-   
+    if (m_CBufferHandle != -1)
+    {
+        DeleteShaderConstantBuffer(m_CBufferHandle);
+        m_CBufferHandle = -1;
+    }
+    if (m_PSHandle != -1)
+    {
+        m_CBufferHandle = CreateShaderConstantBuffer(sizeof(CelPSConstantBuffer));
+    }
 }
 
 // -----------------更新処理----------------------------------------------
@@ -427,156 +443,47 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
 // 描画処理(キャラクター描画)
 void Player::Draw()
 {
-    DrawFormatString(20, 20, GetColor(255, 255, 0),
-        "VS=%d PS=%d Model=%d", m_VSHandle, m_PSHandle, m_Modelhandle);
-    // 新しい向きをセット
+    // 1. モデルのトランスフォーム設定
     MV1SetRotationXYZ(m_Modelhandle, VGet(0.0f, m_PlayerAngle, 0.0f));
+    MV1SetPosition(m_Modelhandle, m_Position);
 
-    // 3Dモデルに新しい座標をセット
-    VECTOR drawPos = m_Position;
-    drawPos.y += (m_PlayerHeight * 1.6f);
-
-    MV1SetPosition(m_Modelhandle, drawPos);
-
-   // 3Dモデルの描画
-    MV1DrawModel(m_Modelhandle);
-    
-    int color = GetColor(255, 255, 255);
-
-    VECTOR bottomSphere = VAdd(m_Position, VGet(0.0f, m_PlayerRadius - m_PlayerHeight, 0.0f));
-    VECTOR topSphere = VAdd(m_Position, VGet(0.0f, m_PlayerHeight - m_PlayerRadius, 0.0f));
-
-
-
-
-    if (m_VSHandle != -1 && m_PSHandle != -1)
-    {
-        // シェーダー適用
-        DxLib::SetUseVertexShader(m_VSHandle);
-        DxLib::SetUsePixelShader(m_PSHandle);
-        // モデルのテクスチャをスロット0へ
-        int texHandle = DxLib::MV1GetTextureGraphHandle(m_Modelhandle, 0);
-        DxLib::SetUseTextureToShader(0, texHandle);
-        // ---- PixelShader 定数 (c0～c4) を 2引数版 SetPSConstF でセット ----
-        // c0: LightDir.xyz + pad
-        DxLib::FLOAT4 c0;
-        c0.x = 0.0f;  c0.y = 1.0f;  c0.z = 0.0f;  c0.w = 0.0f;
-        // c1 : LightColor.rgb + pad
-        DxLib::FLOAT4 c1;
-        c1.x = 1.0f;  c1.y = 1.0f;  c1.z = 1.0f;  c1.w = 1.0f;
-        // c2 : RimColor.rgb + RimIntensity
-        DxLib::FLOAT4 c2;
-        c2.x = 0.90f; c2.y = 0.95f; c2.z = 1.00f; c2.w = 0.20f;
-        // c3 : MidThreshold, DarkThreshold, Smooth, ShadowMin
-        DxLib::FLOAT4 c3;
-        c3.x = 0.55f; // 中間影開始
-        c3.y = 0.30f; // 濃い影開始
-        c3.z = 0.08f; // 境界のなめらかさ
-        c3.w = 0.65f; // 最低明るさ（低いと濃くなる）
-        // c4 : MidShadowStrength, DarkShadowStrength, SpecPower, SpecStrength
-        DxLib::FLOAT4 c4;
-        c4.x = 0.78f; // 中間影の暗さ
-        c4.y = 0.55f; // 濃い影の暗さ
-        c4.z = 48.0f; // スペキュラ鋭さ
-        c4.w = 0.08f; // スペキュラ強さ
-        // c5 : CameraPos.xyz + pad
-        VECTOR cam = DxLib::GetCameraPosition();
-        DxLib::FLOAT4 c5;
-        c5.x = cam.x; c5.y = cam.y; c5.z = cam.z; c5.w = 0.0f;
-        DxLib::SetPSConstF(0, c0);
-        DxLib::SetPSConstF(1, c1);
-        DxLib::SetPSConstF(2, c2);
-        DxLib::SetPSConstF(3, c3);
-        DxLib::SetPSConstF(4, c4);
-        DxLib::SetPSConstF(5, c5);
-        SetDrawBright(255, 255, 255);
-        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
-        SetUseBackCulling(TRUE); // 一旦通常に戻す
-        // 本体描画
-        DxLib::MV1DrawModel(m_Modelhandle);
-    }
-    else
-    {
-        // フォールバック
-        DxLib::MV1DrawModel(m_Modelhandle);
-    }
-    // =========================================================
-    // Pass 2 : アウトライン描画
-    // =========================================================
-    if (m_OutlineVSHandle != -1 && m_OutlinePSHandle != -1)
-    {
-        // DxLibで安全に使えるカリング制御（環境差を回避）
-        // FALSE: バックカリング無効（両面描画）
-        DxLib::SetUseBackCulling(FALSE);
-        DxLib::SetUseVertexShader(m_OutlineVSHandle);
-        DxLib::SetUsePixelShader(m_OutlinePSHandle);
-        // c0: OutlineWidth, OutlineColor.rgb
-        DxLib::FLOAT4 oc0;
-        oc0.x = 0.015f; // 輪郭の太さ（モデルサイズに応じて調整）
-        oc0.y = 0.03f;  // R
-        oc0.z = 0.03f;  // G
-        oc0.w = 0.05f;  // B
-        DxLib::SetPSConstF(0, oc0);
-        DxLib::MV1DrawModel(m_Modelhandle);
-        // 元に戻す
-        DxLib::SetUseBackCulling(TRUE);
-    }
-    // 後片付け
-    DxLib::SetUseVertexShader(-1);
-    DxLib::SetUsePixelShader(-1);
-    
-   /* if (m_Modelhandle == -1) return;
-    // モデル姿勢
-    MV1SetRotationXYZ(m_Modelhandle, VGet(0.0f, m_PlayerAngle, 0.0f));
-    VECTOR drawPos = m_Position;
-    drawPos.y += (m_PlayerHeight * 1.6f);
-    MV1SetPosition(m_Modelhandle, drawPos);
-    // 毎フレーム描画状態をリセット（
-    SetDrawBright(255, 255, 255);
-    SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
-    SetUseBackCulling(TRUE);
-    SetUseTextureToShader(0, -1);
-    SetUseVertexShader(-1);
-    SetUsePixelShader(-1);
-    // シェーダーが無ければ通常描画
-    if (m_VSHandle == -1 || m_PSHandle == -1)
+    // ハンドルチェック
+    if (m_PSHandle == -1 || m_VSHandle == -1 || m_CBufferHandle == -1 || m_PSConstantBufferHandle == -1)
     {
         MV1DrawModel(m_Modelhandle);
         return;
     }
-    // シェーダー適用
+
+    // 1. 必要なデータを VECTOR 形式で用意
+    VECTOR camPos = DxLib::GetCameraPosition(); // カメラ座標
+    VECTOR lightDir = VNorm(VGet(-0.4f, -0.92f, -0.35f)); // ライト方向
+
+    // 2. モデルのユーザー定数としてシェーダーに送る
+    // 第2引数：シェーダー内のレジスタ番号（b0, b1...）
+    // 第3引数：送るデータのポインタ, 第4引数：個数（float4単位）
+    MV1SetShaderConstantFloat4(m_Modelhandle, 0, (float*)&camPos, 1);   // register(b0)へ
+    MV1SetUserShaderConstantFloat4(m_Modelhandle, 1, (float*)&lightDir, 1); // register(b1)へ
+
+    // 3. シェーダーの適用
+    MV1SetUseOrigShader(TRUE);
     SetUseVertexShader(m_VSHandle);
     SetUsePixelShader(m_PSHandle);
-    // テクスチャをPSの t0 に設定
-    int texHandle = MV1GetTextureGraphHandle(m_Modelhandle, 0);
-    SetUseTextureToShader(0, texHandle);
-    DxLib::FLOAT4 c0, c1, c2, c3, c4, c5;
-    c0.x = 0.0f;  c0.y = 1.0f;  c0.z = 0.0f;  c0.w = 0.0f;
-    c1.x = 1.0f;  c1.y = 1.0f;  c1.z = 1.0f;  c1.w = 1.0f;
-    c2.x = 0.90f; c2.y = 0.95f; c2.z = 1.00f; c2.w = 0.20f;
-    c3.x = 0.55f; // MidThreshold
-    c3.y = 0.30f; // DarkThreshold
-    c3.z = 0.08f; // Smooth
-    c3.w = 0.65f; // ShadowMin（上げると明るい）
-    c4.x = 0.78f; // MidShadowStrength
-    c4.y = 0.55f; // DarkShadowStrength
-    c4.z = 48.0f; // SpecPower
-    c4.w = 0.08f; // SpecStrength
-    VECTOR cam = GetCameraPosition();
-    c5.x = cam.x; c5.y = cam.y; c5.z = cam.z; c5.w = 0.0f;
-    SetPSConstF(0, c0);
-    SetPSConstF(1, c1);
-    SetPSConstF(2, c2);
-    SetPSConstF(3, c3);
-    SetPSConstF(4, c4);
-    SetPSConstF(5, c5);
-    // 本体描画（1回だけ）
+
+    // 鳴潮流：キャラクターの自影を背景と分離するため標準ライトをオフにする [1, 2]
+    SetUseLighting(FALSE);
+
     MV1DrawModel(m_Modelhandle);
-    // 後片付け
-    SetUseTextureToShader(0, -1);
+
+    // 描画実行
+    MV1DrawModel(m_Modelhandle);
+
+    // ---------------------------------------------------------
+    // 5. 後処理
+    // ---------------------------------------------------------
     SetUseVertexShader(-1);
     SetUsePixelShader(-1);
-    SetUseBackCulling(TRUE);*/
+    MV1SetUseOrigShader(FALSE);
+    SetUseLighting(TRUE);
 }
     
 void Player::SetOrbManager(OrbManager* orbManager)

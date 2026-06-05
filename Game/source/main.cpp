@@ -23,6 +23,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         return -1;
     }
 
+    GetUseDirect3DVersion();
     // 描画先を裏画面にする
     SetDrawScreen(DX_SCREEN_BACK);
 
