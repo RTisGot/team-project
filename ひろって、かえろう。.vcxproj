@@ -59,8 +59,11 @@
     <ClInclude Include="Game\include\item\OrbLoader.h" />
     <ClInclude Include="Game\include\item\OrbManager.h" />
     <ClInclude Include="Game\include\map\KindergartenMap.h" />
+    <ClInclude Include="Game\include\map\MapBase.h" />
+    <ClInclude Include="Game\include\map\MapDataLoader.h" />
     <ClInclude Include="Game\include\map\RoofTop.h" />
     <ClInclude Include="Game\include\map\ShipMap.h" />
+    <ClInclude Include="Game\include\map\SpawnPoint.h" />
     <ClInclude Include="Game\include\object\Door.h" />
     <ClInclude Include="Game\include\object\GameObject.h" />
     <ClInclude Include="Game\include\object\PlayObject.h" />

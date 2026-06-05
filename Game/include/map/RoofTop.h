@@ -2,6 +2,7 @@
 #define DEF_ROOF_TOP_H
 
 #include "follower/follower.h"
+#include "map/MapDataLoader.h"
 #include <DxLib.h>
 #include <memory>
 
@@ -32,8 +33,11 @@ public:
 
     int GetModelHandle() const { return m_modelHandle; }
 
+    bool Load();
+
 private:
     int m_modelHandle;  // 屋上のモデルハンドル
+    SpawnPoint m_PlayerSpawnPoint; // プレイヤースポーン地点
 
     // お供キャラクター
     std::unique_ptr<Follower> m_follower;

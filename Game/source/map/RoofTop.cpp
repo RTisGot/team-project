@@ -64,3 +64,13 @@ void RoofTop::Draw()
         m_follower->Draw();
     }
 }
+
+//bool RoofTop::Load()
+//{
+//    if (!MapDataLoader::LoadSpawnPoint("data/map/Rooftop.json", m_PlayerSpawnPoint))
+//    {
+//        return false;
+//    }
+//
+//    return true;
+//}

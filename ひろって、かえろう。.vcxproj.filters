@@ -260,6 +260,15 @@
     <ClInclude Include="Game\include\object\PlayObject.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Game\include\map\MapBase.h">
+      <Filter>ヘッダー ファイル\map</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\include\map\MapDataLoader.h">
+      <Filter>ヘッダー ファイル\map</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\include\map\SpawnPoint.h">
+      <Filter>ヘッダー ファイル\map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Game\source\PixelShader.txt.txt">
