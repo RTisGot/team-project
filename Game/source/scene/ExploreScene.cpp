@@ -91,7 +91,6 @@ void ExploreScene::Update(float deltaTime)
         m_enemy->Update(m_collisionManager.get());
     }
 
-
     if (m_kindergartenMap)
     {
         m_kindergartenMap->Update();
@@ -125,13 +124,11 @@ void ExploreScene::Draw()
         m_OrbManager->Draw();
     }
 
-    // プレイヤー描画
     if (m_player)
     {
         m_player->Draw();
     }
 
-    // 敵描画
     if (m_enemy)
     {
         m_enemy->Draw();

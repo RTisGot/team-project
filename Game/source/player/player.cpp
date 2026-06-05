@@ -413,7 +413,7 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
         }
     }
 
-    // Gでオーブを放す
+    // オーブを放す
     if (CheckHitKey(KEY_INPUT_G))
     {
         DropOrb();
@@ -445,8 +445,6 @@ void Player::Draw()
 
     VECTOR bottomSphere = VAdd(m_Position, VGet(0.0f, m_PlayerRadius - m_PlayerHeight, 0.0f));
     VECTOR topSphere = VAdd(m_Position, VGet(0.0f, m_PlayerHeight - m_PlayerRadius, 0.0f));
-
-
 
 
     if (m_VSHandle != -1 && m_PSHandle != -1)

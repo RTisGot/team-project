@@ -23,9 +23,7 @@ bool KindergartenMap::Init()
     // モデルのスケーリング
     if (m_modelHandle != -1)
     {
-        MV1SetScale(
-            m_modelHandle,
-            VGet(0.01f, 0.01f, 0.01f));
+        MV1SetScale(m_modelHandle, VGet(0.01f, 0.01f, 0.01f));
     }
 
     // モデルの読み込みに失敗した場合はエラーメッセージを出力

@@ -8,11 +8,11 @@
 
 ---
 
-# src
+# source
 
 ゲームコード。
 
-## src/system
+## source/system
 
 ゲーム全体管理。
 
@@ -24,7 +24,7 @@
 
 ---
 
-## src/scene
+## source/scene
 
 シーン管理。
 
@@ -36,7 +36,7 @@
 
 ---
 
-## src/player
+## source/player
 
 プレイヤー関連。
 
@@ -48,7 +48,7 @@
 
 ---
 
-## src/enemy
+## source/enemy
 
 敵関連。
 
@@ -59,7 +59,7 @@
 
 ---
 
-## src/map
+## source/map
 
 マップ関連。
 
@@ -71,7 +71,7 @@
 
 ---
 
-## src/item
+## source/item
 
 拾えるアイテム。
 
@@ -82,7 +82,7 @@
 
 ---
 
-## src/object
+## source/object
 
 ギミック・オブジェクト。
 
@@ -94,7 +94,7 @@
 
 ---
 
-## src/ui
+## source/ui
 
 UI関連。
 
@@ -105,7 +105,7 @@ UI関連。
 
 ---
 
-## src/effect
+## source/effect
 
 演出関連。
 
@@ -116,7 +116,7 @@ UI関連。
 
 ---
 
-## src/utility
+## source/utility
 
 汎用処理。
 

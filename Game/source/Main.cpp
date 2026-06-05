@@ -1,8 +1,8 @@
-#include "DxLib.h"
 #include "scene/SceneManager.h"
 #include "scene/TitleScene.h"
 #include "system/Define.h"
 #include "system/GameTimer.h"
+#include "DxLib.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
