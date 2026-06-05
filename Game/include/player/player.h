@@ -22,6 +22,9 @@ public:
     float m_PlayerHeight; // キャラクターの頭から足元までの高さ
     float m_PlayerRadius; // キャラクターの横幅の半径
     float targetDistance = 30.0f;//通常時のキャラとカメラの距離
+
+    bool m_isHolding = false;  //アイテムを持っているか
+
 	// コンストラクタ
 	Player();
 
