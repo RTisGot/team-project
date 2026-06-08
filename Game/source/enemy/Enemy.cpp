@@ -20,6 +20,10 @@ m_MoveTime(0),
 m_EnemyHeight(10.0f),
 m_EnemyRadius(5.0f),
 m_VelocityY(0.0f),
+m_ViewRange(30.0f),
+m_DamagePower(10),
+m_DamageInterval(60),
+m_DamageTimer(0),
 m_IsGround(false)
 {
 			   
@@ -41,7 +45,7 @@ const static int ENEMY_ANIMATION_NUM = 4; //敵のアニメーション総数
 void Enemy::Init()
 {
     // 座標
-    m_Position = VGet(200.0f, 400.0f, 0.0f);
+    m_Position = VGet(185.0f, 5.0f, 170.0f);
 
 	// モデルの読み込み
 	m_ModelHandle = MV1LoadModel("Game/assets/models/enemy/enemy.mv1");
@@ -75,6 +79,12 @@ void Enemy::Init()
 
     m_EnemyHeight = 10.0f;
     m_EnemyRadius = 5.0f;
+
+    m_ViewRange = 30.0f;
+    m_DamagePower = 10;
+
+    m_DamageInterval = 60; // 1秒
+    m_DamageTimer = 0;
 
     m_VelocityY = 0.0f;
     m_IsGround = false;
@@ -162,16 +172,16 @@ void Enemy::Animation() {
  
 }
 
-void Enemy::Update(CollisionManager* collisionManager)
+void Enemy::Update(
+    CollisionManager* collisionManager,
+    Player* player) 
 {
-    //敵の移動処理
     MoveUpdate();
 
-    // 重力
+
     m_VelocityY += ENEMY_GRAVITY;
     m_Position.y += m_VelocityY;
 
-    // ステージ衝突
     if (collisionManager != nullptr)
     {
         collisionManager->ResolveStageCollision(
@@ -183,15 +193,14 @@ void Enemy::Update(CollisionManager* collisionManager)
         );
     }
 
-    //敵の方向を変える
+    AttackPlayer(player);
+
     AngleUpdate();
 
-    //敵のアニメーション
     Animation();
 
     MV1SetPosition(m_ModelHandle, m_Position);
 }
-
 
 void Enemy::Draw()
 {
@@ -201,6 +210,77 @@ void Enemy::Draw()
     }
 
     MV1DrawModel(m_ModelHandle);
+
+    DrawViewRange();
+}
+
+void Enemy::DrawViewRange()
+{
+    const int DIV_NUM = 32;
+
+    for (int i = 0; i < DIV_NUM; i++)
+    {
+        float angle1 =
+            DX_TWO_PI_F * i / DIV_NUM;
+
+        float angle2 =
+            DX_TWO_PI_F * (i + 1) / DIV_NUM;
+
+        VECTOR p1 =
+        {
+            m_Position.x + cosf(angle1) * m_ViewRange,
+            m_Position.y + 0.1f,
+            m_Position.z + sinf(angle1) * m_ViewRange
+        };
+
+        VECTOR p2 =
+        {
+            m_Position.x + cosf(angle2) * m_ViewRange,
+            m_Position.y + 0.1f,
+            m_Position.z + sinf(angle2) * m_ViewRange
+        };
+
+        DrawLine3D(
+            p1,
+            p2,
+            GetColor(255, 0, 0)
+        );
+    }
+}
+
+void Enemy::AttackPlayer(Player* player)
+{
+    if (player == nullptr)
+    {
+        return;
+    }
+
+    if (!IsPlayerInRange(player->GetPosition()))
+    {
+        m_DamageTimer = 0;
+        return;
+    }
+
+    m_DamageTimer++;
+
+    if (m_DamageTimer >= m_DamageInterval)
+    {
+        player->GetHP()->ApplyDamage(
+            static_cast<float>(m_DamagePower));
+
+        m_DamageTimer = 0;
+    }
+}
+
+bool Enemy::IsPlayerInRange(const VECTOR& playerPos)
+{
+    float dx = playerPos.x - m_Position.x;
+    float dz = playerPos.z - m_Position.z;
+
+    float distance =
+        sqrtf(dx * dx + dz * dz);
+
+    return distance <= m_ViewRange;
 }
 
 //終了処理

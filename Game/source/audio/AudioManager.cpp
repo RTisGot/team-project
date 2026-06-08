@@ -5,6 +5,8 @@ AudioManager::AudioManager()
       m_GameBGMHandle(-1),
       m_ResultBGMHandle(-1),
       m_JumpSEHandle(-1),
+      m_WalkSEHandle(-1),
+      m_RunSEHandle(-1),
       m_SlideSEHandle(-1),
       m_CollisionSEHandle(-1)
 {
@@ -37,6 +39,14 @@ AudioManager::~AudioManager()
     {
         m_SlideSEHandle = -1;
     }
+    if(m_WalkSEHandle != -1)
+    {
+        m_WalkSEHandle = -1;
+    }
+    if(m_RunSEHandle != -1)
+    {
+        m_RunSEHandle = -1;
+    }
     if (m_CollisionSEHandle != -1)
     {
         m_CollisionSEHandle = -1;
@@ -53,6 +63,8 @@ bool AudioManager::Init()
     // SEの読み込み
     m_JumpSEHandle = LoadSoundMem("Game/assets/audio/se/jump_se.wav");
     m_SlideSEHandle = LoadSoundMem("Game/assets/audio/se/slide_se.wav");
+    m_WalkSEHandle = LoadSoundMem("Game/assets/audio/se/walk_se.mp3");
+    m_RunSEHandle = LoadSoundMem("Game/assets/audio/se/run_se.mp3");
     m_CollisionSEHandle = LoadSoundMem("Game/assets/audio/se/collision_se.wav");
     
     // 音声の読み込みに失敗した場合はエラーメッセージを出力
@@ -61,7 +73,9 @@ bool AudioManager::Init()
         m_ResultBGMHandle == -1 ||
         m_JumpSEHandle == -1 ||
         m_SlideSEHandle == -1 ||
-        m_CollisionSEHandle == -1)
+        m_WalkSEHandle == -1 ||
+        m_RunSEHandle == -1 ||
+        m_CollisionSEHandle == -1)  
     {
         return false;
     }
@@ -102,5 +116,33 @@ void AudioManager::StopBGM()
     if (m_ResultBGMHandle != -1)
     {
         StopSoundMem(m_ResultBGMHandle);
+    }
+}
+
+
+void AudioManager::PlaySE(SEType type)
+{
+    int handle = -1;
+    switch (type)
+    {
+    case SEType::Jump:
+        handle = m_JumpSEHandle;
+        break;
+    case SEType::Slide:
+        handle = m_SlideSEHandle;
+        break;
+    case SEType::Walk:
+        handle = m_WalkSEHandle;
+        break;
+    case SEType::Run:
+        handle = m_RunSEHandle;
+        break;
+    case SEType::Collision:
+        handle = m_CollisionSEHandle;
+        break;
+    }
+    if (handle != -1)
+    {
+        PlaySoundMem(handle, DX_PLAYTYPE_BACK);
     }
 }

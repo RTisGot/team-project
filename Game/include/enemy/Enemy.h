@@ -2,6 +2,7 @@
 #define ENEMY_H_	
 #include "DxLib.h"
 #include <Collision/CollisionManager.h>
+#include <player/player.h>
 
 class Enemy
 {
@@ -28,8 +29,16 @@ public:
     // アニメーション処理
     void Animation();
 
+    void Update(CollisionManager* collisionManager, Player* player);
+
 	// 描画処理
 	void Draw();
+
+    void DrawViewRange();
+
+    void AttackPlayer(Player* player);
+
+    bool IsPlayerInRange(const VECTOR& playerPos);
   
     // 敵座標の取得
     void Finalize();
@@ -51,10 +60,15 @@ private:
     float m_TotalTime;          ///< 経過時間
     float m_PlayTime;           ///< 行動開始からの時間
 
-    int m_MoveTime;               ///< 移動時間
+    int m_MoveTime;             ///< 移動時間
 
     float m_EnemyHeight;        ///< 敵の全体高さ
     float m_EnemyRadius;        ///< 敵の横幅の半径
+
+    float m_ViewRange;          ///< 探索範囲
+    int m_DamagePower;          ///< ダメージ量
+    int m_DamageInterval;       ///< 攻撃間隔
+    int m_DamageTimer;          ///< 攻撃タイマー
 
     float m_VelocityY;          ///< Y方向の速度
     bool  m_IsGround;           ///< 接地フラグ

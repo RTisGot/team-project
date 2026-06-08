@@ -14,6 +14,8 @@ enum class SEType
 {
     Jump,
     Slide,
+    Walk,
+    Run,
     Collision
 };
 
@@ -51,6 +53,8 @@ private:
     // SE
     int m_JumpSEHandle;
     int m_SlideSEHandle;
+    int m_WalkSEHandle;
+    int m_RunSEHandle;
     int m_CollisionSEHandle;
 };
 
