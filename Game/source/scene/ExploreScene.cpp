@@ -67,7 +67,9 @@ void ExploreScene::Update(float deltaTime)
 
     if (m_enemy)
     {
-        m_enemy->Update(m_collisionManager.get());
+        m_enemy->Update(
+            m_collisionManager.get(),
+            m_player.get());
     }
 
     if (m_CurrentMap)
