@@ -209,14 +209,16 @@ void Enemy::Draw()
         return;
     }
 
-    MV1DrawModel(m_ModelHandle);
-
+    SetDrawBlendMode(DX_BLENDMODE_ALPHA, 80);
     DrawViewRange();
+    SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+    MV1DrawModel(m_ModelHandle);
 }
 
 void Enemy::DrawViewRange()
 {
-    const int DIV_NUM = 32;
+    const int DIV_NUM = 64;
 
     for (int i = 0; i < DIV_NUM; i++)
     {
@@ -226,28 +228,36 @@ void Enemy::DrawViewRange()
         float angle2 =
             DX_TWO_PI_F * (i + 1) / DIV_NUM;
 
+        VECTOR center =
+        {
+            m_Position.x,
+            m_Position.y + 0.05f,
+            m_Position.z
+        };
+
         VECTOR p1 =
         {
             m_Position.x + cosf(angle1) * m_ViewRange,
-            m_Position.y + 0.1f,
+            m_Position.y + 0.05f,
             m_Position.z + sinf(angle1) * m_ViewRange
         };
 
         VECTOR p2 =
         {
             m_Position.x + cosf(angle2) * m_ViewRange,
-            m_Position.y + 0.1f,
+            m_Position.y + 0.05f,
             m_Position.z + sinf(angle2) * m_ViewRange
         };
 
-        DrawLine3D(
+        DrawTriangle3D(
+            center,
             p1,
             p2,
-            GetColor(255, 0, 0)
+            GetColor(255, 0, 0),
+            TRUE
         );
     }
 }
-
 void Enemy::AttackPlayer(Player* player)
 {
     if (player == nullptr)

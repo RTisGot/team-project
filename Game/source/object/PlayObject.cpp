@@ -47,7 +47,7 @@ bool PlayObject::Init()
     // シーソー
     MV1SetPosition(
         seesawHandle,
-        VGet(-60.0f, 0.0f, -200.0f));
+        VGet(-60.0f, 10.0f, -200.0f));
 
     MV1SetScale(
         seesawHandle,
