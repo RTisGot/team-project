@@ -44,8 +44,8 @@ void LobbyScene::Update(float deltaTime)
     if (m_player && m_roofTop)
     {
         m_player->Update(deltaTime,m_collisionManager.get());
-
-        m_roofTop->Update(
+        m_roofTop->Update();
+        m_roofTop->UpdateFollower(
             m_player->GetPosition(),
             m_player->GetAngle()
         );

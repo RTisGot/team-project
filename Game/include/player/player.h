@@ -1,9 +1,9 @@
 #ifndef PLAYER_H_
 #define PLAYER_H_
 
-#include <DxLib.h>
 #include "collision/CollisionManager.h"
 #include "hp/HP.h"
+#include <DxLib.h>
 
 class OrbManager;
 
@@ -37,9 +37,14 @@ public:
 	void Draw();
 
     void LoadModel();
+
+    // プレイヤー座標の設定
+    void SetPosition(const VECTOR& position);
 	// プレイヤー座標の取得
 	VECTOR GetPosition() const { return m_Position; }
-
+    // プレイヤーの向きの設定
+    void SetRotation(float angle);
+    // プレイヤーの向きの取得
     float GetAngle() const { return m_PlayerAngle; }
 
     //キャラクターのモデルのサイズを計算

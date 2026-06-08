@@ -5,9 +5,7 @@
 
 using json = nlohmann::json;
 
-bool OrbLoader::LoadFromJson(
-    const std::string& filePath,
-    OrbManager& orbManager)
+bool OrbLoader::LoadFromJson(const std::string& filePath, OrbManager& orbManager)
 {
     std::ifstream file(filePath);
 

@@ -1,5 +1,6 @@
 #ifndef DEF_DOOR_H
 #define DEF_DOOR_H
+
 #include <DxLib.h>
 
 /**

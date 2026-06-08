@@ -1,24 +1,22 @@
 #ifndef DEF_MAPBASE_H
 #define DEF_MAPBASE_H
 
-#include "map/SpawnPoint.h"
+#include "map/MapData.h"
 
 class MapBase
 {
 public:
     virtual ~MapBase() = default;
 
-    virtual bool Load() = 0;
+    virtual bool Init() = 0;
     virtual void Update() = 0;
     virtual void Draw() = 0;
 
-    const SpawnPoint& GetPlayerSpawnPoint() const
-    {
-        return m_PlayerSpawnPoint;
-    }
+    virtual int GetModelHandle() const = 0;
+    const MapData& GetMapData() const { return m_MapData; }
 
 protected:
-    SpawnPoint m_PlayerSpawnPoint;
+    MapData m_MapData;
 };
 
 #endif // DEF_MAPBASE_H

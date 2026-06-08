@@ -3,6 +3,7 @@
 
 #include <DxLib.h>
 #include <vector>
+
 class PlayObject
 {
     public:

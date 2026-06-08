@@ -2,12 +2,13 @@
 #define DEF_MAPDATALOADER_H
 
 #include <string>
-#include "map/SpawnPoint.h"
+
+struct MapData;
 
 class MapDataLoader
 {
 public:
-    //static bool LoadSpawnPoint(const std::string& filePath, SpawnPoint& spawnPoint);
+    static bool Load(const std::string& filePath, MapData& mapData);
 };
 
 #endif  // DEF_MAPDATALOADER_H

@@ -3,6 +3,7 @@
 
 #include "follower/follower.h"
 #include "map/MapDataLoader.h"
+#include "map/MapBase.h"
 #include <DxLib.h>
 #include <memory>
 
@@ -15,29 +16,28 @@
   * @class RoofTop
   * @brief 屋上クラス
   */
-class RoofTop
+class RoofTop : public MapBase
 {
 public:
     RoofTop();
     ~RoofTop();
-    bool Init();
+    bool Init() override;//解散
 
     /**
      * @brief 更新処理
      * @param playerPos プレイヤーの座標
      * @param playerAngle プレイヤーの向き
      */
-    void Update(const VECTOR& playerPos, float playerAngle);
+    void Update() override;
+    void UpdateFollower(
+        const VECTOR& playerPos,
+        float playerAngle);
+    void Draw() override;
 
-    void Draw();
-
-    int GetModelHandle() const { return m_modelHandle; }
-
-    bool Load();
+    int GetModelHandle() const override { return m_modelHandle; }
 
 private:
     int m_modelHandle;  // 屋上のモデルハンドル
-    SpawnPoint m_PlayerSpawnPoint; // プレイヤースポーン地点
 
     // お供キャラクター
     std::unique_ptr<Follower> m_follower;

@@ -21,24 +21,35 @@ RoofTop::~RoofTop()
 
 bool RoofTop::Init()
 {
-	// モデルの読み込み
+    if (!MapDataLoader::Load("Game/data/maps/Rooftop.json", m_MapData))
+    {
+        return false;
+    }
+
     m_modelHandle = MV1LoadModel("Game/assets/models/map/RoofTop.mv1");
+
+    if (m_modelHandle == -1)
+    {
+        return false;
+    }
+
     MV1SetScale(m_modelHandle, VGet(1.6f, 1.6f, 1.6f));
+
     MV1SetupCollInfo(m_modelHandle, -1, 8, 8, 8);
 
-	if (m_modelHandle == -1)
-	{
-		return false; // モデルの読み込みに失敗
-	}
-    
     if (m_follower)
     {
         m_follower->LoadModel();
     }
-	return true;
+
+    return true;
 }
 
-void RoofTop::Update(const VECTOR& playerPos, float playerAngle)
+void RoofTop::Update()
+{
+}
+
+void RoofTop::UpdateFollower(const VECTOR& playerPos, float playerAngle)
 {
     if (m_follower)
     {
@@ -64,13 +75,3 @@ void RoofTop::Draw()
         m_follower->Draw();
     }
 }
-
-//bool RoofTop::Load()
-//{
-//    if (!MapDataLoader::LoadSpawnPoint("data/map/Rooftop.json", m_PlayerSpawnPoint))
-//    {
-//        return false;
-//    }
-//
-//    return true;
-//}

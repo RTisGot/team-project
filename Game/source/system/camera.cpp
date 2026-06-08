@@ -1,6 +1,6 @@
 #include "DxLib.h"
-//#include "Input.h"
 #include "system/camera.h"
+//#include "Input.h"
 
 //カメラ初期化
 void Camera_Initialize() {

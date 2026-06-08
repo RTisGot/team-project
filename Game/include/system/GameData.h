@@ -1,5 +1,6 @@
 #ifndef DEF_GAMEDATA_H
 #define DEF_GAMEDATA_H
+
 /**
  * @file GameData.h
  * @brief ゲーム全体で使用するデータや定数の定義

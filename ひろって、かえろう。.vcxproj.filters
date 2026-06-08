@@ -166,7 +166,10 @@
       <Filter>ソース ファイル\item</Filter>
     </ClCompile>
     <ClCompile Include="Game\source\object\PlayObject.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\object</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\source\map\MapDataLoader.cpp">
+      <Filter>ソース ファイル\map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -257,25 +260,17 @@
     <ClInclude Include="Game\include\item\OrbLoader.h">
       <Filter>ヘッダー ファイル\item</Filter>
     </ClInclude>
-    <ClInclude Include="Game\include\object\PlayObject.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Game\include\map\MapBase.h">
       <Filter>ヘッダー ファイル\map</Filter>
     </ClInclude>
     <ClInclude Include="Game\include\map\MapDataLoader.h">
       <Filter>ヘッダー ファイル\map</Filter>
     </ClInclude>
-    <ClInclude Include="Game\include\map\SpawnPoint.h">
+    <ClInclude Include="Game\include\object\PlayObject.h">
+      <Filter>ヘッダー ファイル\object</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\include\map\MapData.h">
       <Filter>ヘッダー ファイル\map</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Game\source\PixelShader.txt.txt">
-      <Filter>ソース ファイル</Filter>
-    </Text>
-    <Text Include="Game\source\VertexShader.txt.txt">
-      <Filter>ソース ファイル</Filter>
-    </Text>
   </ItemGroup>
 </Project>

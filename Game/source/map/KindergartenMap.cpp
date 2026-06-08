@@ -17,18 +17,15 @@ KindergartenMap::~KindergartenMap()
 
 bool KindergartenMap::Init()
 {
-    m_modelHandle =
-        MV1LoadModel("Game/assets/models/map/Kindergarten/Kindergarten.mv1");
+    MapDataLoader::Load("Game/data/maps/KindergartenMap.json", m_MapData);
+
+    m_modelHandle = MV1LoadModel("Game/assets/models/map/Kindergarten/Kindergarten.mv1");
 
     // モデルのスケーリング
     if (m_modelHandle != -1)
     {
-        MV1SetScale(
-            m_modelHandle,
-            VGet(0.005f, 0.005f, 0.005f));
+        MV1SetScale(m_modelHandle, VGet(0.005f, 0.005f, 0.005f));
     }
-
-    // モデルの読み込みに失敗した場合はエラーメッセージを出力
 
     if (m_modelHandle == -1)
     {
@@ -50,10 +47,6 @@ void KindergartenMap::Draw()
     }
     else
     {
-        DrawString(
-            100,
-            100,
-            "保育園マップが読み込まれていません",
-            GetColor(255, 0, 0));
+        DrawString(100, 100, "保育園マップが読み込まれていません", GetColor(255, 0, 0));
     }
 }

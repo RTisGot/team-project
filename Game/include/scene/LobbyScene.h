@@ -11,7 +11,6 @@
 #include <memory>
 #include <DxLib.h>
 
-
 class Player;
 
 /**

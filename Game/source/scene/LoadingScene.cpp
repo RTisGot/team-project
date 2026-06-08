@@ -1,8 +1,7 @@
 #include "scene/LoadingScene.h"
 #include "scene/SceneManager.h"
-
+#include "system/Define.h"
 #include <DxLib.h>
-#include <system/Define.h>
 
 LoadingScene::LoadingScene(
     SceneManager* manager,

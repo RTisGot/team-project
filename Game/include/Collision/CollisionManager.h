@@ -1,10 +1,10 @@
 #ifndef DEF_COLLISIONMANAGER_H
 #define DEF_COLLISIONMANAGER_H
 
+#include "collision/StageCollider.h"
 #include <vector>
 #include <memory>
 #include <DxLib.h>
-#include "collision/StageCollider.h"
 
 class CollisionManager
 {

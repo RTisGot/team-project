@@ -1,7 +1,8 @@
 #ifndef ENEMY_H_
-#define ENEMY_H_	
-#include "DxLib.h"
-#include <Collision/CollisionManager.h>
+#define ENEMY_H_
+
+#include "Collision/CollisionManager.h"
+#include <DxLib.h>
 
 class Enemy
 {

@@ -30,6 +30,7 @@
     <ClCompile Include="Game\source\item\OrbManager.cpp" />
     <ClCompile Include="Game\source\main.cpp" />
     <ClCompile Include="Game\source\map\KindergartenMap.cpp" />
+    <ClCompile Include="Game\source\map\MapDataLoader.cpp" />
     <ClCompile Include="Game\source\map\RoofTop.cpp" />
     <ClCompile Include="Game\source\map\ShipMap.cpp" />
     <ClCompile Include="Game\source\object\Door.cpp" />
@@ -60,10 +61,10 @@
     <ClInclude Include="Game\include\item\OrbManager.h" />
     <ClInclude Include="Game\include\map\KindergartenMap.h" />
     <ClInclude Include="Game\include\map\MapBase.h" />
+    <ClInclude Include="Game\include\map\MapData.h" />
     <ClInclude Include="Game\include\map\MapDataLoader.h" />
     <ClInclude Include="Game\include\map\RoofTop.h" />
     <ClInclude Include="Game\include\map\ShipMap.h" />
-    <ClInclude Include="Game\include\map\SpawnPoint.h" />
     <ClInclude Include="Game\include\object\Door.h" />
     <ClInclude Include="Game\include\object\GameObject.h" />
     <ClInclude Include="Game\include\object\PlayObject.h" />
@@ -81,10 +82,6 @@
     <ClInclude Include="Game\include\system\GameTimer.h" />
     <ClInclude Include="Game\include\system\LightManager.h" />
     <ClInclude Include="Game\include\ui\UIManager.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Game\source\PixelShader.txt.txt" />
-    <Text Include="Game\source\VertexShader.txt.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

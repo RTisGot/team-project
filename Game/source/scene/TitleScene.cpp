@@ -1,8 +1,8 @@
 #include "scene/TitleScene.h"
 #include "scene/LobbyScene.h"
+#include "scene/LoadingScene.h"
 #include <DxLib.h>
 #include <memory>
-#include <scene/LoadingScene.h>
 
 TitleScene::TitleScene(SceneManager* manager)
     : m_manager(manager),
