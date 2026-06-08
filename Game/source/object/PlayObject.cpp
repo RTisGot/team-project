@@ -37,7 +37,7 @@ bool PlayObject::Init()
     // 滑り台
     MV1SetPosition(
         slideHandle,
-        VGet(300.0f, 0.0f,-200.0f));
+        VGet(200.0f, 10.0f,-200.0f));
 
     MV1SetScale(
         slideHandle,
@@ -65,7 +65,7 @@ bool PlayObject::Init()
     // うんてい
     MV1SetPosition(
         monkeyBarHandle,
-        VGet(150.0f, 0.0f, -200.0f));
+        VGet(150.0f, 10.0f, -200.0f));
 
     MV1SetScale(
         monkeyBarHandle,
