@@ -18,6 +18,8 @@ KindergartenMap::~KindergartenMap()
 bool KindergartenMap::Init()
 {
     MapDataLoader::Load("Game/data/maps/KindergartenMap.json", m_MapData);
+    m_modelHandle =
+        MV1LoadModel("Game/assets/models/map/Kindergarten/建物 1 1 1 2 3 (1) (1).mv1");
 
     m_modelHandle = MV1LoadModel("Game/assets/models/map/Kindergarten/Kindergarten.mv1");
 
