@@ -27,11 +27,14 @@ bool OrbLoader::LoadFromJson(const std::string& filePath, OrbManager& orbManager
     for (const auto& orb : root["orbs"])
     {
         uint32_t id = orb["id"];
-        float x = orb["x"];
-        float y = orb["y"];
-        float z = orb["z"];
 
-        orbManager.CreateOrb(id, VGet(x, y, z));
+        float x = orb["position"]["x"];
+        float y = orb["position"]["y"];
+        float z = orb["position"]["z"];
+
+        orbManager.CreateOrb(
+            id,
+            VGet(x, y, z));
     }
 
     return true;

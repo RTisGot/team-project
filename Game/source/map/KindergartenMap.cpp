@@ -21,7 +21,7 @@ bool KindergartenMap::Init()
     m_modelHandle =
         MV1LoadModel("Game/assets/models/map/Kindergarten/建物 1 1 1 2 3 (1) (1).mv1");
 
-    m_modelHandle = MV1LoadModel("Game/assets/models/map/Kindergarten/Kindergarten.mv1");
+   // m_modelHandle = MV1LoadModel("Game/assets/models/map/Kindergarten/Kindergarten.mv1");
 
     // モデルのスケーリング
     if (m_modelHandle != -1)

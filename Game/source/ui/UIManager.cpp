@@ -78,6 +78,18 @@ void UIManager::Draw(Player* player)
     const int hpBoxSize = 25;
     const int hpSpace = 5;
 
+    int screenX;
+    int screenY;
+
+    GetDrawScreenSize(&screenX, &screenY);
+
+    DrawFormatString(
+        screenX - 200,
+        30,
+        GetColor(0, 255, 255),
+        "Orb : %d",
+        player->GetOrbCount());
+
     for (int i = 0; i < hpBlockMax; i++)
     {
         int x = 1050 + i * (hpBoxSize + hpSpace);
