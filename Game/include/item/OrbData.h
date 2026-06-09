@@ -3,6 +3,11 @@
 
 #include <cstdint>
 
+/**
+ * @file OrbData.h
+ * @brief オーブのデータ構造を定義するヘッダーファイル
+ */
+
 // オーブの種類を表す列挙型
 enum class OrbType
 {

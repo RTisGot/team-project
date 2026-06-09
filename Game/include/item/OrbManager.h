@@ -5,10 +5,19 @@
 #include <vector>
 #include <DxLib.h>
 
+/**
+ * @file OrbManager.h
+ * @brief オーブのマネージャークラスを定義するヘッダーファイル
+ */
+
 class OrbActor; 
 class Player;
 class CollisionManager;
 
+/**
+ * @class OrbManager
+ * @brief オーブのマネージャークラス
+ */
 class OrbManager
 {
 public:
@@ -22,14 +31,14 @@ public:
 
     void Draw() const;
 
-    /*
+    /**
      * @brief オーブを生成する
      * @param id オーブのID
      * @param position 生成する位置
      */
     void CreateOrb(uint32_t id, const VECTOR& position);
 
-    /*
+    /**
      * @brief 指定した位置から最も近いオーブを検索する
      * @param position 検索の基準となる位置
      * @param range 検索範囲（この距離以内のオーブが対象）
@@ -37,7 +46,7 @@ public:
      */
     std::shared_ptr<OrbActor> FindNearestOrb(const VECTOR& position, float range);
 
-    /*
+    /**
      * @brief オーブIDからオーブを検索する
      * @param id 検索するオーブのID
      * @return 該当するオーブへの共有ポインタ。該当するオーブがない場合はnullptr。
