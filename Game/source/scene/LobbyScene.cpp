@@ -31,6 +31,7 @@ void LobbyScene::Init()
     m_player = std::make_unique<Player>();
     m_player->SetPosition(mapData.PlayerSpawn.Position);
     m_player->SetRotation(mapData.PlayerSpawn.Rotation.y);
+    m_player->SetCameraSpawn(mapData.PlayerSpawn.Camera.Yaw, mapData.PlayerSpawn.Camera.Pitch, mapData.PlayerSpawn.Camera.Distance);
 
     // 当たり判定マネージャーの生成とステージモデル登録
     m_collisionManager = std::make_unique<CollisionManager>();

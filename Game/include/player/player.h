@@ -39,15 +39,20 @@ public:
 
     void LoadModel();
 
+    // カメラの設定
+    void SetCameraSpawn(float yaw, float pitch, float distance);
+
     // プレイヤー座標の設定
     void SetPosition(const VECTOR& position);
 	// プレイヤー座標の取得
 	VECTOR GetPosition() const { return m_Position; }
     // プレイヤーの向きの設定
     void SetRotation(float angle);
-    int GetOrbCount() const;
     // プレイヤーの向きの取得
     float GetAngle() const { return m_PlayerAngle; }
+
+    // オーブの数の取得
+    int GetOrbCount() const;
 
     //キャラクターのモデルのサイズを計算
     VECTOR minPos, maxPos;

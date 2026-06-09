@@ -4,12 +4,24 @@
 #include <DxLib.h>
 
 /**
+ * @brief カメラ初期設定
+ */
+struct CameraData
+{
+    float Yaw = 0.0f;
+    float Pitch = 0.3f;
+    float Distance = 30.0f;
+};
+
+/**
  * @brief スポーン地点情報
  */
 struct SpawnPoint
 {
     VECTOR Position{};
     VECTOR Rotation{};
+
+    CameraData Camera;
 };
 
 /**

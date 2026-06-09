@@ -28,9 +28,19 @@ bool MapDataLoader::Load(const std::string& filePath, MapData& mapData)
     json root;
     file >> root;
 
+    // プレイヤースポーン地点の読み込み
     const auto& playerSpawn = root["PlayerSpawn"];
     mapData.PlayerSpawn.Position = JsonToVector(playerSpawn["Position"]);
     mapData.PlayerSpawn.Rotation = JsonToVector(playerSpawn["Rotation"]);
 
+    // カメラ設定の読み込み
+    if (root.contains("Camera"))
+    {
+        const auto& camera = root["Camera"];
+
+        mapData.PlayerSpawn.Camera.Yaw = camera.value("Yaw", 0.0f);
+        mapData.PlayerSpawn.Camera.Pitch = camera.value("Pitch", 0.3f);
+        mapData.PlayerSpawn.Camera.Distance = camera.value("Distance", 30.0f);
+    }
     return true;
 }

@@ -52,11 +52,13 @@ public:
      * @return 該当するオーブへの共有ポインタ。該当するオーブがない場合はnullptr。
      */
     std::shared_ptr<OrbActor>FindOrbById(uint32_t id);
+
+    // オーブを拾える判定範囲
+    static constexpr float ORB_PICKUP_RANGE = 10.0f;
 private:
 
     int m_OrbModelHandle = -1; // オーブのモデルハンドル
     std::vector<std::shared_ptr<OrbActor>> m_Orbs;  // オーブのリスト
     Player* m_Player; // プレイヤーへのポインタ
 };
-
 #endif // ORB_MANAGER_H

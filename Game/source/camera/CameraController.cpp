@@ -20,6 +20,19 @@ CameraController::CameraController()
     m_MouseSensitivity = 0.005f;
 
     m_LastWheelRot = 0;
+
+    m_IsFirstUpdate = true;
+}
+
+void CameraController::InitMouse()
+{
+    int screenX, screenY;
+
+    GetDrawScreenSize(&screenX, &screenY);
+
+    SetMousePoint(screenX / 2, screenY / 2);
+
+    m_IsFirstUpdate = false;
 }
 
 void CameraController::Update(float deltaTime, const VECTOR& playerPos, bool isDashing, bool isMoving)
@@ -130,4 +143,43 @@ void CameraController::Apply()
 float CameraController::GetYaw() const
 {
     return m_Yaw;
+}
+
+void CameraController::SetCameraParameter(float yaw, float pitch, float distance)
+{
+    m_Yaw = yaw;
+    m_Pitch = pitch;
+
+    m_Distance = distance;
+    m_BaseDistance = distance;
+    m_TargetDistance = distance;
+}
+
+void CameraController::Warp(const VECTOR& playerPos)
+{
+    m_CameraHeight = playerPos.y;
+
+    m_TargetActual =
+    {
+        playerPos.x,
+        playerPos.y + 10.0f,
+        playerPos.z
+    };
+
+    m_CameraPosition =
+    {
+        playerPos.x -
+        cosf(m_Pitch) *
+        sinf(m_Yaw) *
+        m_Distance,
+
+        m_CameraHeight +
+        sinf(m_Pitch) *
+        m_Distance,
+
+        playerPos.z -
+        cosf(m_Pitch) *
+        cosf(m_Yaw) *
+        m_Distance
+    };
 }

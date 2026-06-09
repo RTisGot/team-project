@@ -44,6 +44,7 @@ void ExploreScene::Init()
     m_player = std::make_unique<Player>();
     m_player->SetPosition(mapData.PlayerSpawn.Position);
     m_player->SetRotation(mapData.PlayerSpawn.Rotation.y);
+    m_player->SetCameraSpawn(mapData.PlayerSpawn.Camera.Yaw, mapData.PlayerSpawn.Camera.Pitch, mapData.PlayerSpawn.Camera.Distance);
 
     m_player->SetOrbManager(m_OrbManager.get());
 
@@ -72,9 +73,7 @@ void ExploreScene::Update(float deltaTime)
 
     if (m_enemy)
     {
-        m_enemy->Update(
-            m_collisionManager.get(),
-            m_player.get());
+        m_enemy->Update(m_collisionManager.get(), m_player.get());
     }
 
     if (m_CurrentMap)

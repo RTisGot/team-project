@@ -43,14 +43,15 @@ Player::Player()
 
     // カメラ制御
     m_pCamera = std::make_unique<CameraController>();
+    m_pCamera->InitMouse();
 
     // ジャンプ・物理
     m_VelocityY = 0.0f;		// Y速度
-    m_Gravity = -400.0f;		// 重力
-    m_JumpPower = 110.0f;		// ジャンプ力
+    m_Gravity = -400.0f;	// 重力
+    m_JumpPower = 110.0f;	// ジャンプ力
     m_IsGround = true;		// 接地フラグ
-    m_StunTimer = 0.0f;    //着地硬直時間
-    m_PrevJumpKeyState = 0;//ジャンプの前のフレームのキー入力状態(押されているか)
+    m_StunTimer = 0.0f;     //着地硬直時間
+    m_PrevJumpKeyState = 0; //ジャンプの前のフレームのキー入力状態(押されているか)
 
     // ダッシュ関連
     m_MoveSpeed = 50.0f;
@@ -279,12 +280,16 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
         {
             return;
         }
-        auto orb = m_OrbManager->FindNearestOrb(GetPosition(), 50.0f);
 
+        // プレイヤーの周囲にあるオーブを検索
+        auto orb = m_OrbManager->FindNearestOrb(GetPosition(), OrbManager::ORB_PICKUP_RANGE);
+ 
         if (orb && m_HoldingOrbId == 0)
         {
+            // オーブをプレイヤーが持っている状態にする
             orb->GetData().m_State = OrbState::Player;
 
+            // オーブの位置をプレイヤーの位置に合わせる
             m_HoldingOrbId = orb->GetData().m_Id;
 
             m_OrbCount++;
@@ -458,6 +463,15 @@ void Player::Draw()
      SetUseBackCulling(TRUE);*/
 }
 
+void Player::SetCameraSpawn(float yaw, float pitch, float distance)
+{
+    if (!m_pCamera) return;
+
+    m_pCamera->SetCameraParameter(yaw, pitch, distance);
+
+    m_pCamera->Warp(m_Position);
+}
+
 void Player::SetPosition(const VECTOR& position)
 {
     m_Position = position;
@@ -487,8 +501,6 @@ void Player::DropOrb()
     if (!orb) return;
 
     VECTOR dropPos = GetPosition();
-
-    dropPos.x += 10.0f;
 
     orb->SetPosition(dropPos);
 

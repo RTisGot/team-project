@@ -11,11 +11,33 @@ class CameraController
 public:
     CameraController();
 
+    void InitMouse();
+
+    /**
+     * @brief カメラの更新
+     * @param deltaTime 経過時間
+     * @param playerPos プレイヤーの位置
+     * @param isDashing ダッシュ中かどうか
+     * @param isMoving 移動中かどうか
+     */
     void Update(float deltaTime, const VECTOR& playerPos, bool isDashing, bool isMoving);
 
+    // カメラの適用
     void Apply();
 
+    // カメラのパラメータの取得
     float GetYaw() const;
+
+    /**
+     * @brief カメラのパラメータを設定する
+     * @param yaw 横回転角度
+     * @param pitch 縦回転角度
+     * @param distance カメラ距離
+     */
+    void SetCameraParameter(float yaw, float pitch, float distance);
+
+    // プレイヤーの位置に瞬間移動する
+    void Warp(const VECTOR& playerPos);
 
 private:
     float m_Yaw;		// カメラ横回転
@@ -34,4 +56,6 @@ private:
     VECTOR m_CameraPosition;    // カメラの位置
 
     int m_LastWheelRot; // マウスホイールの回転量
+
+    bool m_IsFirstUpdate;   // 最初のUpdateかどうか
 };
