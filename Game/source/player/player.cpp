@@ -2,7 +2,6 @@
 #include "item/OrbManager.h"
 #include "item/OrbActor.h"
 #include <cmath>
-#include <DxLib.h>
 #include <cstring>
 #include <vector>
 #include <fstream>
@@ -71,7 +70,6 @@ Player::Player()
     m_OrbCount = 0;
 }
 
-
 void Player::LoadModel()
 {
     m_Modelhandle = MV1LoadModel("Game/assets/models/Character/Character.mv1");
@@ -86,10 +84,10 @@ void Player::LoadModel()
     m_PlayerRadius = 5.0f;  // キャラクターの半径
     m_PlayerHeight = 10.0f;  // キャラクターの全体高さ
 
-
     // --- 頂点シェーダーの読み込み ---
     int vsFileHandle = FileRead_open("Game/assets/shaders/VertexShader.vso");
-    if (vsFileHandle != 0) {
+    if (vsFileHandle != 0) 
+    {
         int64_t fileSize = FileRead_size("Game/assets/shaders/VertexShader.vso");
         std::vector<char> vsBuffer(fileSize);
         FileRead_read(vsBuffer.data(), (int)fileSize, vsFileHandle);
@@ -97,13 +95,15 @@ void Player::LoadModel()
 
         m_VSHandle = LoadVertexShaderFromMem(vsBuffer.data(), vsBuffer.size());
     }
-    else {
+    else 
+    {
         m_VSHandle = -1;
     }
 
     // --- ピクセルシェーダーの読み込み ---
     int psFileHandle = FileRead_open("Game/assets/shaders/PixelShader.pso");
-    if (psFileHandle != 0) {
+    if (psFileHandle != 0)
+    {
         int64_t fileSize = FileRead_size("Game/assets/shaders/PixelShader.pso");
         std::vector<char> psBuffer(fileSize);
         FileRead_read(psBuffer.data(), (int)fileSize, psFileHandle);
@@ -111,11 +111,10 @@ void Player::LoadModel()
 
         m_PSHandle = LoadPixelShaderFromMem(psBuffer.data(), psBuffer.size());
     }
-    else {
+    else 
+    {
         m_PSHandle = -1;
     }
-
-
 }
 
 // -----------------更新処理----------------------------------------------
@@ -159,7 +158,6 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
     if (CheckHitKey(KEY_INPUT_D))move = VAdd(move, right);//右
     if (CheckHitKey(KEY_INPUT_A))move = VSub(move, right);//左
 
-
     if (m_StunTimer > 0.0f)
     {
         move = VGet(0.0f, 0.0f, 0.0f); // W/A/S/Dを押していても、移動方向を強制的にリセット
@@ -178,6 +176,10 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
             }
         }
     }
+    
+    // ダッシュの判定
+    bool isMoving = (VSize(move) > 0.0f);
+    m_IsDashing = CheckHitKey(KEY_INPUT_LSHIFT) && isMoving;
 
     /*// 上昇
     if (CheckHitKey(KEY_INPUT_E))
@@ -191,16 +193,6 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
         move.y -= 1.0f;
     }
     */
-
-    // ダッシュ入力
-    if (CheckHitKey(KEY_INPUT_LSHIFT))
-    {
-        m_IsDashing = true;
-    }
-    else
-    {
-        m_IsDashing = false;
-    }
 
     // プレイヤー移動
     if (VSize(move) > 0.0f)
@@ -300,7 +292,7 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
     }
 
     // カメラ設定
-    m_pCamera->Update(deltaTime, m_Position, m_IsDashing);
+    m_pCamera->Update(deltaTime, m_Position, m_IsDashing, isMoving);
     m_pCamera->Apply();
 
     // オーブを放す
@@ -488,17 +480,11 @@ void Player::SetOrbManager(OrbManager* orbManager)
 
 void Player::DropOrb()
 {
-    if (m_HoldingOrbId == 0)
-    {
-        return;
-    }
+    if (m_HoldingOrbId == 0) return;
 
     auto orb = m_OrbManager->FindOrbById(m_HoldingOrbId);
 
-    if (!orb)
-    {
-        return;
-    }
+    if (!orb) return;
 
     VECTOR dropPos = GetPosition();
 

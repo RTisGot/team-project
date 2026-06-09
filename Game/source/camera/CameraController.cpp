@@ -22,7 +22,7 @@ CameraController::CameraController()
     m_LastWheelRot = 0;
 }
 
-void CameraController::Update(float deltaTime, const VECTOR& playerPos, bool isDashing)
+void CameraController::Update(float deltaTime, const VECTOR& playerPos, bool isDashing, bool isMoving)
 {
     int screenX;
     int screenY;
@@ -71,7 +71,7 @@ void CameraController::Update(float deltaTime, const VECTOR& playerPos, bool isD
     if (m_BaseDistance > 60.0f) m_BaseDistance = 60.0f;
 
     // ダッシュ中の速度管理
-    if (isDashing)
+    if (isDashing && isMoving)
     {
         m_TargetDistance = m_BaseDistance + 10.0f;  // ダッシュ中は基準距離より少し遠くする
     }

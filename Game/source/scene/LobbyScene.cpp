@@ -94,36 +94,6 @@ void LobbyScene::Draw()
 #ifdef _DEBUG
     DrawRoomDebug();
 #endif
-
-    // デバッグ用UI描画
-    DrawString(10, 10, "Lobby Scene - WASD移動 / マウス視点移動 ", GetColor(255, 255, 255));
-}
-
-void LobbyScene::DrawDebugGrid()
-{
-    const int gridSize = 1000;
-    const int gridStep = 100;
-    int gridColor = GetColor(80, 80, 80);
-
-    // X方向
-    for (int z = -gridSize; z <= gridSize; z += gridStep)
-    {
-        DrawLine3D(
-            VGet((float)-gridSize, 0.0f, (float)z),
-            VGet((float)gridSize, 0.0f, (float)z),
-            gridColor
-        );
-    }
-
-    // Z方向
-    for (int x = -gridSize; x <= gridSize; x += gridStep)
-    {
-        DrawLine3D(
-            VGet((float)x, 0.0f, (float)-gridSize),
-            VGet((float)x, 0.0f, (float)gridSize),
-            gridColor
-        );
-    }
 }
 
 void LobbyScene::DrawRoomDebug()

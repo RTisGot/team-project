@@ -5,6 +5,7 @@
 #include "camera/CameraController.h"
 #include "hp/HP.h"
 #include <memory>
+#include <DxLib.h>
 
 class OrbManager;
 

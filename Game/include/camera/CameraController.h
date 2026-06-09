@@ -11,7 +11,7 @@ class CameraController
 public:
     CameraController();
 
-    void Update(float deltaTime, const VECTOR& playerPos, bool isDashing);
+    void Update(float deltaTime, const VECTOR& playerPos, bool isDashing, bool isMoving);
 
     void Apply();
 

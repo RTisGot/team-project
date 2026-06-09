@@ -18,9 +18,7 @@ void ExploreScene::Init()
     m_OrbManager->Init();
 
     OrbLoader loader;
-    loader.LoadFromJson(
-        "Game/assets/data/MapData.json",
-        *m_OrbManager);
+    loader.LoadFromJson("Game/data/maps/KindergartenMap.json", *m_OrbManager);
 
     // カメラのクリップ距離を設定
     SetCameraNearFar(16.0f, 5000.0f);
@@ -125,13 +123,7 @@ void ExploreScene::Draw()
     if(m_UIManager)
     {
         m_UIManager->Draw(m_player.get());
-    }  
-
-    DrawString(
-        10,
-        10,
-        "Explore Scene",
-        GetColor(255, 255, 255));
+    }
 
     // プレイヤー座標を取得して表示
     VECTOR playerPos = { 0.0f, 0.0f, 0.0f };
