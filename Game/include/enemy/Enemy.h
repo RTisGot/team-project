@@ -66,6 +66,7 @@ private:
     float m_EnemyRadius;        ///< 敵の横幅の半径
 
     float m_ViewRange;          ///< 探索範囲
+    float m_ViewAngle;    ///< 視野角(rad)
     int m_DamagePower;          ///< ダメージ量
     int m_DamageInterval;       ///< 攻撃間隔
     int m_DamageTimer;          ///< 攻撃タイマー

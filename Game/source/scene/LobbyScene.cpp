@@ -4,7 +4,9 @@
 
 LobbyScene::LobbyScene(SceneManager* manager)
     : m_manager(manager)
-    , m_isPlayerInRoom(false)
+    , m_isPlayerInRoom(false)    
+    , m_IsLoading(false)
+    , m_LoadTimer(0.0f)
     , m_roomMin(VGet(0.0f, 0.0f, 0.0f))
     , m_roomMax(VGet(0.0f, 0.0f, 0.0f))
 {
@@ -12,6 +14,9 @@ LobbyScene::LobbyScene(SceneManager* manager)
 
 void LobbyScene::Init()
 {
+    m_AudioManager.Init();
+    m_AudioManager.PlayBGM(BGMType::Title);
+
     // カメラのクリップ距離を設定
     SetCameraNearFar(16.0f, 5000.0f);
 
@@ -41,6 +46,9 @@ void LobbyScene::Init()
     m_lightManager = std::make_unique<LightManager>();
     m_lightManager->Init();
 
+    m_IsLoading = false;
+    m_LoadTimer = 0.0f;
+
     // 部屋の範囲を定義
     m_roomMin = VGet(240.0f, 544.0f, -304.0f);
     m_roomMax = VGet(272.0f, 576.0f, -248.0f);
@@ -67,9 +75,25 @@ void LobbyScene::Update(float deltaTime)
     {
         m_isPlayerInRoom = true;
 
-        if (CheckHitKey(KEY_INPUT_F) == 1)
+        if (CheckHitKey(KEY_INPUT_F))
         {
-            m_manager->ChangeScene(std::make_shared<ExploreScene>(m_manager));
+            m_IsLoading = true;
+
+            m_AudioManager.StopBGM();
+          
+        }
+        if (m_IsLoading)
+        {
+            m_LoadTimer += deltaTime;
+
+            if (m_LoadTimer >= 2.0f)
+            {
+                m_AudioManager.PlaySE(SEType::Elevator);
+                m_manager->ChangeScene(
+                    std::make_shared<LoadingScene>(
+                        m_manager,
+                        std::make_shared<ExploreScene>(m_manager)));
+            }
         }
     }
     else

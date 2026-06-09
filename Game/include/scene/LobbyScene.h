@@ -7,6 +7,7 @@
 #include "map/RoofTop.h"
 #include "follower/follower.h"
 #include "system/LightManager.h"
+#include "audio/AudioManager.h"
 #include "Collision/CollisionManager.h"
 #include <memory>
 #include <DxLib.h>
@@ -34,10 +35,11 @@ private:
     void DrawRoomDebug();
 
     bool m_isPlayerInRoom; ///< プレイヤーが部屋にいるかどうかのフラグ
-
+    bool m_IsLoading;
+    float m_LoadTimer;
     VECTOR m_roomMin;
     VECTOR m_roomMax;
-
+    AudioManager m_AudioManager;
     SceneManager* m_manager; ///< シーンマネージャー
     std::unique_ptr<Player> m_player; ///< プレイヤーインスタンス
     std::unique_ptr<CollisionManager> m_collisionManager; ///< 当たり判定マネージャー
