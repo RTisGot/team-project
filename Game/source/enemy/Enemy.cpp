@@ -21,6 +21,7 @@ m_EnemyHeight(10.0f),
 m_EnemyRadius(5.0f),
 m_VelocityY(0.0f),
 m_ViewRange(30.0f),
+m_ViewAngle(DX_PI_F / 2.0f), //90度
 m_DamagePower(10),
 m_DamageInterval(60),
 m_DamageTimer(0),
@@ -81,6 +82,7 @@ void Enemy::Init()
     m_EnemyRadius = 5.0f;
 
     m_ViewRange = 30.0f;
+    m_ViewAngle = DX_PI_F / 2.0f; // 45度
     m_DamagePower = 10;
 
     m_DamageInterval = 60; // 1秒
@@ -144,26 +146,32 @@ void Enemy::AngleUpdate()
 // 敵の動きの更新
 void Enemy::MoveUpdate()
 {
-        m_MoveVec = VGet(0.0f, 0.0f, 0.0f);
+    m_MoveVec = VGet(0.0f, 0.0f, 0.0f);
 
-        if (m_MoveTime < 180)
-        {
-            m_MoveVec = VGet(ENEMY_MOVE_SPEED, 0.0f, 0.0f);
-        }
-        else
-        {
-            m_MoveVec = VGet(-ENEMY_MOVE_SPEED, 0.0f, 0.0f);
-        }
+    if (m_MoveTime < 180)
+    {
+        m_MoveVec = VGet(ENEMY_MOVE_SPEED, 0.0f, 0.0f);
+    }
+    else
+    {
+        m_MoveVec = VGet(-ENEMY_MOVE_SPEED, 0.0f, 0.0f);
+    }
 
-        m_MoveTime++;
+    m_MoveTime++;
 
-        if (m_MoveTime > 360)
-        {
-            m_MoveTime = 0;
-        }
+    if (m_MoveTime > 360)
+    {
+        m_MoveTime = 0;
+    }
 
-        // 座標更新
-        m_Position = VAdd(m_Position, m_MoveVec);
+    // 座標更新
+    m_Position = VAdd(m_Position, m_MoveVec);
+
+    // 向き更新
+    if (VSize(m_MoveVec) > 0.001f)
+    {
+         m_TargetMoveDirection = VNorm(m_MoveVec);
+    }
     
 }
 
@@ -218,35 +226,45 @@ void Enemy::Draw()
 
 void Enemy::DrawViewRange()
 {
-    const int DIV_NUM = 64;
+    const int DIV_NUM = 32;
+
+    float startAngle =
+        m_Angle - m_ViewAngle * 0.5f;
+
+    float endAngle =
+        m_Angle + m_ViewAngle * 0.5f;
+
+    VECTOR center =
+    {
+        m_Position.x,
+        m_Position.y + 0.05f,
+        m_Position.z
+    };
 
     for (int i = 0; i < DIV_NUM; i++)
     {
         float angle1 =
-            DX_TWO_PI_F * i / DIV_NUM;
+            startAngle +
+            (endAngle - startAngle) *
+            ((float)i / DIV_NUM);
 
         float angle2 =
-            DX_TWO_PI_F * (i + 1) / DIV_NUM;
-
-        VECTOR center =
-        {
-            m_Position.x,
-            m_Position.y + 0.05f,
-            m_Position.z
-        };
+            startAngle +
+            (endAngle - startAngle) *
+            ((float)(i + 1) / DIV_NUM);
 
         VECTOR p1 =
         {
-            m_Position.x + cosf(angle1) * m_ViewRange,
+            m_Position.x + sinf(angle1) * m_ViewRange,
             m_Position.y + 0.05f,
-            m_Position.z + sinf(angle1) * m_ViewRange
+            m_Position.z + cosf(angle1) * m_ViewRange
         };
 
         VECTOR p2 =
         {
-            m_Position.x + cosf(angle2) * m_ViewRange,
+            m_Position.x + sinf(angle2) * m_ViewRange,
             m_Position.y + 0.05f,
-            m_Position.z + sinf(angle2) * m_ViewRange
+            m_Position.z + cosf(angle2) * m_ViewRange
         };
 
         DrawTriangle3D(
@@ -254,10 +272,10 @@ void Enemy::DrawViewRange()
             p1,
             p2,
             GetColor(255, 0, 0),
-            TRUE
-        );
+            TRUE);
     }
 }
+
 void Enemy::AttackPlayer(Player* player)
 {
     if (player == nullptr)
@@ -284,15 +302,29 @@ void Enemy::AttackPlayer(Player* player)
 
 bool Enemy::IsPlayerInRange(const VECTOR& playerPos)
 {
-    float dx = playerPos.x - m_Position.x;
-    float dz = playerPos.z - m_Position.z;
+    VECTOR toPlayer =
+    {
+        playerPos.x - m_Position.x,
+        0.0f,
+        playerPos.z - m_Position.z
+    };
 
-    float distance =
-        sqrtf(dx * dx + dz * dz);
+    float distance = VSize(toPlayer);
 
-    return distance <= m_ViewRange;
+    if (distance > m_ViewRange)
+    {
+        return false;
+    }
+
+    toPlayer = VNorm(toPlayer);
+
+    float dot =
+        VDot(
+            m_TargetMoveDirection,
+            toPlayer);
+
+    return dot >= cosf(m_ViewAngle * 0.5f);
 }
-
 //終了処理
 void Enemy::Finalize()
 {

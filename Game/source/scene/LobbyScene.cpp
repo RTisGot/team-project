@@ -4,7 +4,9 @@
 
 LobbyScene::LobbyScene(SceneManager* manager)
     : m_manager(manager)
-    , m_isPlayerInRoom(false)
+    , m_isPlayerInRoom(false)    
+    , m_IsLoading(false)
+    , m_LoadTimer(0.0f)
     , m_roomMin(VGet(0.0f, 0.0f, 0.0f))
     , m_roomMax(VGet(0.0f, 0.0f, 0.0f))
 {
