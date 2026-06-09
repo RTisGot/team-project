@@ -88,6 +88,7 @@ Player::Player()
 
     // アイテム関係
     m_OrbManager = nullptr;
+    m_OrbCount = 0;
 }
 
 
@@ -410,6 +411,8 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
             orb->GetData().m_State = OrbState::Player;
 
             m_HoldingOrbId = orb->GetData().m_Id;
+
+            m_OrbCount++;
         }
     }
 
@@ -587,6 +590,11 @@ void Player::SetPosition(const VECTOR& position)
 void Player::SetRotation(float angle)
 {
     m_PlayerAngle = angle;
+}
+
+int Player::GetOrbCount() const
+{
+    return m_OrbCount;
 }
 
 void Player::SetOrbManager(OrbManager* orbManager)

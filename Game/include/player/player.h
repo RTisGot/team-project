@@ -44,6 +44,7 @@ public:
 	VECTOR GetPosition() const { return m_Position; }
     // プレイヤーの向きの設定
     void SetRotation(float angle);
+    int GetOrbCount() const;
     // プレイヤーの向きの取得
     float GetAngle() const { return m_PlayerAngle; }
 
@@ -105,6 +106,8 @@ private:
     int m_OutlinePSHandle; // 輪郭線用ピクセルシェーダー
     
     int m_CBufferHandle; // 定数バッファのハンドル
+
+    int m_OrbCount; // プレイヤーが持っているオーブの数
 
     void GetShaderConstantBufferAddress();
 };

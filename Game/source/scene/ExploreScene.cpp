@@ -1,6 +1,7 @@
 #include "scene/ExploreScene.h"
 #include "thirdparty/json.hpp"
 #include <fstream>
+#include <item/OrbLoader.h>
 
 using json = nlohmann::json;
 ExploreScene::ExploreScene(SceneManager* manager)
@@ -14,6 +15,12 @@ void ExploreScene::Init()
 {
     m_OrbManager = std::make_unique<OrbManager>();
 
+    m_OrbManager->Init();
+
+    OrbLoader loader;
+    loader.LoadFromJson(
+        "Game/assets/data/MapData.json",
+        *m_OrbManager);
 
     // カメラのクリップ距離を設定
     SetCameraNearFar(16.0f, 5000.0f);
