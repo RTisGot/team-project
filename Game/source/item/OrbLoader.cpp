@@ -32,9 +32,7 @@ bool OrbLoader::LoadFromJson(const std::string& filePath, OrbManager& orbManager
         float y = orb["position"]["y"];
         float z = orb["position"]["z"];
 
-        orbManager.CreateOrb(
-            id,
-            VGet(x, y, z));
+        orbManager.CreateOrb(id, VGet(x, y, z));
     }
 
     return true;

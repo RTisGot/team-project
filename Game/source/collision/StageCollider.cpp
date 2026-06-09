@@ -64,14 +64,4 @@ void StageCollider::ResolveStageCollision(VECTOR& position, float& velocityY, bo
         }
     }
     MV1CollResultPolyDimTerminate(hitTop);
-
-    // デバッグ
-    DrawFormatString(
-        20,
-        120,
-        GetColor(255, 255, 255),
-        "Hit=%d PosY=%.1f",
-        hitLineFloor.HitFlag,
-        position.y
-    );
 }

@@ -11,27 +11,27 @@ class CameraController
 public:
     CameraController();
 
-    void Update(
-        float deltaTime,
-        const VECTOR& playerPos,
-        bool isDashing);
+    void Update(float deltaTime, const VECTOR& playerPos, bool isDashing, bool isMoving);
 
     void Apply();
 
     float GetYaw() const;
 
 private:
+    float m_Yaw;		// カメラ横回転
+    float m_Pitch;	    // カメラ縦回転
 
-    float m_Yaw;
-    float m_Pitch;
+    float m_Distance;   	// カメラ距離
+    float m_TargetDistance; // カメラ距離
+    float m_BaseDistance;   // ホイールで変更する基準のカメラ距離
 
-    float m_Distance;
-    float m_TargetDistance;
-    float m_BaseDistance;
+    float m_CameraHeight; // 実際のカメラの高さ
 
-    float m_CameraHeight;
+    VECTOR m_TargetActual; // 実際のカメラ注視点
 
-    VECTOR m_TargetActual;
+    float m_MouseSensitivity;	// マウス感度
 
-    float m_MouseSensitivity;
+    VECTOR m_CameraPosition;    // カメラの位置
+
+    int m_LastWheelRot; // マウスホイールの回転量
 };
