@@ -5,9 +5,18 @@
 #include <memory>
 #include <DxLib.h>
 
+/**
+ * @file OrbActor.h
+ * @brief オーブのアクタークラスを定義するヘッダーファイル
+ */
+
 class Player;
 class CollisionManager;
 
+/**
+ * @class OrbActor
+ * @brief オーブのアクタークラス
+ */
 class OrbActor
 {
 public:

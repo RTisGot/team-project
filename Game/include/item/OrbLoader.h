@@ -3,13 +3,22 @@
 
 #include <string>
 
+/**
+ * @file OrbLoader.h
+ * @brief オーブのロードクラスを定義するヘッダーファイル
+ */
+
 class OrbManager;
 
+/**
+ * @class OrbLoader
+ * @brief オーブのロードクラス
+ */
 class OrbLoader
 {
 public:
 
-    /*
+    /**
      * @brief JSONファイルからオーブの情報を読み込んでオーブマネージャーに登録する
      * @param filePath JSONファイルのパス
      * @param orbManager オーブマネージャーへの参照

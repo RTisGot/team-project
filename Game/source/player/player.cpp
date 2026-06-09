@@ -336,8 +336,8 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
     bool wasGround = m_IsGround;
 
     //重力
-    /*m_VelocityY += m_Gravity * deltaTime;
-    m_Position.y += m_VelocityY * deltaTime;*/
+    m_VelocityY += m_Gravity * deltaTime;
+    m_Position.y += m_VelocityY * deltaTime;
 
     // ステージとの当たり判定
     if (collisionManager != nullptr)
@@ -356,13 +356,13 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
     }
 
     // 場外落下時の復帰処理
-   /* if (m_Position.y <= 0.0f)
+    if (m_Position.y <= 0.0f)
     {
         m_Position.x = 300.0f;
         m_Position.y = 580.0f;
         m_Position.z = 0.0f;
         m_VelocityY = 0.0f;
-    }*/
+    }
 
     //キャラの頭上を注視点とす
     VECTOR idealTargetPos = VGet(m_Position.x, m_Position.y + 10.0f, m_Position.z);

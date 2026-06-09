@@ -85,6 +85,12 @@
     <Filter Include="ヘッダー ファイル\item">
       <UniqueIdentifier>{786fa638-df4e-47e1-bce3-30152c06d53c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\camera">
+      <UniqueIdentifier>{cbc48a93-553f-4295-bb7b-ab2dc5119e70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\camera">
+      <UniqueIdentifier>{6a84c063-058a-4530-8b33-a6c40b85da3c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\source\main.cpp">
@@ -124,9 +130,6 @@
       <Filter>ソース ファイル\scene</Filter>
     </ClCompile>
     <ClCompile Include="Game\source\system\GameData.cpp">
-      <Filter>ソース ファイル\system</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\source\system\camera.cpp">
       <Filter>ソース ファイル\system</Filter>
     </ClCompile>
     <ClCompile Include="Game\source\system\Config.cpp">
@@ -171,6 +174,9 @@
     <ClCompile Include="Game\source\map\MapDataLoader.cpp">
       <Filter>ソース ファイル\map</Filter>
     </ClCompile>
+    <ClCompile Include="Game\source\camera\CameraController.cpp">
+      <Filter>ソース ファイル\camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\include\player\Player.h">
@@ -213,9 +219,6 @@
       <Filter>ヘッダー ファイル\scene</Filter>
     </ClInclude>
     <ClInclude Include="Game\include\system\GameData.h">
-      <Filter>ヘッダー ファイル\system</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\include\system\camera.h">
       <Filter>ヘッダー ファイル\system</Filter>
     </ClInclude>
     <ClInclude Include="Game\include\system\Config.h">
@@ -271,6 +274,9 @@
     </ClInclude>
     <ClInclude Include="Game\include\map\MapData.h">
       <Filter>ヘッダー ファイル\map</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\include\camera\CameraController.h">
+      <Filter>ヘッダー ファイル\camera</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -18,12 +18,19 @@ void LobbyScene::Init()
     // TPS視点用にマウスカーソルを非表示
     SetMouseDispFlag(FALSE);
 
-    // 屋上の生成と初期化
+    // 屋上マップの生成と初期化
     m_roofTop = std::make_unique<RoofTop>();
-    m_roofTop->Init();
 
-    // プレイヤーの生成
+    if (!m_roofTop->Init())
+    {
+        return;
+    }
+
+    // マップデータからプレイヤーのスポーン位置と向きを取得してプレイヤーを初期化
+    const auto& mapData = m_roofTop->GetMapData();
     m_player = std::make_unique<Player>();
+    m_player->SetPosition(mapData.PlayerSpawn.Position);
+    m_player->SetRotation(mapData.PlayerSpawn.Rotation.y);
 
     // 当たり判定マネージャーの生成とステージモデル登録
     m_collisionManager = std::make_unique<CollisionManager>();
