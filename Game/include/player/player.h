@@ -2,8 +2,9 @@
 #define PLAYER_H_
 
 #include "collision/CollisionManager.h"
+#include "camera/CameraController.h"
 #include "hp/HP.h"
-#include <DxLib.h>
+#include <memory>
 
 class OrbManager;
 
@@ -15,13 +16,12 @@ class Player
 public:
 
     //キャラクターのモデルを読み込み
-    int m_Modelhandle;
+    int   m_Modelhandle;
     int   m_AnimAttachIndex;  // アタッチしたアニメーションの識別番号
     float m_AnimTotalTime;    // アニメーションの総時間
     float m_AnimTime;         //現在のアニメーションの再生時間管理
     float m_PlayerHeight; // キャラクターの頭から足元までの高さ
     float m_PlayerRadius; // キャラクターの横幅の半径
-    float targetDistance = 30.0f;//通常時のキャラとカメラの距離
 
     bool m_isHolding = false;  //アイテムを持っているか
 
@@ -64,23 +64,7 @@ private:
     OrbManager* m_OrbManager; // オーブマネージャーへのポインタ
 
 	// カメラ情報
-	float m_CameraYaw;		// カメラ横回転
-	float m_CameraPitch;	// カメラ縦回転
-	float m_CameraDistance;	// カメラ距離
-	float m_MouseSensitivity;	// マウス感度
-    float m_TargetCameraDistance; // カメラ距離
-    float m_BaseCameraDistance; // ホイールで変更する基準のカメラ距離
-    VECTOR m_CameraTargetActual; // 実際のカメラ注視点
-    int m_LastWheelRot; // マウスホイールの回転量
-    float m_CameraHeightActual; // 実際のカメラの高さ
-
-    // 注視点
-    VECTOR targetPos =
-    {
-        m_Position.x,
-        m_Position.y + 10.0f,
-        m_Position.z
-    };
+    std::unique_ptr<CameraController> m_pCamera;
 
 	// ジャンプ・物理
 	float m_VelocityY;	// Y速度
@@ -109,4 +93,4 @@ private:
     void GetShaderConstantBufferAddress();
 };
 
-#endif
+#endif // PLAYER_H_

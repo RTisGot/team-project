@@ -1,8 +1,8 @@
 #include "player/player.h"
 #include "item/OrbManager.h"
 #include "item/OrbActor.h"
-#include <math.h>
-#include <Dxlib.h>
+#include <cmath>
+#include <DxLib.h>
 #include <cstring>
 #include <vector>
 #include <fstream>
@@ -43,24 +43,7 @@ Player::Player()
     SetMaterialUseVertDifColor(FALSE);
 
     // カメラ制御
-    m_CameraYaw = 0.0f; //横回転
-    m_CameraPitch = 0.3f;//縦回転
-    m_TargetCameraDistance = 30.0f;//通常時のキャラとカメラの距離
-    m_BaseCameraDistance = 30.0f; //ホイール時の基準距離
-
-    m_CameraDistance = 30.0f; //距離
-
-    m_CameraHeightActual = m_Position.y; //カメラの高さ
-
-    m_CameraTargetActual =
-    {
-        m_Position.x,
-        m_Position.y + 10.0f,
-        m_Position.z
-    };
-
-    // マウス感度
-    m_MouseSensitivity = 0.005f;
+    m_pCamera = std::make_unique<CameraController>();
 
     // ジャンプ・物理
     m_VelocityY = 0.0f;		// Y速度
@@ -74,9 +57,6 @@ Player::Player()
     m_MoveSpeed = 50.0f;
     m_DashMultiplier = 2.0f;  // 2倍速
     m_IsDashing = false;
-
-    // ホイールの回転量を初期化
-    m_LastWheelRot = 0;
 
     // shaderのハンドルを初期化
     m_VSHandle = -1;
@@ -143,6 +123,9 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
     // フレームレートが極端に低い場合の補正
     deltaTime = min(deltaTime, 0.05f);
 
+    // ジャンプキーの状態を取得
+    int currentJumpKeyState = CheckHitKey(KEY_INPUT_SPACE);
+
     // 着地硬直の処理
     if (m_StunTimer > 0.0f)
     {
@@ -150,64 +133,21 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
 
     }
 
-    // 画面サイズ
-    int screenX;
-    int screenY;
-
-    GetDrawScreenSize(&screenX, &screenY);
-
-    // マウス座標取得
-    int mouseX;
-    int mouseY;
-
-    GetMousePoint(&mouseX, &mouseY);
-
-    //マウスホイールの回転量を取得
-    m_LastWheelRot = GetMouseWheelRotVol();
-
-    // ジャンプキーの状態を取得
-    int currentJumpKeyState = CheckHitKey(KEY_INPUT_SPACE);
-
-    // 画面中央
-    int centerX = screenX / 2;
-    int centerY = screenY / 2;
-
-    // マウス移動量
-    int moveX = mouseX - centerX;
-    int moveY = mouseY - centerY;
-
-    // マウスを中央へ戻す
-    SetMousePoint(centerX, centerY);
-
-    // カメラ回転
-    m_CameraYaw += moveX * m_MouseSensitivity;//横
-    m_CameraPitch += moveY * m_MouseSensitivity;//縦
-
-    // カメラの高さをプレイヤーの高さに近づける
-    float targetY = m_Position.y;
-
-    // 着地硬直中はカメラの高さを少し上げる
-    m_CameraHeightActual += (targetY - m_CameraHeightActual) * 8.0f * deltaTime;
-
-    // カメラ縦回転制限
-    // 真上・真下防止
-    if (m_CameraPitch > 1.0f)m_CameraPitch = 1.0f;
-    if (m_CameraPitch < -1.0f)	m_CameraPitch = -1.0f;
+    float yaw = m_pCamera->GetYaw();
 
     // カメラ前方向
     VECTOR forward =
     {
-        sinf(m_CameraYaw),
+        sinf(yaw),
         0.0f,
-        cosf(m_CameraYaw)
+        cosf(yaw)
     };
 
-    // カメラ右方向
     VECTOR right =
     {
-        cosf(m_CameraYaw),
+        cosf(yaw),
         0.0f,
-        -sinf(m_CameraYaw)
+        -sinf(yaw)
     };
 
     // 入力方向
@@ -238,7 +178,6 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
         }
     }
 
-
     /*// 上昇
     if (CheckHitKey(KEY_INPUT_E))
     {
@@ -251,17 +190,6 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
         move.y -= 1.0f;
     }
     */
-
-
-
-    // ホイールでカメラ距離を変更
-    if (m_LastWheelRot != 0)
-    {
-        m_BaseCameraDistance -= m_LastWheelRot * 1.5f;// ホイールの回転量に応じて基準距離を変更
-    }
-    // カメラ距離の制限
-    if (m_BaseCameraDistance < 15.0f)  m_BaseCameraDistance = 15.0f;  // 最短距離
-    if (m_BaseCameraDistance > 60.0f) m_BaseCameraDistance = 60.0f; // 最長距離
 
     // ダッシュ入力
     if (CheckHitKey(KEY_INPUT_LSHIFT))
@@ -282,17 +210,8 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
         // 移動
         float speed = m_MoveSpeed;
 
-        //ダッシュ中の速度管理
-        if (m_IsDashing)
-        {
-            speed *= m_DashMultiplier;
-            m_TargetCameraDistance = m_BaseCameraDistance + 10.0f; //ダッシュ中のカメラ距離
-        }
-        else
-        {
-            m_TargetCameraDistance = m_BaseCameraDistance; //通常時のカメラ距離
-        }
-
+        // ダッシュ中は速度を増加
+        if (m_IsDashing) speed *= m_DashMultiplier;
 
         // アニメーションの更新
         if (m_Modelhandle != -1 && m_AnimAttachIndex != -1)
@@ -312,7 +231,6 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
         //プレイヤーの位置を更新
         m_Position = VAdd(m_Position, VScale(move, speed * deltaTime));
 
-
         // プレイヤーの向きを移動方向に合わせる
         float targetAngle = atan2f(move.x, move.z);
         // プレイヤーの向きを徐々に目標角度に近づける
@@ -325,12 +243,7 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
 
         // プレイヤーの向きを更新
         m_PlayerAngle += diff * rotateSpeed * deltaTime;
-
-
     }
-    constexpr float cameraFollowSpeed = 6.0f;
-
-    m_CameraDistance += (m_TargetCameraDistance - m_CameraDistance) * cameraFollowSpeed * deltaTime;
 
     //空中かどうか判定
     bool wasGround = m_IsGround;
@@ -364,37 +277,7 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
         m_VelocityY = 0.0f;
     }
 
-    //キャラの頭上を注視点とす
-    VECTOR idealTargetPos = VGet(m_Position.x, m_Position.y + 10.0f, m_Position.z);
-
-    //キャラに少し遅れてついてくる
-    constexpr float targetFollowSpeed = 15.0f;
-
-    // カメラの注視点をキャラの頭上に近づける
-    m_CameraTargetActual = VAdd(m_CameraTargetActual, VScale(VSub(idealTargetPos, m_CameraTargetActual), targetFollowSpeed * deltaTime));
-
-    // カメラ位置
-    VECTOR cameraPos =
-    {
-        m_Position.x -
-        cosf(m_CameraPitch) *
-        sinf(m_CameraYaw) *
-        m_CameraDistance,
-
-        m_CameraHeightActual +
-        sinf(m_CameraPitch) *
-        m_CameraDistance,
-
-        m_Position.z -
-        cosf(m_CameraPitch) *
-        cosf(m_CameraYaw) *
-        m_CameraDistance
-    };
-
     m_PrevJumpKeyState = currentJumpKeyState;
-
-    // カメラ設定
-    DxLib::SetCameraPositionAndTarget_UpVecY(cameraPos, m_CameraTargetActual);
 
     // アイテム処理
     if (CheckHitKey(KEY_INPUT_E))
@@ -412,6 +295,10 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
             m_HoldingOrbId = orb->GetData().m_Id;
         }
     }
+
+    // カメラ設定
+    m_pCamera->Update(deltaTime, m_Position, m_IsDashing);
+    m_pCamera->Apply();
 
     // オーブを放す
     if (CheckHitKey(KEY_INPUT_G))
@@ -445,9 +332,6 @@ void Player::Draw()
 
     VECTOR bottomSphere = VAdd(m_Position, VGet(0.0f, m_PlayerRadius - m_PlayerHeight, 0.0f));
     VECTOR topSphere = VAdd(m_Position, VGet(0.0f, m_PlayerHeight - m_PlayerRadius, 0.0f));
-
-
-
 
     if (m_VSHandle != -1 && m_PSHandle != -1)
     {
