@@ -8,7 +8,7 @@ AudioManager::AudioManager()
       m_WalkSEHandle(-1),
       m_RunSEHandle(-1),
       m_SlideSEHandle(-1),
-      m_CollisionSEHandle(-1)
+      m_ElevatorSEHandle(-1)
 {
 }
 
@@ -47,16 +47,16 @@ AudioManager::~AudioManager()
     {
         m_RunSEHandle = -1;
     }
-    if (m_CollisionSEHandle != -1)
+    if (m_ElevatorSEHandle != -1)
     {
-        m_CollisionSEHandle = -1;
+        m_ElevatorSEHandle = -1;
     }
 }
 
 bool AudioManager::Init()
 {
     // BGMの読み込み
-    m_TitleBGMHandle = LoadSoundMem("Game/assets/audio/bgm/title_bgm.wav");
+    m_TitleBGMHandle = LoadSoundMem("Game/assets/audio/bgm/title_bgm.mp3");
     m_GameBGMHandle = LoadSoundMem("Game/assets/audio/bgm/game_bgm.wav");
     m_ResultBGMHandle = LoadSoundMem("Game/assets/audio/bgm/result_bgm.wav");
 
@@ -65,7 +65,7 @@ bool AudioManager::Init()
     m_SlideSEHandle = LoadSoundMem("Game/assets/audio/se/slide_se.wav");
     m_WalkSEHandle = LoadSoundMem("Game/assets/audio/se/walk_se.mp3");
     m_RunSEHandle = LoadSoundMem("Game/assets/audio/se/run_se.mp3");
-    m_CollisionSEHandle = LoadSoundMem("Game/assets/audio/se/collision_se.wav");
+    m_ElevatorSEHandle = LoadSoundMem("Game/assets/audio/se/elevator.mp3");
     
     // 音声の読み込みに失敗した場合はエラーメッセージを出力
     if (m_TitleBGMHandle == -1 ||
@@ -75,7 +75,7 @@ bool AudioManager::Init()
         m_SlideSEHandle == -1 ||
         m_WalkSEHandle == -1 ||
         m_RunSEHandle == -1 ||
-        m_CollisionSEHandle == -1)  
+        m_ElevatorSEHandle == -1)  
     {
         return false;
     }
@@ -137,8 +137,8 @@ void AudioManager::PlaySE(SEType type)
     case SEType::Run:
         handle = m_RunSEHandle;
         break;
-    case SEType::Collision:
-        handle = m_CollisionSEHandle;
+    case SEType::Elevator:
+        handle = m_ElevatorSEHandle;
         break;
     }
     if (handle != -1)

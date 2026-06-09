@@ -26,7 +26,7 @@ void TitleScene::Init()
 void TitleScene::Update(float deltaTime)
 {
     m_Timer++;// タイマーを進める
-    m_manager->ChangeScene(std::make_shared<LobbyScene>(m_manager));
+   // m_manager->ChangeScene(std::make_shared<LobbyScene>(m_manager));
     // フェーズごとの処理
     switch (m_CurrentPhase)
     {
@@ -65,13 +65,14 @@ void TitleScene::Update(float deltaTime)
         //タイトル画面のメインフェーズ
     case Phase::TitleMain:
         //スペースキーの入力gamesceneへ遷移
-        if (CheckHitKey(KEY_INPUT_SPACE) == 1)
-        {
+        //if (CheckHitKey(KEY_INPUT_SPACE) == 1)
+      //  {
             m_manager->ChangeScene(std::make_shared<LobbyScene>(m_manager));
-        }
+     //   }
         break;
     }
 }
+
 void TitleScene::Loadgraph() {
     
 }
@@ -88,25 +89,25 @@ void TitleScene::Draw()
 
     // --- 描画処理 ---
 
-    if (m_CurrentPhase == Phase::TitleMain)
-    {
+    //if (m_CurrentPhase == Phase::TitleMain)
+    //{
 
 
-        // タイトル画面描画
-        if (m_TitleMainHandle >= 0)
-        {
-            DrawGraph(0, 0, m_TitleMainHandle, FALSE);
-        }
+    //    // タイトル画面描画
+    //    if (m_TitleMainHandle >= 0)
+    //    {
+    //        DrawGraph(0, 0, m_TitleMainHandle, FALSE);
+    //    }
 
-        // タイトル用のテキストやUIを描画
-        DrawString(100, 100, "ひろって、かえろう。", GetColor(255, 255, 255));
+    //    // タイトル用のテキストやUIを描画
+    //    DrawString(100, 100, "ひろって、かえろう。", GetColor(255, 255, 255));
 
-        //点滅
-        if ((m_Timer / 30) % 2 == 0)
-        {
-            DrawString(100, 150, "Press SPACE to Start", GetColor(200, 200, 200));
-        }
-    }
+    //    //点滅
+    //    if ((m_Timer / 30) % 2 == 0)
+    //    {
+    //        DrawString(100, 150, "Press SPACE to Start", GetColor(200, 200, 200));
+    //    }
+    //}
     else
     {
         // m_Alphaを変換してブレンドモードを設定

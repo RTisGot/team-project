@@ -16,7 +16,7 @@ enum class SEType
     Slide,
     Walk,
     Run,
-    Collision
+    Elevator
 };
 
 class AudioManager
@@ -55,7 +55,7 @@ private:
     int m_SlideSEHandle;
     int m_WalkSEHandle;
     int m_RunSEHandle;
-    int m_CollisionSEHandle;
+    int m_ElevatorSEHandle;
 };
 
 #endif // DEF_AUDIOMANAGER_H
