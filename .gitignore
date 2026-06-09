@@ -369,3 +369,4 @@ comment_rules.md
 folder_rules.md
 .github
 copilot-instructions.md
+/Game/source/Main.cpp
