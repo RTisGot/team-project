@@ -19,7 +19,7 @@ bool EnemyManager::Load(
 {
     std::ifstream file(jsonPath);
 
-    if (!file.is_open())
+    if (!file.is_open())    
     {
         return false;
     }
