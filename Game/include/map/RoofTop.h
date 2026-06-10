@@ -3,6 +3,7 @@
 
 #include "follower/follower.h"
 #include "map/MapDataLoader.h"
+#include "collision/CollisionMap.h"
 #include "map/MapBase.h"
 #include <DxLib.h>
 #include <memory>

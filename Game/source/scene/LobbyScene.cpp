@@ -42,6 +42,9 @@ void LobbyScene::Init()
     m_collisionManager = std::make_unique<CollisionManager>();
     m_collisionManager->Init(m_roofTop->GetModelHandle());
 
+    CollisionMap* collisionMap = m_collisionManager->GetCollisionMap();
+    collisionMap->AddBox(VGet(330.0, 540.0f, 0.0f), VGet(320.0f, 580.0f, 50.0f));
+
     // ライトマネージャーの生成と初期化
     m_lightManager = std::make_unique<LightManager>();
     m_lightManager->Init();
@@ -104,6 +107,14 @@ void LobbyScene::Update(float deltaTime)
 
 void LobbyScene::Draw()
 {
+
+#ifdef _DEBUG
+
+    m_collisionManager->GetCollisionMap()->DrawDebug();
+
+#endif
+
+
     // マップ描画
     if (m_roofTop)
     {

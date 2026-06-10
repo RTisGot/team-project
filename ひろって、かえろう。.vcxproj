@@ -22,7 +22,10 @@
     <ClCompile Include="Game\source\audio\AudioManager.cpp" />
     <ClCompile Include="Game\source\camera\CameraController.cpp" />
     <ClCompile Include="Game\source\Collision\CollisionManager.cpp" />
+    <ClCompile Include="Game\source\collision\CollisionMap.cpp" />
+    <ClCompile Include="Game\source\collision\PlayerStageCollider.cpp" />
     <ClCompile Include="Game\source\Collision\StageCollider.cpp" />
+    <ClCompile Include="Game\source\collision\StageColliderBase.cpp" />
     <ClCompile Include="Game\source\enemy\Enemy.cpp" />
     <ClCompile Include="Game\source\follower\follower.cpp" />
     <ClCompile Include="Game\source\HP\HP.cpp" />
@@ -51,8 +54,12 @@
   <ItemGroup>
     <ClInclude Include="Game\include\audio\AudioManager.h" />
     <ClInclude Include="Game\include\camera\CameraController.h" />
+    <ClInclude Include="Game\include\collision\BoxCollider.h" />
     <ClInclude Include="Game\include\Collision\CollisionManager.h" />
+    <ClInclude Include="Game\include\collision\CollisionMap.h" />
+    <ClInclude Include="Game\include\collision\PlayerStageCollider.h" />
     <ClInclude Include="Game\include\Collision\StageCollider.h" />
+    <ClInclude Include="Game\include\collision\StageColliderBase.h" />
     <ClInclude Include="Game\include\enemy\Enemy.h" />
     <ClInclude Include="Game\include\follower\follower.h" />
     <ClInclude Include="Game\include\HP\HP.h" />

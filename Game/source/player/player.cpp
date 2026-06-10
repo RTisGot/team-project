@@ -82,8 +82,8 @@ void Player::LoadModel()
     m_AnimTime = 0.0f;
     MV1SetAttachAnimTime(m_Modelhandle, m_AnimAttachIndex, m_AnimTime);
 
-    m_PlayerRadius = 5.0f;  // キャラクターの半径
-    m_PlayerHeight = 10.0f;  // キャラクターの全体高さ
+    m_PlayerRadius = 4.0f;  // キャラクターの半径
+    m_PlayerHeight = 20.0f;  // キャラクターの全体高さ
 
     // --- 頂点シェーダーの読み込み ---
     int vsFileHandle = FileRead_open("Game/assets/shaders/VertexShader.vso");
@@ -153,6 +153,9 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
 
     // 入力方向
     VECTOR move = VGet(0.0f, 0.0f, 0.0f);
+
+    // 前のフレームの位置を保存
+    VECTOR previousPosition = m_Position;
 
     if (CheckHitKey(KEY_INPUT_W))move = VAdd(move, forward);//前進
     if (CheckHitKey(KEY_INPUT_S))move = VSub(move, forward);//後退
@@ -252,7 +255,13 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
         float halfheight = m_PlayerHeight;
         float playerRadius = m_PlayerRadius;
 
-        collisionManager->ResolveStageCollision(m_Position, m_VelocityY, m_IsGround, halfheight, playerRadius);
+        collisionManager->ResolvePlayerCollision(
+            m_Position,
+            previousPosition,
+            m_VelocityY,
+            m_IsGround,
+            m_PlayerHeight,
+            m_PlayerRadius);
     }
 
     // 着地した瞬間の処理(前フレで空中だった場合)
@@ -263,7 +272,7 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
     }
 
     // 場外落下時の復帰処理
-    if (m_Position.y <= 0.0f)
+    if (m_Position.y <= -10.0f)
     {
         m_Position.x = 300.0f;
         m_Position.y = 580.0f;
@@ -319,9 +328,24 @@ void Player::Draw()
     // 新しい向きをセット
     MV1SetRotationXYZ(m_Modelhandle, VGet(0.0f, m_PlayerAngle, 0.0f));
 
+
+    //デバッグ
+    VECTOR bottomCenter =
+        VAdd(m_Position, VGet(0.0f, m_PlayerRadius, 0.0f));
+
+    VECTOR topCenter =
+        VAdd(m_Position,
+            VGet(0.0f,
+                m_PlayerHeight - m_PlayerRadius,
+                0.0f));
+    DrawSphere3D(bottomCenter, m_PlayerRadius, 16, GetColor(255, 0, 0), GetColor(255, 0, 0), TRUE);
+    DrawSphere3D(topCenter, m_PlayerRadius, 16, GetColor(0, 255, 0), GetColor(0, 255, 0), TRUE);
+
+
+
     // 3Dモデルに新しい座標をセット
     VECTOR drawPos = m_Position;
-    drawPos.y += (m_PlayerHeight * 1.6f);
+    drawPos.y += 0.0f;
 
     MV1SetPosition(m_Modelhandle, drawPos);
 

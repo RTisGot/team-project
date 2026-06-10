@@ -1,15 +1,9 @@
 #include "collision/StageCollider.h"
 
 StageCollider::StageCollider()
-    : m_StageModelHandle(-1)
+    
 {
 }
-
-void StageCollider::SetStageModel(int modelHandle)
-{
-    m_StageModelHandle = modelHandle;
-}
-
 
 // ステージとの当たり判定処理
 void StageCollider::ResolveStageCollision(VECTOR& position, float& velocityY, bool& isGround, float height, float radius)

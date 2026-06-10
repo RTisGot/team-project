@@ -1,6 +1,7 @@
 #ifndef DEF_STAGECOLLIDER_H
 #define DEF_STAGECOLLIDER_H
 
+#include "collision/StageColliderBase.h"
 #include <DxLib.h>
 
 /**
@@ -23,17 +24,11 @@ struct Collider
  * @class StageCollision
  * @brief ステージとの当たり判定を管理するクラス
  */
-class StageCollider
+class StageCollider:public StageColliderBase
 {
 public:
     StageCollider();
     ~StageCollider() = default;
-
-    /**
-     * @brief ステージモデルを設定する
-     * @param modelHandle ステージモデルのハンドル
-     */
-    void SetStageModel(int modelHandle);
 
     /**
      * @brief キャラとステージの当たり判定処理
@@ -44,9 +39,6 @@ public:
      * @param radius 半径
      */
     void ResolveStageCollision(VECTOR& position, float& velocityY, bool& isGround, float height, float radius);
-
-private:
-    int m_StageModelHandle; ///< ステージモデルのハンドル
 };
 
 #endif // DEF_STAGECOLLIDER_H
