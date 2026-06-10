@@ -27,6 +27,7 @@
     <ClCompile Include="Game\source\Collision\StageCollider.cpp" />
     <ClCompile Include="Game\source\collision\StageColliderBase.cpp" />
     <ClCompile Include="Game\source\enemy\Enemy.cpp" />
+    <ClCompile Include="Game\source\enemy\EnemyManager.cpp" />
     <ClCompile Include="Game\source\follower\follower.cpp" />
     <ClCompile Include="Game\source\HP\HP.cpp" />
     <ClCompile Include="Game\source\item\OrbActor.cpp" />
@@ -63,6 +64,7 @@
     <ClInclude Include="Game\include\Collision\StageCollider.h" />
     <ClInclude Include="Game\include\collision\StageColliderBase.h" />
     <ClInclude Include="Game\include\enemy\Enemy.h" />
+    <ClInclude Include="Game\include\enemy\EnemyManager.h" />
     <ClInclude Include="Game\include\follower\follower.h" />
     <ClInclude Include="Game\include\HP\HP.h" />
     <ClInclude Include="Game\include\item\OrbActor.h" />
