@@ -53,6 +53,7 @@ void ExploreScene::Init()
 
     m_player->SetOrbManager(m_OrbManager.get());
 
+    // お供の生成
     m_follower = std::make_unique<Follower>();
     m_follower->LoadModel();
 

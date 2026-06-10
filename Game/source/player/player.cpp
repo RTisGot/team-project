@@ -55,7 +55,7 @@ Player::Player()
 
     // ダッシュ関連
     m_MoveSpeed = 50.0f;
-    m_DashMultiplier = 2.0f;  // 2倍速
+    m_DashMultiplier = 1.7f;  // 2倍速
     m_IsDashing = false;
 
     // shaderのハンドルを初期化
