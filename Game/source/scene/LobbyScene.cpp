@@ -14,8 +14,8 @@ LobbyScene::LobbyScene(SceneManager* manager)
 
 void LobbyScene::Init()
 {
-    m_AudioManager.Init();
-    m_AudioManager.PlayBGM(BGMType::Title);
+   /* m_AudioManager.Init();
+    m_AudioManager.PlayBGM(BGMType::Title);*/
 
     // カメラのクリップ距離を設定
     SetCameraNearFar(16.0f, 5000.0f);
@@ -42,8 +42,12 @@ void LobbyScene::Init()
     m_collisionManager = std::make_unique<CollisionManager>();
     m_collisionManager->Init(m_roofTop->GetModelHandle());
 
+    // 屋上のフェンス部分の当たり判定を追加
     CollisionMap* collisionMap = m_collisionManager->GetCollisionMap();
-    collisionMap->AddBox(VGet(330.0, 540.0f, 0.0f), VGet(320.0f, 580.0f, 50.0f));
+    collisionMap->AddBox(VGet(180.0, 550.0f, -345.0f), VGet(182.0f, 570.0f, 213.0f));
+    collisionMap->AddBox(VGet(180.0, 550.0f, -345.0f), VGet(497.0f, 570.0f, -342.0f));
+    collisionMap->AddBox(VGet(495.0f, 550.0f, -342.0f), VGet(497.0f, 570.0f, 213.0f));
+    collisionMap->AddBox(VGet(182.0f, 550.0f, 210.0f), VGet(495.0f, 570.0f, 213.0f));
 
     // ライトマネージャーの生成と初期化
     m_lightManager = std::make_unique<LightManager>();
@@ -81,9 +85,7 @@ void LobbyScene::Update(float deltaTime)
     {
         m_isPlayerInRoom = true;
 
-        m_InteractionUI->SetText(
-            true,
-            "F : 扉に入る");
+        m_InteractionUI->SetText(true, "F : 扉に入る");
 
         if (CheckHitKey(KEY_INPUT_F) == 1)
         {
@@ -91,10 +93,7 @@ void LobbyScene::Update(float deltaTime)
 
             m_AudioManager.PlaySE(SEType::Elevator);
 
-            m_manager->ChangeScene(
-                std::make_shared<LoadingScene>(
-                    m_manager,
-                    std::make_shared<ExploreScene>(m_manager)));
+            m_manager->ChangeScene(std::make_shared<LoadingScene>(m_manager, std::make_shared<ExploreScene>(m_manager)));
         }
     }
     else
@@ -133,6 +132,21 @@ void LobbyScene::Draw()
     {
         m_InteractionUI->Draw();
     }
+
+    // プレイヤー座標を取得して表示
+    VECTOR playerPos = { 0.0f, 0.0f, 0.0f };
+    if (m_player)
+    {
+        playerPos = m_player->GetPosition();
+    }
+    DrawFormatString(
+        10,
+        100,
+        GetColor(255, 255, 255),
+        "Player Pos : %.1f %.1f %.1f",
+        playerPos.x,
+        playerPos.y,
+        playerPos.z);
 
 #ifdef _DEBUG
     DrawRoomDebug();

@@ -53,6 +53,7 @@ void ExploreScene::Init()
 
     m_player->SetOrbManager(m_OrbManager.get());
 
+    // お供の生成
     m_follower = std::make_unique<Follower>();
     m_follower->LoadModel();
 
@@ -60,6 +61,14 @@ void ExploreScene::Init()
     m_collisionManager = std::make_unique<CollisionManager>();
     m_collisionManager->Init(m_CurrentMap->GetModelHandle());
 
+    CollisionMap* collisionMap = m_collisionManager->GetCollisionMap();
+    for (const auto& wall : mapData.BoxColliders)
+    {
+        collisionMap->AddBox(wall.m_Min, wall.m_Max);
+    }
+    
+    m_enemy = std::make_unique<Enemy>();
+    m_enemy->Init();
     //m_enemy = std::make_unique<Enemy>();
     //m_enemy->Init();
     m_EnemyManager =
@@ -86,14 +95,9 @@ void ExploreScene::Update(float deltaTime)
 
     if (m_player->GetHP()->GetCurrentHP() <= 0.0f)
     {
-        auto gameOver =
-            std::make_shared<GameOverScene>(
-                m_manager);
+        auto gameOver = std::make_shared<GameOverScene>(m_manager);
 
-        m_manager->ChangeScene(
-        (
-                m_manager,
-                gameOver));
+        m_manager->ChangeScene((m_manager, gameOver));
 
         return;
     }
@@ -190,4 +194,11 @@ void ExploreScene::Draw()
         playerPos.x,
         playerPos.y,
         playerPos.z);
+
+#ifdef _DEBUG
+
+    m_collisionManager->GetCollisionMap()->DrawDebug();
+
+#endif
+
 }

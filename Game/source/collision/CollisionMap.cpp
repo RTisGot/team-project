@@ -1,23 +1,33 @@
 #include "collision/CollisionMap.h"
+#include <algorithm>
 #include <DxLib.h>
 
-void CollisionMap::AddBox(const VECTOR& min, const VECTOR& max)
+void CollisionMap::AddBox(const VECTOR& minPos, const VECTOR& maxPos)
 {
     BoxCollider box;
 
-    box.m_Min = min;
-    box.m_Max = max;
+    box.m_Min.x = (std::min)(minPos.x, maxPos.x);
+    box.m_Min.y = (std::min)(minPos.y, maxPos.y);
+    box.m_Min.z = (std::min)(minPos.z, maxPos.z);
+
+    box.m_Max.x = (std::max)(minPos.x, maxPos.x);
+    box.m_Max.y = (std::max)(minPos.y, maxPos.y);
+    box.m_Max.z = (std::max)(minPos.z, maxPos.z);
 
     m_Boxes.push_back(box);
 }
 
 bool CollisionMap::CheckSphere(const VECTOR& center, float radius, VECTOR& pushOut) const
 {
+    pushOut = VGet(0, 0, 0);
+
+    bool hit = false;
+
     for (const auto& box : m_Boxes)
     {
-        float closestX = max(box.m_Min.x, min(center.x, box.m_Max.x));
-        float closestY = max(box.m_Min.y, min(center.y, box.m_Max.y));
-        float closestZ = max(box.m_Min.z, min(center.z, box.m_Max.z));
+        float closestX = (std::max)(box.m_Min.x, (std::min)(center.x, box.m_Max.x));
+        float closestY = (std::max)(box.m_Min.y, (std::min)(center.y, box.m_Max.y));
+        float closestZ = (std::max)(box.m_Min.z, (std::min)(center.z, box.m_Max.z));
 
         VECTOR closest =
         {
@@ -34,18 +44,20 @@ bool CollisionMap::CheckSphere(const VECTOR& center, float radius, VECTOR& pushO
         {
             if (distance < 0.001f)
             {
-                diff = VGet(1, 0, 0);
+                diff = VGet(1.0f, 0.0f, 0.0f);
                 distance = 1.0f;
             }
 
             float penetration = radius - distance;
 
-            pushOut = VScale(VNorm(diff), penetration);
+            VECTOR push = VScale(VNorm(diff), penetration);
 
-            return true;
+            pushOut = VAdd(pushOut, push);
+
+            hit = true;
         }
     }
-    return false;
+    return hit;
 }
 
 #ifdef _DEBUG

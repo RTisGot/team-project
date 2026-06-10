@@ -75,3 +75,8 @@ void RoofTop::Draw()
         m_follower->Draw();
     }
 }
+
+const MapData& RoofTop::GetMapData() const
+{
+    return m_MapData;
+}
