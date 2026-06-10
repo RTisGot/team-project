@@ -46,6 +46,9 @@ void LobbyScene::Init()
     m_lightManager = std::make_unique<LightManager>();
     m_lightManager->Init();
 
+    m_InteractionUI =
+        std::make_unique<InteractionUI>();
+
     m_IsLoading = false;
     m_LoadTimer = 0.0f;
 
@@ -75,6 +78,10 @@ void LobbyScene::Update(float deltaTime)
     {
         m_isPlayerInRoom = true;
 
+        m_InteractionUI->SetText(
+            true,
+            "F : 扉に入る");
+
         if (CheckHitKey(KEY_INPUT_F) == 1)
         {
             m_AudioManager.StopBGM();
@@ -90,6 +97,10 @@ void LobbyScene::Update(float deltaTime)
     else
     {
         m_isPlayerInRoom = false;
+
+        m_InteractionUI->SetText(
+            false,
+            "");
     }
 }
 
@@ -105,6 +116,11 @@ void LobbyScene::Draw()
     if (m_player)
     {
         m_player->Draw();
+    }
+
+    if (m_InteractionUI)
+    {
+        m_InteractionUI->Draw();
     }
 
 #ifdef _DEBUG

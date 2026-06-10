@@ -46,6 +46,7 @@
     <ClCompile Include="Game\source\system\GameData.cpp" />
     <ClCompile Include="Game\source\system\GameTimer.cpp" />
     <ClCompile Include="Game\source\system\LightManager.cpp" />
+    <ClCompile Include="Game\source\ui\InteractionUI.cpp" />
     <ClCompile Include="Game\source\ui\UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -81,6 +82,7 @@
     <ClInclude Include="Game\include\system\GameData.h" />
     <ClInclude Include="Game\include\system\GameTimer.h" />
     <ClInclude Include="Game\include\system\LightManager.h" />
+    <ClInclude Include="Game\include\ui\InteractionUI.h" />
     <ClInclude Include="Game\include\ui\UIManager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

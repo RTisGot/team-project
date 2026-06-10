@@ -177,6 +177,9 @@
     <ClCompile Include="Game\source\camera\CameraController.cpp">
       <Filter>ソース ファイル\camera</Filter>
     </ClCompile>
+    <ClCompile Include="Game\source\ui\InteractionUI.cpp">
+      <Filter>ソース ファイル\ui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\include\player\Player.h">
@@ -277,6 +280,9 @@
     </ClInclude>
     <ClInclude Include="Game\include\camera\CameraController.h">
       <Filter>ヘッダー ファイル\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\include\ui\InteractionUI.h">
+      <Filter>ヘッダー ファイル\ui</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

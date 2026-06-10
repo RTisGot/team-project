@@ -25,6 +25,7 @@ m_ViewAngle(DX_PI_F / 2.0f), //90度
 m_DamagePower(10),
 m_DamageInterval(60),
 m_DamageTimer(0),
+m_IsChasing(false),
 m_IsGround(false)
 {
 			   
@@ -35,18 +36,19 @@ Enemy::~Enemy()
 	
 }
 
-const static float ENEMY_MOVE_SPEED = 0.05f; //敵の移動速度
+const static float ENEMY_MOVE_SPEED = 0.5f; //敵の移動速度
 const static float ENEMY_ANGLE_SPEED = 0.2f; //敵の角度変化速度
 const static float ENEMY_JUMP_POWER = 0.25f; //ジャンプ力
 const static float ENEMY_GRAVITY = -0.01f;
 const static float ENEMY_MAX_FALL_SPEED = -1.5f; //敵の落下速度の下限
 const static float ENEMY_HIT_HEIGHT = 1.3f; //当たり判定用の高さ
 const static int ENEMY_ANIMATION_NUM = 4; //敵のアニメーション総数
+const static float ENEMY_FIND_RANGE = 10.0f;
 
 void Enemy::Init()
 {
     // 座標
-    m_Position = VGet(185.0f, 5.0f, 170.0f);
+    m_Position = VGet(-211.0f, 5.0f, 1.0f);
 
 	// モデルの読み込み
 	m_ModelHandle = MV1LoadModel("Game/assets/models/enemy/enemy.mv1");
@@ -72,21 +74,28 @@ void Enemy::Init()
     m_Action = 0;
     m_PrevAction = 0;
 
+    // アニメーションの初期化
     m_AttachIndex = 0;
 
+    // 時間の初期化
     m_PlayTime = 0.0f;
 
+    // 移動時間の初期化
     m_MoveTime = 0;
 
+    // 敵のサイズの初期化
     m_EnemyHeight = 10.0f;
     m_EnemyRadius = 5.0f;
 
+    // 視野の初期化
     m_ViewRange = 30.0f;
     m_ViewAngle = DX_PI_F / 2.0f; // 45度
     m_DamagePower = 10;
 
     m_DamageInterval = 60; // 1秒
     m_DamageTimer = 0;
+
+    m_IsChasing = false;
 
     m_VelocityY = 0.0f;
     m_IsGround = false;
@@ -144,35 +153,53 @@ void Enemy::AngleUpdate()
 }
 
 // 敵の動きの更新
-void Enemy::MoveUpdate()
+void Enemy::MoveUpdate(Player* player)
 {
-    m_MoveVec = VGet(0.0f, 0.0f, 0.0f);
-
-    if (m_MoveTime < 180)
+    if (player == nullptr)
     {
-        m_MoveVec = VGet(ENEMY_MOVE_SPEED, 0.0f, 0.0f);
-    }
-    else
-    {
-        m_MoveVec = VGet(-ENEMY_MOVE_SPEED, 0.0f, 0.0f);
+        return;
     }
 
-    m_MoveTime++;
-
-    if (m_MoveTime > 360)
+    if (!IsPlayerInRange(player->GetPosition()))
     {
-        m_MoveTime = 0;
+        return;
     }
 
-    // 座標更新
+   VECTOR toPlayer =
+{
+    player->GetPosition().x - m_Position.x,
+    0.0f,
+    player->GetPosition().z - m_Position.z
+};
+
+float distance = VSize(toPlayer);
+
+if (!m_IsChasing)
+{
+    if (IsPlayerInRange(player->GetPosition()) &&
+        distance <= ENEMY_FIND_RANGE)
+    {
+        m_IsChasing = true;
+    }
+}
+// 見失う
+if (m_IsChasing)
+{
+    if (distance > 20.0f)
+    {
+        m_IsChasing = false;
+        return;
+    }
+}
+
+
+    VECTOR dir = VNorm(toPlayer);
+
+    m_MoveVec = VScale(dir, ENEMY_MOVE_SPEED);
+
     m_Position = VAdd(m_Position, m_MoveVec);
 
-    // 向き更新
-    if (VSize(m_MoveVec) > 0.001f)
-    {
-         m_TargetMoveDirection = VNorm(m_MoveVec);
-    }
-    
+    m_TargetMoveDirection = dir;
 }
 
 //敵のアニメーション
@@ -184,7 +211,8 @@ void Enemy::Update(
     CollisionManager* collisionManager,
     Player* player) 
 {
-    MoveUpdate();
+    MoveUpdate(player);
+
 
 
     m_VelocityY += ENEMY_GRAVITY;

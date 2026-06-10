@@ -16,8 +16,7 @@ private:
 public:
     UIManager();
     void LoadResources(); //UIのリソースを読み込む関数
-    void Draw(Player* player,
-        bool canEnterRoom = false); //UIの描画処理
+    void Draw(Player* player); //UIの描画処理
 };
 
 #endif // DEF_UIMANAGER_H
