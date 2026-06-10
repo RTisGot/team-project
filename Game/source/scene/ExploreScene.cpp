@@ -15,8 +15,8 @@ ExploreScene::~ExploreScene() = default; // Player が定義済みの翻訳単�
 
 void ExploreScene::Init()
 {
- /*   m_AudioManager.Init();
-    m_AudioManager.PlayBGM(BGMType::Game);*/
+    m_AudioManager.Init();
+    m_AudioManager.PlayBGM(BGMType::Game);
 
     m_OrbManager = std::make_unique<OrbManager>();
 
@@ -53,6 +53,10 @@ void ExploreScene::Init()
 
     m_player->SetOrbManager(m_OrbManager.get());
 
+    // お供の生成
+    m_follower = std::make_unique<Follower>();
+    m_follower->LoadModel();
+
     // 当たり判定マネージャーの生成とステージモデル登録
     m_collisionManager = std::make_unique<CollisionManager>();
     m_collisionManager->Init(m_CurrentMap->GetModelHandle());
@@ -65,6 +69,13 @@ void ExploreScene::Init()
     
     m_enemy = std::make_unique<Enemy>();
     m_enemy->Init();
+    //m_enemy = std::make_unique<Enemy>();
+    //m_enemy->Init();
+    m_EnemyManager =
+        std::make_unique<EnemyManager>();
+
+    m_EnemyManager->Load(
+        "Game/data/maps/KindergartenMap.json");
 
     // ライトマネージャーの生成と初期化
     m_lightManager = std::make_unique<LightManager>();
@@ -91,9 +102,23 @@ void ExploreScene::Update(float deltaTime)
         return;
     }
 
-    if (m_enemy)
+    // お供更新
+    if (m_follower && m_player)
     {
-        m_enemy->Update(m_collisionManager.get(), m_player.get());
+        m_follower->SetTargetPosition(
+            m_player->GetPosition());
+
+        m_follower->SetTargetAngle(
+            m_player->GetAngle());
+
+        m_follower->Update();
+    }
+
+    if (m_EnemyManager)
+    {
+        m_EnemyManager->Update(
+            m_collisionManager.get(),
+            m_player.get());
     }
 
     if (m_CurrentMap)
@@ -134,9 +159,20 @@ void ExploreScene::Draw()
         m_player->Draw();
     }
 
+    /*if (m_enemy)
+    if (m_follower)
+    {
+        m_follower->Draw();
+    }
+
     if (m_enemy)
     {
         m_enemy->Draw();
+    }*/
+
+    if (m_EnemyManager)
+    {
+        m_EnemyManager->Draw();
     }
 
     if(m_UIManager)

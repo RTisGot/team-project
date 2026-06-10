@@ -8,15 +8,15 @@ m_Position(VGet(0.0f, 0.0f, 0.0f)),
 m_TargetMoveDirection(VGet(0.0f, 0.0f, 1.0f)),
 m_MoveVec(VGet(0.0f, 0.0f, 0.0f)),
 m_Angle(0.0f),
-m_JumpPower(0.0f),
-m_JumpStatus(OBJ_NO_JUMP),
-m_Action(0),
-m_PrevAction(0),
-m_AnimIndex(0),
-m_AttachIndex(0),
-m_TotalTime(0.0f),
-m_PlayTime(0.0f),
-m_MoveTime(0),
+//m_JumpPower(0.0f),
+//m_JumpStatus(OBJ_NO_JUMP),
+//m_Action(0),
+//m_PrevAction(0),
+//m_AnimIndex(0),
+//m_AttachIndex(0),
+//m_TotalTime(0.0f),
+//m_PlayTime(0.0f),
+//m_MoveTime(0),
 m_EnemyHeight(10.0f),
 m_EnemyRadius(5.0f),
 m_VelocityY(0.0f),
@@ -33,7 +33,7 @@ m_IsGround(false)
 
 Enemy::~Enemy()
 {
-	
+    Finalize();
 }
 
 const static float ENEMY_MOVE_SPEED = 0.5f; //敵の移動速度
@@ -45,61 +45,46 @@ const static float ENEMY_HIT_HEIGHT = 1.3f; //当たり判定用の高さ
 const static int ENEMY_ANIMATION_NUM = 4; //敵のアニメーション総数
 const static float ENEMY_FIND_RANGE = 10.0f;
 
-void Enemy::Init()
+void Enemy::Init(const VECTOR& position)
 {
-    // 座標
-    m_Position = VGet(-211.0f, 5.0f, 1.0f);
+    m_Position = position;
 
-	// モデルの読み込み
-	m_ModelHandle = MV1LoadModel("Game/assets/models/enemy/enemy.mv1");
-	if (m_ModelHandle != -1)
-	{
-		MV1SetScale(m_ModelHandle, VGet(0.01f, 0.01f, 0.01f));
-	}
+    m_ModelHandle =
+        MV1LoadModel(
+            "Game/assets/models/enemy/enemy.mv1");
 
-    // 向く方向の初期化
-    m_TargetMoveDirection = VGet(0.0f, 0.0f, 1.0f);
+    if (m_ModelHandle != -1)
+    {
+        MV1SetScale(
+            m_ModelHandle,
+            VGet(0.01f, 0.01f, 0.01f));
 
-    // 移動ベクトルの初期化
-    m_MoveVec = VGet(0.0f, 0.0f, 0.0f);
+        MV1SetPosition(
+            m_ModelHandle,
+            m_Position);
+    }
 
-    // 角度の初期化
+    m_TargetMoveDirection =
+        VGet(0.0f, 0.0f, 1.0f);
+
+    m_MoveVec =
+        VGet(0.0f, 0.0f, 0.0f);
+
     m_Angle = 0.0f;
 
-    // ジャンプの初期化
-    m_JumpPower = 0.0f;
-    m_JumpStatus = OBJ_NO_JUMP;
-
-    // アクションの初期化
-    m_Action = 0;
-    m_PrevAction = 0;
-
-    // アニメーションの初期化
-    m_AttachIndex = 0;
-
-    // 時間の初期化
-    m_PlayTime = 0.0f;
-
-    // 移動時間の初期化
-    m_MoveTime = 0;
-
-    // 敵のサイズの初期化
     m_EnemyHeight = 10.0f;
     m_EnemyRadius = 5.0f;
 
-    // 視野の初期化
     m_ViewRange = 30.0f;
-    m_ViewAngle = DX_PI_F / 2.0f; // 45度
+    m_ViewAngle = DX_PI_F / 2.0f;
+
     m_DamagePower = 10;
-
-    m_DamageInterval = 30; // 1秒
+    m_DamageInterval = 30;
     m_DamageTimer = 0;
-
-    m_IsChasing = false;
 
     m_VelocityY = 0.0f;
     m_IsGround = false;
-
+    m_IsChasing = false;
 }
 
 // 敵の向き更新
@@ -238,16 +223,25 @@ void Enemy::Update(
     MV1SetPosition(m_ModelHandle, m_Position);
 }
 
+
 void Enemy::Draw()
 {
-    if (m_ModelHandle == -1)
-    {
-        return;
-    }
+    DrawSphere3D(
+        m_Position,
+        2.0f,
+        8,
+        GetColor(255, 0, 0),
+        GetColor(255, 0, 0),
+        TRUE);
 
     SetDrawBlendMode(DX_BLENDMODE_ALPHA, 80);
     DrawViewRange();
     SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+    if (m_ModelHandle == -1)
+    {
+        return;
+    }
 
     MV1DrawModel(m_ModelHandle);
 }
