@@ -6,6 +6,7 @@
 #include "player/Player.h"
 #include "follower/Follower.h"
 #include "enemy/Enemy.h"
+#include "enemy/EnemyManager.h"
 #include "map/MapBase.h"
 #include "map/KindergartenMap.h"
 #include "system/LightManager.h"
@@ -50,10 +51,11 @@ private:
     std::unique_ptr<CollisionManager> m_collisionManager;   ///< 当たり判定マネージャー
     std::unique_ptr<MapBase> m_CurrentMap;                  ///< 現在のマップインスタンス
     std::unique_ptr<LightManager> m_lightManager;           ///< ライトマネージャー
-    std::unique_ptr<Enemy> m_enemy;                         ///< 敵インスタンス
+   // std::unique_ptr<Enemy> m_enemy;                         ///< 敵インスタンス
     std::unique_ptr<PlayObject> m_playObject;               ///< 遊具インスタンス
     std::unique_ptr<UIManager> m_UIManager;                 ///< UIマネージャー
     std::unique_ptr<OrbManager> m_OrbManager;               ///< オーブマネージャー
+    std::unique_ptr<EnemyManager>m_EnemyManager;
 };
 
 #endif // DEF_EXPLORESCENE_H

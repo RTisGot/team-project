@@ -61,8 +61,13 @@ void ExploreScene::Init()
     m_collisionManager = std::make_unique<CollisionManager>();
     m_collisionManager->Init(m_CurrentMap->GetModelHandle());
 
-    m_enemy = std::make_unique<Enemy>();
-    m_enemy->Init();
+    //m_enemy = std::make_unique<Enemy>();
+    //m_enemy->Init();
+    m_EnemyManager =
+        std::make_unique<EnemyManager>();
+
+    m_EnemyManager->Load(
+        "Game/data/maps/KindergartenMap.json");
 
     // ライトマネージャーの生成と初期化
     m_lightManager = std::make_unique<LightManager>();
@@ -106,9 +111,11 @@ void ExploreScene::Update(float deltaTime)
         m_follower->Update();
     }
 
-    if (m_enemy)
+    if (m_EnemyManager)
     {
-        m_enemy->Update(m_collisionManager.get(), m_player.get());
+        m_EnemyManager->Update(
+            m_collisionManager.get(),
+            m_player.get());
     }
 
     if (m_CurrentMap)
@@ -149,6 +156,7 @@ void ExploreScene::Draw()
         m_player->Draw();
     }
 
+    /*if (m_enemy)
     if (m_follower)
     {
         m_follower->Draw();
@@ -157,6 +165,11 @@ void ExploreScene::Draw()
     if (m_enemy)
     {
         m_enemy->Draw();
+    }*/
+
+    if (m_EnemyManager)
+    {
+        m_EnemyManager->Draw();
     }
 
     if(m_UIManager)

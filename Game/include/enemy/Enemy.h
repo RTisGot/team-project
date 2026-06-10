@@ -1,5 +1,6 @@
 #ifndef ENEMY_H_
-#define ENEMY_H_	
+#define ENEMY_H_
+
 #include "DxLib.h"
 #include <Collision/CollisionManager.h>
 #include <player/player.h>
@@ -7,70 +8,53 @@
 class Enemy
 {
 public:
+    Enemy();
+    ~Enemy();
 
-	// コンストラクタ
-	Enemy();
+    void Init(const VECTOR& position);
 
-	// デストラクタ
-	~Enemy();
+    void Update(
+        CollisionManager* collisionManager,
+        Player* player);
 
-	// 初期化処理
-	void Init();
+    void Draw();
 
-    // 敵の向き更新
-    void AngleUpdate();
-
-    void MoveUpdate(Player* player);
-
-	// 更新処理
-	void Update(CollisionManager* collisionManager);
-
-    // アニメーション処理
-    void Animation();
-
-    void Update(CollisionManager* collisionManager, Player* player);
-
-	// 描画処理
-	void Draw();
-
-    void DrawViewRange();
-
-    void AttackPlayer(Player* player);
-
-    bool IsPlayerInRange(const VECTOR& playerPos);
-  
-    // 敵座標の取得
     void Finalize();
 
 private:
 
-    int m_ModelHandle;	            ///< モデルハンドル
-    VECTOR m_Position;              ///< 敵座標
-    VECTOR m_TargetMoveDirection;   ///< モデルが向くべき方向
-    VECTOR m_MoveVec;               ///< 移動ベクトル
+    void MoveUpdate(Player* player);
+    void AngleUpdate();
+    void AttackPlayer(Player* player);
+    void Animation();
+    void DrawViewRange();
 
-    float m_Angle;              ///< 敵の向き
-    float m_JumpPower;          ///< ジャンプ力
-    int m_JumpStatus;           ///< ジャンプ状態
-    int m_Action;               ///< 現在の行動
-    int m_PrevAction;           ///< 前回の行動
-    int m_AnimIndex;            ///< アニメーションのインデックス
-    int m_AttachIndex;          ///< モデルのアタッチメントインデックス
-    float m_TotalTime;          ///< 経過時間
-    float m_PlayTime;           ///< 行動開始からの時間
+    bool IsPlayerInRange(
+        const VECTOR& playerPos);
+
+private:
+
+    int m_ModelHandle;
+
+    VECTOR m_Position;
+    VECTOR m_TargetMoveDirection;
+    VECTOR m_MoveVec;
+
+    float m_Angle;
+
+    float m_EnemyHeight;
+    float m_EnemyRadius;
+
+    float m_ViewRange;
+    float m_ViewAngle;
+
+    int m_DamagePower;
+    int m_DamageInterval;
+    int m_DamageTimer;
+
+    float m_VelocityY;
+    bool m_IsGround;
     bool m_IsChasing;
-    int m_MoveTime;             ///< 移動時間
-
-    float m_EnemyHeight;        ///< 敵の全体高さ
-    float m_EnemyRadius;        ///< 敵の横幅の半径
-
-    float m_ViewRange;          ///< 探索範囲
-    float m_ViewAngle;    ///< 視野角(rad)
-    int m_DamagePower;          ///< ダメージ量
-    int m_DamageInterval;       ///< 攻撃間隔
-    int m_DamageTimer;          ///< 攻撃タイマー
-
-    float m_VelocityY;          ///< Y方向の速度
-    bool  m_IsGround;           ///< 接地フラグ
 };
+
 #endif
