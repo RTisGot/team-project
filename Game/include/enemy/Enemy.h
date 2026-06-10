@@ -19,9 +19,8 @@ public:
 
     // 敵の向き更新
     void AngleUpdate();
-    
-    // 敵の移動更新
-    void MoveUpdate();
+
+    void MoveUpdate(Player* player);
 
 	// 更新処理
 	void Update(CollisionManager* collisionManager);
@@ -59,7 +58,7 @@ private:
     int m_AttachIndex;          ///< モデルのアタッチメントインデックス
     float m_TotalTime;          ///< 経過時間
     float m_PlayTime;           ///< 行動開始からの時間
-
+    bool m_IsChasing;
     int m_MoveTime;             ///< 移動時間
 
     float m_EnemyHeight;        ///< 敵の全体高さ

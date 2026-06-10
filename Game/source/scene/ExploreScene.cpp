@@ -2,6 +2,8 @@
 #include "thirdparty/json.hpp"
 #include <fstream>
 #include <item/OrbLoader.h>
+#include <scene/LoadingScene.h>
+#include <scene/GameOverScene.h>
 
 using json = nlohmann::json;
 ExploreScene::ExploreScene(SceneManager* manager)
@@ -13,6 +15,9 @@ ExploreScene::~ExploreScene() = default; // Player が定義済みの翻訳単�
 
 void ExploreScene::Init()
 {
+    m_AudioManager.Init();
+    m_AudioManager.PlayBGM(BGMType::Game);
+
     m_OrbManager = std::make_unique<OrbManager>();
 
     m_OrbManager->Init();
@@ -70,6 +75,21 @@ void ExploreScene::Update(float deltaTime)
     {
         m_player->Update(deltaTime, m_collisionManager.get());
     }
+
+    if (m_player->GetHP()->GetCurrentHP() <= 0.0f)
+    {
+        auto gameOver =
+            std::make_shared<GameOverScene>(
+                m_manager);
+
+        m_manager->ChangeScene(
+        (
+                m_manager,
+                gameOver));
+
+        return;
+    }
+
 
     if (m_enemy)
     {

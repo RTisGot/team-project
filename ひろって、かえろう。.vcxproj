@@ -41,6 +41,7 @@
     <ClCompile Include="Game\source\object\PlayObject.cpp" />
     <ClCompile Include="Game\source\player\Player.cpp" />
     <ClCompile Include="Game\source\scene\ExploreScene.cpp" />
+    <ClCompile Include="Game\source\scene\GameOverScene.cpp" />
     <ClCompile Include="Game\source\scene\LoadingScene.cpp" />
     <ClCompile Include="Game\source\scene\LobbyScene.cpp" />
     <ClCompile Include="Game\source\scene\SceneManager.cpp" />
@@ -49,6 +50,7 @@
     <ClCompile Include="Game\source\system\GameData.cpp" />
     <ClCompile Include="Game\source\system\GameTimer.cpp" />
     <ClCompile Include="Game\source\system\LightManager.cpp" />
+    <ClCompile Include="Game\source\ui\InteractionUI.cpp" />
     <ClCompile Include="Game\source\ui\UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -79,6 +81,7 @@
     <ClInclude Include="Game\include\player\Player.h" />
     <ClInclude Include="Game\include\scene\BaseScene.h" />
     <ClInclude Include="Game\include\scene\ExploreScene.h" />
+    <ClInclude Include="Game\include\scene\GameOverScene.h" />
     <ClInclude Include="Game\include\scene\LoadingScene.h" />
     <ClInclude Include="Game\include\scene\LobbyScene.h" />
     <ClInclude Include="Game\include\scene\SceneManager.h" />
@@ -88,6 +91,7 @@
     <ClInclude Include="Game\include\system\GameData.h" />
     <ClInclude Include="Game\include\system\GameTimer.h" />
     <ClInclude Include="Game\include\system\LightManager.h" />
+    <ClInclude Include="Game\include\ui\InteractionUI.h" />
     <ClInclude Include="Game\include\ui\UIManager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

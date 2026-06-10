@@ -49,6 +49,9 @@ void LobbyScene::Init()
     m_lightManager = std::make_unique<LightManager>();
     m_lightManager->Init();
 
+    m_InteractionUI =
+        std::make_unique<InteractionUI>();
+
     m_IsLoading = false;
     m_LoadTimer = 0.0f;
 
@@ -78,30 +81,29 @@ void LobbyScene::Update(float deltaTime)
     {
         m_isPlayerInRoom = true;
 
-        if (CheckHitKey(KEY_INPUT_F))
-        {
-            m_IsLoading = true;
+        m_InteractionUI->SetText(
+            true,
+            "F : 扉に入る");
 
+        if (CheckHitKey(KEY_INPUT_F) == 1)
+        {
             m_AudioManager.StopBGM();
-          
-        }
-        if (m_IsLoading)
-        {
-            m_LoadTimer += deltaTime;
 
-            if (m_LoadTimer >= 2.0f)
-            {
-                m_AudioManager.PlaySE(SEType::Elevator);
-                m_manager->ChangeScene(
-                    std::make_shared<LoadingScene>(
-                        m_manager,
-                        std::make_shared<ExploreScene>(m_manager)));
-            }
+            m_AudioManager.PlaySE(SEType::Elevator);
+
+            m_manager->ChangeScene(
+                std::make_shared<LoadingScene>(
+                    m_manager,
+                    std::make_shared<ExploreScene>(m_manager)));
         }
     }
     else
     {
         m_isPlayerInRoom = false;
+
+        m_InteractionUI->SetText(
+            false,
+            "");
     }
 }
 
@@ -125,6 +127,11 @@ void LobbyScene::Draw()
     if (m_player)
     {
         m_player->Draw();
+    }
+
+    if (m_InteractionUI)
+    {
+        m_InteractionUI->Draw();
     }
 
 #ifdef _DEBUG

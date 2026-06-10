@@ -9,6 +9,7 @@
 #include "system/LightManager.h"
 #include "audio/AudioManager.h"
 #include "Collision/CollisionManager.h"
+#include "ui/InteractionUI.h"
 #include <memory>
 #include <DxLib.h>
 
@@ -31,7 +32,7 @@ private:
     /**
      * @brief デバッグ用床グリッドの描画
      */
-    void DrawDebugGrid();
+    //void DrawDebugGrid();
     void DrawRoomDebug();
 
     bool m_isPlayerInRoom; ///< プレイヤーが部屋にいるかどうかのフラグ
@@ -41,6 +42,7 @@ private:
     VECTOR m_roomMax;
     AudioManager m_AudioManager;
     SceneManager* m_manager; ///< シーンマネージャー
+    std::unique_ptr<InteractionUI> m_InteractionUI;
     std::unique_ptr<Player> m_player; ///< プレイヤーインスタンス
     std::unique_ptr<CollisionManager> m_collisionManager; ///< 当たり判定マネージャー
     std::unique_ptr<RoofTop> m_roofTop; ///< 屋上インスタンス
