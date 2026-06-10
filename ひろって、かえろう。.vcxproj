@@ -38,6 +38,7 @@
     <ClCompile Include="Game\source\object\PlayObject.cpp" />
     <ClCompile Include="Game\source\player\Player.cpp" />
     <ClCompile Include="Game\source\scene\ExploreScene.cpp" />
+    <ClCompile Include="Game\source\scene\GameOverScene.cpp" />
     <ClCompile Include="Game\source\scene\LoadingScene.cpp" />
     <ClCompile Include="Game\source\scene\LobbyScene.cpp" />
     <ClCompile Include="Game\source\scene\SceneManager.cpp" />
@@ -73,6 +74,7 @@
     <ClInclude Include="Game\include\player\Player.h" />
     <ClInclude Include="Game\include\scene\BaseScene.h" />
     <ClInclude Include="Game\include\scene\ExploreScene.h" />
+    <ClInclude Include="Game\include\scene\GameOverScene.h" />
     <ClInclude Include="Game\include\scene\LoadingScene.h" />
     <ClInclude Include="Game\include\scene\LobbyScene.h" />
     <ClInclude Include="Game\include\scene\SceneManager.h" />

@@ -180,6 +180,9 @@
     <ClCompile Include="Game\source\ui\InteractionUI.cpp">
       <Filter>ソース ファイル\ui</Filter>
     </ClCompile>
+    <ClCompile Include="Game\source\scene\GameOverScene.cpp">
+      <Filter>ソース ファイル\scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\include\player\Player.h">
@@ -283,6 +286,9 @@
     </ClInclude>
     <ClInclude Include="Game\include\ui\InteractionUI.h">
       <Filter>ヘッダー ファイル\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\include\scene\GameOverScene.h">
+      <Filter>ヘッダー ファイル\scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

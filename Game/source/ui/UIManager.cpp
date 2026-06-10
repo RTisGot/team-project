@@ -70,7 +70,7 @@ void UIManager::Draw(Player* player)
     const int hpBlockMax = 5;
 
     float hpRatio =
-        hpComp->GetHP() / hpComp->GetMaxHP();
+        hpComp->GetCurrentHP() / hpComp->GetMaxHP();
 
     int currentBlock =
         static_cast<int>(hpRatio * hpBlockMax + 0.5f);
