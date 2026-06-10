@@ -13,6 +13,9 @@ ExploreScene::~ExploreScene() = default; // Player が定義済みの翻訳単�
 
 void ExploreScene::Init()
 {
+    m_AudioManager.Init();
+    m_AudioManager.PlayBGM(BGMType::Game);
+
     m_OrbManager = std::make_unique<OrbManager>();
 
     m_OrbManager->Init();

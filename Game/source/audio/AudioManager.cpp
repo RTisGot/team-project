@@ -57,7 +57,7 @@ bool AudioManager::Init()
 {
     // BGMの読み込み
     m_TitleBGMHandle = LoadSoundMem("Game/assets/audio/bgm/title_bgm.mp3");
-    m_GameBGMHandle = LoadSoundMem("Game/assets/audio/bgm/game_bgm.wav");
+    m_GameBGMHandle = LoadSoundMem("Game/assets/audio/bgm/game_bgm.mp3");
     m_ResultBGMHandle = LoadSoundMem("Game/assets/audio/bgm/result_bgm.wav");
 
     // SEの読み込み

@@ -34,7 +34,8 @@ void UIManager::LoadResources()
     m_SkillCount = 3;
 }
 
-void UIManager::Draw(Player* player)
+void UIManager::Draw(Player* player,
+    bool canEnterRoom)
 {
 
     // 左下スキルUI
@@ -58,7 +59,19 @@ void UIManager::Draw(Player* player)
             }
         }
     }
+    if (canEnterRoom)
+    {
+        int screenX;
+        int screenY;
 
+        GetDrawScreenSize(&screenX, &screenY);
+
+        DrawFormatString(
+            screenX / 2 - 80,
+            screenY - 120,
+            GetColor(255, 255, 255),
+            "Fキー : 扉に入る");
+    }
     //playerを取得できなかったら返す
     if (player == nullptr) return;
 

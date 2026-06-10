@@ -14,6 +14,7 @@
 #include "item/OrbManager.h"
 #include <memory>
 #include <DxLib.h>
+#include <audio/AudioManager.h>
 
 /**
  * @file ExploreScene.h
@@ -41,6 +42,7 @@ public:
     void Draw() override;
 
 private:
+    AudioManager m_AudioManager;
     SceneManager* m_manager;                                ///< シーンマネージャーへのポインタ
     std::unique_ptr<Player> m_player;                       ///< プレイヤーインスタンス
     std::unique_ptr<CollisionManager> m_collisionManager;   ///< 当たり判定マネージャー
