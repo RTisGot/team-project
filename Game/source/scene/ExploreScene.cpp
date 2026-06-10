@@ -67,10 +67,6 @@ void ExploreScene::Init()
         collisionMap->AddBox(wall.m_Min, wall.m_Max);
     }
     
-    m_enemy = std::make_unique<Enemy>();
-    m_enemy->Init();
-    //m_enemy = std::make_unique<Enemy>();
-    //m_enemy->Init();
     m_EnemyManager =
         std::make_unique<EnemyManager>();
 
