@@ -53,6 +53,9 @@ void ExploreScene::Init()
 
     m_player->SetOrbManager(m_OrbManager.get());
 
+    m_follower = std::make_unique<Follower>();
+    m_follower->LoadModel();
+
     // 当たり判定マネージャーの生成とステージモデル登録
     m_collisionManager = std::make_unique<CollisionManager>();
     m_collisionManager->Init(m_CurrentMap->GetModelHandle());
@@ -95,8 +98,20 @@ void ExploreScene::Update(float deltaTime)
         return;
     }
 
+    // お供更新
+    if (m_follower && m_player)
+    {
+        m_follower->SetTargetPosition(
+            m_player->GetPosition());
 
     /*if (m_enemy)
+        m_follower->SetTargetAngle(
+            m_player->GetAngle());
+
+        m_follower->Update();
+    }
+
+    if (m_enemy)
     {
         m_enemy->Update(m_collisionManager.get(), m_player.get());
     }*/
@@ -147,6 +162,12 @@ void ExploreScene::Draw()
     }
 
     /*if (m_enemy)
+    if (m_follower)
+    {
+        m_follower->Draw();
+    }
+
+    if (m_enemy)
     {
         m_enemy->Draw();
     }*/

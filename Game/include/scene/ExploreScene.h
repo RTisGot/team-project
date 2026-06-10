@@ -4,6 +4,7 @@
 #include "scene/BaseScene.h"
 #include "scene/SceneManager.h"
 #include "player/Player.h"
+#include "follower/Follower.h"
 #include "enemy/Enemy.h"
 #include "enemy/EnemyManager.h"
 #include "map/MapBase.h"
@@ -46,6 +47,7 @@ private:
     AudioManager m_AudioManager;
     SceneManager* m_manager;                                ///< シーンマネージャーへのポインタ
     std::unique_ptr<Player> m_player;                       ///< プレイヤーインスタンス
+    std::unique_ptr<Follower> m_follower;                   ///< お供インスタンス
     std::unique_ptr<CollisionManager> m_collisionManager;   ///< 当たり判定マネージャー
     std::unique_ptr<MapBase> m_CurrentMap;                  ///< 現在のマップインスタンス
     std::unique_ptr<LightManager> m_lightManager;           ///< ライトマネージャー
