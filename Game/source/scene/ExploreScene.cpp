@@ -83,7 +83,7 @@ void ExploreScene::Update(float deltaTime)
                 m_manager);
 
         m_manager->ChangeScene(
-            std::make_shared<LoadingScene>(
+        (
                 m_manager,
                 gameOver));
 

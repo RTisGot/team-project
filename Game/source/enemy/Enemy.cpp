@@ -92,7 +92,7 @@ void Enemy::Init()
     m_ViewAngle = DX_PI_F / 2.0f; // 45度
     m_DamagePower = 10;
 
-    m_DamageInterval = 60; // 1秒
+    m_DamageInterval = 30; // 1秒
     m_DamageTimer = 0;
 
     m_IsChasing = false;
