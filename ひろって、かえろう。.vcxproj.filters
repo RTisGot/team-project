@@ -287,16 +287,16 @@
     <ClInclude Include="Game\include\camera\CameraController.h">
       <Filter>ヘッダー ファイル\camera</Filter>
     </ClInclude>
-    <ClInclude Include="Game\include\collision\StageColliderBase.h">
-      <Filter>ヘッダー ファイル\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\include\collision\PlayerStageCollider.h">
-      <Filter>ヘッダー ファイル\Collision</Filter>
-    </ClInclude>
     <ClInclude Include="Game\include\collision\BoxCollider.h">
       <Filter>ヘッダー ファイル\Collision</Filter>
     </ClInclude>
     <ClInclude Include="Game\include\collision\CollisionMap.h">
+      <Filter>ヘッダー ファイル\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\include\collision\StageColliderBase.h">
+      <Filter>ヘッダー ファイル\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\include\collision\PlayerStageCollider.h">
       <Filter>ヘッダー ファイル\Collision</Filter>
     </ClInclude>
   </ItemGroup>
