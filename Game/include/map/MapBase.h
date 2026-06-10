@@ -13,7 +13,7 @@ public:
     virtual void Draw() = 0;
 
     virtual int GetModelHandle() const = 0;
-    const MapData& GetMapData() const { return m_MapData; }
+    virtual const MapData& GetMapData() const = 0;
 
 protected:
     MapData m_MapData;

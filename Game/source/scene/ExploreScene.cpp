@@ -15,8 +15,8 @@ ExploreScene::~ExploreScene() = default; // Player が定義済みの翻訳単�
 
 void ExploreScene::Init()
 {
-    m_AudioManager.Init();
-    m_AudioManager.PlayBGM(BGMType::Game);
+ /*   m_AudioManager.Init();
+    m_AudioManager.PlayBGM(BGMType::Game);*/
 
     m_OrbManager = std::make_unique<OrbManager>();
 
@@ -57,6 +57,12 @@ void ExploreScene::Init()
     m_collisionManager = std::make_unique<CollisionManager>();
     m_collisionManager->Init(m_CurrentMap->GetModelHandle());
 
+    CollisionMap* collisionMap = m_collisionManager->GetCollisionMap();
+    for (const auto& wall : mapData.BoxColliders)
+    {
+        collisionMap->AddBox(wall.m_Min, wall.m_Max);
+    }
+    
     m_enemy = std::make_unique<Enemy>();
     m_enemy->Init();
 
@@ -78,18 +84,12 @@ void ExploreScene::Update(float deltaTime)
 
     if (m_player->GetHP()->GetCurrentHP() <= 0.0f)
     {
-        auto gameOver =
-            std::make_shared<GameOverScene>(
-                m_manager);
+        auto gameOver = std::make_shared<GameOverScene>(m_manager);
 
-        m_manager->ChangeScene(
-        (
-                m_manager,
-                gameOver));
+        m_manager->ChangeScene((m_manager, gameOver));
 
         return;
     }
-
 
     if (m_enemy)
     {
@@ -158,4 +158,11 @@ void ExploreScene::Draw()
         playerPos.x,
         playerPos.y,
         playerPos.z);
+
+#ifdef _DEBUG
+
+    m_collisionManager->GetCollisionMap()->DrawDebug();
+
+#endif
+
 }

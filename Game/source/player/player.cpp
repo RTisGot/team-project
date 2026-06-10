@@ -96,7 +96,7 @@ void Player::LoadModel()
 
         m_VSHandle = LoadVertexShaderFromMem(vsBuffer.data(), vsBuffer.size());
     }
-    else 
+    else
     {
         m_VSHandle = -1;
     }
@@ -185,7 +185,7 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
     bool isMoving = (VSize(move) > 0.0f);
     m_IsDashing = CheckHitKey(KEY_INPUT_LSHIFT) && isMoving;
 
-    /*// 上昇
+    // 上昇
     if (CheckHitKey(KEY_INPUT_E))
     {
         move.y += 1.0f;
@@ -196,7 +196,6 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
     {
         move.y -= 1.0f;
     }
-    */
 
     // プレイヤー移動
     if (VSize(move) > 0.0f)

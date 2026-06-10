@@ -22,7 +22,7 @@ class RoofTop : public MapBase
 public:
     RoofTop();
     ~RoofTop();
-    bool Init() override;//解散
+    bool Init() override;
 
     /**
      * @brief 更新処理
@@ -30,18 +30,19 @@ public:
      * @param playerAngle プレイヤーの向き
      */
     void Update() override;
-    void UpdateFollower(
-        const VECTOR& playerPos,
-        float playerAngle);
+    void UpdateFollower(const VECTOR& playerPos, float playerAngle);
     void Draw() override;
+
+    const MapData& GetMapData() const override;
 
     int GetModelHandle() const override { return m_modelHandle; }
 
 private:
-    int m_modelHandle;  // 屋上のモデルハンドル
+    int m_modelHandle;  ///< 屋上のモデルハンドル
 
-    // お供キャラクター
-    std::unique_ptr<Follower> m_follower;
+    MapData m_MapData;  ///< マップデータ
+
+    std::unique_ptr<Follower> m_follower;   ///< お供インスタンス
 };
 
 #endif // DEF_ROOF_TOP_H

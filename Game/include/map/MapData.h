@@ -52,6 +52,15 @@ struct CollectibleSpawnData
 };
 
 /**
+ * @brief ボックスコライダー情報
+ */
+struct BoxColliderData
+{
+    VECTOR m_Min;
+    VECTOR m_Max;
+};
+
+/**
  * @brief マップ全体データ
  */
 struct MapData
@@ -60,4 +69,5 @@ struct MapData
     std::vector<EnemySpawnData> EnemySpawns;
     std::vector<ItemSpawnData> ItemSpawns;
     std::vector<CollectibleSpawnData> CollectibleSpawns;
+    std::vector<BoxColliderData> BoxColliders;
 };

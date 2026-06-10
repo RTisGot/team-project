@@ -52,3 +52,8 @@ void KindergartenMap::Draw()
         DrawString(100, 100, "保育園マップが読み込まれていません", GetColor(255, 0, 0));
     }
 }
+
+const MapData& KindergartenMap::GetMapData() const
+{
+    return m_MapData;
+}

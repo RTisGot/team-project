@@ -19,10 +19,14 @@ public:
     void Update() override;
     void Draw() override;
 
+    const MapData& GetMapData() const override;
+
     int GetModelHandle() const override { return m_modelHandle; }
 
 private:
-    int m_modelHandle;    ///< 保育園マップモデル
+    int m_modelHandle;    ///< マップの3Dモデルハンドル
+
+    MapData m_MapData;      ///< マップデータ
 };
 
 #endif // DEF_KINDERGARTENMAP_H

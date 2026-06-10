@@ -129,12 +129,17 @@ void PlayerStageCollider::ResolveCapsule(VECTOR& position, float& velocityY, flo
         position = VAdd(position, VScale(push, 1.0f));
     }
 
-    VECTOR pushOut;
-
-    //VECTOR bottomCenter = VAdd(position, VGet(0.0f, radius, 0.0f));
-
-    if (m_CollisionMap->CheckSphere(bottomCenter, radius, pushOut))
+    for (int i = 0; i < 4; i++)
     {
+        VECTOR center = VAdd(position, VGet(0.0f, radius, 0.0f));
+
+        VECTOR pushOut;
+
+        if (!m_CollisionMap->CheckSphere(center, radius, pushOut))
+        {
+            break;
+        }
+
         position = VAdd(position, pushOut);
     }
 }

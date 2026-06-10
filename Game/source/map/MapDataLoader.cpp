@@ -42,5 +42,30 @@ bool MapDataLoader::Load(const std::string& filePath, MapData& mapData)
         mapData.PlayerSpawn.Camera.Pitch = camera.value("Pitch", 0.3f);
         mapData.PlayerSpawn.Camera.Distance = camera.value("Distance", 30.0f);
     }
+
+    // 壁コライダーの読み込み
+    if (root.contains("WallColliders"))
+    {
+        for (const auto& wall : root["WallColliders"])
+        {
+            BoxColliderData collider;
+
+            collider.m_Min =
+            {
+                wall["Min"][0],
+                wall["Min"][1],
+                wall["Min"][2]
+            };
+
+            collider.m_Max =
+            {
+                wall["Max"][0],
+                wall["Max"][1],
+                wall["Max"][2]
+            };
+
+            mapData.BoxColliders.push_back(collider);
+        }
+    }
     return true;
 }
