@@ -104,17 +104,11 @@ void ExploreScene::Update(float deltaTime)
         m_follower->SetTargetPosition(
             m_player->GetPosition());
 
-    /*if (m_enemy)
         m_follower->SetTargetAngle(
             m_player->GetAngle());
 
         m_follower->Update();
     }
-
-    if (m_enemy)
-    {
-        m_enemy->Update(m_collisionManager.get(), m_player.get());
-    }*/
 
     if (m_EnemyManager)
     {
