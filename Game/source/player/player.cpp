@@ -20,6 +20,18 @@ static std::vector<char> LoadFileToMemory(const char* filepath)
     return buffer;
 }
 
+//リストでアニメーションの種類とBlenderでの名前を管理
+AnimMap animList[] = {
+    {"アーマチュア|Idle", ANIM_IDLE},
+    {"アーマチュア|Run", ANIM_RUN},
+    {"アーマチュア|Walk", ANIM_WALK},
+    {"アーマチュア|Jump", ANIM_JUMP},
+    {"アーマチュア|Item.Walk", ANIM_ITEMWALK},
+    {"アーマチュア|Item.Run", ANIM_ITEMRUN},
+    {"Walk->Idle", ANIM_WALKTOIDLE},
+    {"Item.Walk->Idle", ANIM_WALKTOIDLE_ITEM},
+};
+
 // コンストラクタ
 // プレイヤーとカメラ情報を初期化
 Player::Player()
@@ -57,8 +69,9 @@ Player::Player()
 
     // ダッシュ関連
     m_MoveSpeed = 50.0f;
-    m_DashMultiplier = 1.7f;  // 2倍速
-    m_IsDashing = false;
+    // TODO: アニメーションのバグが発生しているため一時的にダッシュ機能を無効化
+    //m_DashMultiplier = 1.7f;  // 2倍速
+    //m_IsDashing = false;
 
     // shaderのハンドルを初期化
     m_VSHandle = -1;
@@ -72,24 +85,16 @@ Player::Player()
     m_OrbManager = nullptr;
     m_OrbCount = 0;
 
-    m_pFollower = nullptr;
+    //アニメーションの初期化
+    InitAnimations();
 
-    // 
-    m_PrevHP = m_PlayerHP.GetCurrentHP();
-    m_WasMoving = false;
+    PlayAnim(ANIM_IDLE);
 }
 
 void Player::LoadModel()
 {
     m_Modelhandle = MV1LoadModel("Game/assets/models/Character/Character.mv1");
-    //animationをアタッチ
-    m_AnimAttachIndex = MV1AttachAnim(m_Modelhandle, 0);
-    //アニメーションの総時間を取得
-    m_AnimTotalTime = MV1GetAttachAnimTotalTime(m_Modelhandle, m_AnimAttachIndex);
-    //現在のアニメーションの再生時間管理
-    m_AnimTime = 0.0f;
-    MV1SetAttachAnimTime(m_Modelhandle, m_AnimAttachIndex, m_AnimTime);
-
+   
     m_PlayerRadius = 4.0f;  // キャラクターの半径
     m_PlayerHeight = 20.0f;  // キャラクターの全体高さ
 
@@ -126,220 +131,152 @@ void Player::LoadModel()
     }
 }
 
-void Player::SetFollower(Follower* pFollower)
-{
-    m_pFollower = pFollower;
+// アニメーションの初期化
+void Player::InitAnimations() {
+    // 1. 配列をリセット
+    for (int i = 0; i < 8; i++) animIndices[i] = -1;
+
+    // 2. リストを走査して番号を埋める
+    int totalAnims = MV1GetAnimNum(m_Modelhandle);
+    //printfDx("--- モデルが持つアニメーション名一覧 ---\n");
+    for (int i = 0; i < totalAnims; i++) {
+        const char* name = MV1GetAnimName(m_Modelhandle, i);
+        //printfDx("Index %d: '%s'\n", i, name);
+        // animListはグローバルか、どこか参照できる場所に置いてください
+        for (int j = 0; j < 8; j++) {
+            if (strcmp(name, animList[j].nameInBlender) == 0) {
+                animIndices[animList[j].type] = i;
+            }
+        }
+    }
+}
+
+// 指定したAnimTypeを再生する
+void Player::PlayAnim(AnimType type) {
+    int index = animIndices[type];
+  
+    if (m_AnimAttachIndex != -1) {
+        int currentPlayingAnimIndex = MV1GetAttachAnim(m_Modelhandle, m_AnimAttachIndex);
+        if (currentPlayingAnimIndex == index) {
+            return; // すでに再生中なら何もしない
+        }
+    }
+    if (index != -1) {
+        if (m_AnimAttachIndex != -1) {
+            MV1DetachAnim(m_Modelhandle, m_AnimAttachIndex);
+        }
+
+      
+        m_AnimAttachIndex = MV1AttachAnim(m_Modelhandle, index, -1, FALSE);
+
+        // 3. アニメーションの長さを取得
+        m_AnimTotalTime = MV1GetAttachAnimTotalTime(m_Modelhandle, m_AnimAttachIndex);
+        m_AnimTime = 0.0f; // 再生時間を先頭に戻す
+    }
 }
 
 // -----------------更新処理----------------------------------------------
-void Player::Update(float deltaTime, CollisionManager* collisionManager)
+void Player::Update(float deltaTime, CollisionManager * collisionManager)
 {
-    // フレームレートが極端に低い場合の補正
+    // フレームレート補正
     deltaTime = min(deltaTime, 0.05f);
 
-    // ジャンプキーの状態を取得
+    // ジャンプキーの更新用
     int currentJumpKeyState = CheckHitKey(KEY_INPUT_SPACE);
 
     // 着地硬直の処理
-    if (m_StunTimer > 0.0f)
-    {
-        m_StunTimer -= deltaTime;
+    if (m_StunTimer > 0.0f) m_StunTimer -= deltaTime;
 
-    }
-
+    // --- カメラ・移動計算 ---
     float yaw = m_pCamera->GetYaw();
-
-    // カメラ前方向
-    VECTOR forward =
-    {
-        sinf(yaw),
-        0.0f,
-        cosf(yaw)
-    };
-
-    VECTOR right =
-    {
-        cosf(yaw),
-        0.0f,
-        -sinf(yaw)
-    };
-
-    // 入力方向
+    VECTOR forward = { sinf(yaw), 0.0f, cosf(yaw) };
+    VECTOR right = { cosf(yaw), 0.0f, -sinf(yaw) };
     VECTOR move = VGet(0.0f, 0.0f, 0.0f);
-
-    // 前のフレームの位置を保存
     VECTOR previousPosition = m_Position;
 
-    if (CheckHitKey(KEY_INPUT_W))move = VAdd(move, forward);//前進
-    if (CheckHitKey(KEY_INPUT_S))move = VSub(move, forward);//後退
-    if (CheckHitKey(KEY_INPUT_D))move = VAdd(move, right);//右
-    if (CheckHitKey(KEY_INPUT_A))move = VSub(move, right);//左
-    
-    if (m_StunTimer > 0.0f)
-    {
-        
-        move = VGet(0.0f, 0.0f, 0.0f); // W/A/S/Dを押していても、移動方向を強制的にリセット
+    if (m_StunTimer > 0.0f) {
+        move = VGet(0.0f, 0.0f, 0.0f);
     }
-    else
-    {
-        //ジャンプキーの状態を取得
-        int currentJumpKeyState = CheckHitKey(KEY_INPUT_SPACE);
-        // ジャンプの入力があった場合、前のフレームでは押されていなかった場合にジャンプ処理を行う
-        if (currentJumpKeyState == 1 && m_PrevJumpKeyState == 0)
-        {
-            if (m_IsGround)
-            {
-                m_VelocityY = m_JumpPower;
-                m_IsGround = false;
-            }
+    else {
+        if (CheckHitKey(KEY_INPUT_W)) move = VAdd(move, forward);
+        if (CheckHitKey(KEY_INPUT_S)) move = VSub(move, forward);
+        if (CheckHitKey(KEY_INPUT_D)) move = VAdd(move, right);
+        if (CheckHitKey(KEY_INPUT_A)) move = VSub(move, right);
+
+        // ジャンプ判定
+        if (currentJumpKeyState == 1 && m_PrevJumpKeyState == 0 && m_IsGround) {
+            m_VelocityY = m_JumpPower;
+            m_IsGround = false;
         }
     }
-    
-    // ダッシュの判定
+
+    // ダッシュ判定
     bool isMoving = (VSize(move) > 0.0f);
-    m_IsDashing = CheckHitKey(KEY_INPUT_LSHIFT) && isMoving;
+    //m_IsDashing = CheckHitKey(KEY_INPUT_LSHIFT) && isMoving;
 
-    // 足音は共通
-    if (isMoving)
-    {
-        m_FootstepTimer += deltaTime;
-
-        float interval = 0.35f;
-
-        if (m_FootstepTimer >= interval)
-        {
-            m_AudioManager.PlaySE(SEType::Walk);
-            m_FootstepTimer = 0.0f;
-        }
-    }
-    else
-    {
-        m_FootstepTimer = 0.0f;
-    }
-    // 状態更新
-    m_WasMoving = isMoving;
-    m_IsDashing = CheckHitKey(KEY_INPUT_LSHIFT) && isMoving;
-
-    // 上昇
-    if (CheckHitKey(KEY_INPUT_E))
-    {
-        move.y += 1.0f;
-    }
-
-    // 下降
-    if (CheckHitKey(KEY_INPUT_Q))
-    {
-        move.y -= 1.0f;
-    }
-
-    // プレイヤー移動
-    if (VSize(move) > 0.0f)
-    {
-        //m_manager->ChangeScene(std::make_shared<LoadingScene>(m_manager, std::make_shared<ExploreScene>(m_manager)));
-        // 正規化
+    // プレイヤー移動処理
+    if (isMoving) {
         move = VNorm(move);
-
-        // 移動
+        //float speed = m_MoveSpeed * (m_IsDashing ? m_DashMultiplier : 1.0f);
         float speed = m_MoveSpeed;
-
-        // ダッシュ中は速度を増加
-        if (m_IsDashing) speed *= m_DashMultiplier;
-
-        // アニメーションの更新
-        if (m_Modelhandle != -1 && m_AnimAttachIndex != -1)
-        {
-            // 0.5f ずつ時間を進める
-            m_AnimTime += 18.0f * deltaTime;
-
-            // アニメーションのループ処理
-            if (m_AnimTime >= m_AnimTotalTime)
-            {
-                m_AnimTime -= m_AnimTotalTime;
-            }
-
-            //3Dモデルに反映
-            MV1SetAttachAnimTime(m_Modelhandle, m_AnimAttachIndex, m_AnimTime);
-        }
-        //プレイヤーの位置を更新
         m_Position = VAdd(m_Position, VScale(move, speed * deltaTime));
-
-        // プレイヤーの向きを移動方向に合わせる
         float targetAngle = atan2f(move.x, move.z);
-        // プレイヤーの向きを徐々に目標角度に近づける
         float diff = targetAngle - m_PlayerAngle;
-
-        //(DX_PI_F = 180)
         while (diff < -DX_PI_F) diff += DX_PI_F * 2.0f;
         while (diff > DX_PI_F) diff -= DX_PI_F * 2.0f;
-        float rotateSpeed = 5.0f; // 回転速度
-
-        // プレイヤーの向きを更新
-        m_PlayerAngle += diff * rotateSpeed * deltaTime;
+        m_PlayerAngle += diff * 5.0f * deltaTime;
     }
 
-    //空中かどうか判定
-    bool wasGround = m_IsGround;
+    // --- アニメーション状態の決定 (ここで nextAnim を決める) ---
+    AnimType nextAnim = ANIM_IDLE;
+    if (!m_IsGround) {
+        nextAnim = ANIM_JUMP;
+    }
+    else if (isMoving) {
+        if (m_HoldingOrbId)
+        {
+            //nextAnim = (m_IsDashing) ? ANIM_ITEMRUN : ANIM_ITEMWALK;
+            nextAnim = ANIM_WALK;
+        }
+        else {
+            //nextAnim = (m_IsDashing) ? ANIM_RUN : ANIM_WALK;
+            nextAnim = ANIM_WALK;
+        }
+    }
+    PlayAnim(nextAnim); // 
 
-    //重力
+    // --- アニメーション時間進行 ---
+    if (m_Modelhandle != -1 && m_AnimAttachIndex != -1) {
+        m_AnimTime += 18.0f * deltaTime;
+        if (m_AnimTime >= m_AnimTotalTime) m_AnimTime -= m_AnimTotalTime;
+    }
+
+    // --- 物理・衝突・その他 
+    bool wasGround = m_IsGround;
     m_VelocityY += m_Gravity * deltaTime;
     m_Position.y += m_VelocityY * deltaTime;
-
-    // ステージとの当たり判定
-    if (collisionManager != nullptr)
-    {
-        float halfheight = m_PlayerHeight;
-        float playerRadius = m_PlayerRadius;
-
-        collisionManager->ResolvePlayerCollision(
-            m_Position,
-            previousPosition,
-            m_VelocityY,
-            m_IsGround,
-            m_PlayerHeight,
-            m_PlayerRadius);
-    }
-
-    // 着地した瞬間の処理(前フレで空中だった場合)
-    if (m_IsGround == true && wasGround == false)
-    {
-        m_StunTimer = 0.05f;//落下硬直
-        m_VelocityY = 0.0f;
-    }
-
-    // 場外落下時の復帰処理
-    if (m_Position.y <= -10.0f)
-    {
-        m_Position.x = 300.0f;
-        m_Position.y = 580.0f;
-        m_Position.z = 0.0f;
-        m_VelocityY = 0.0f;
-    }
+    if (collisionManager) collisionManager->ResolvePlayerCollision(m_Position, previousPosition, m_VelocityY, m_IsGround, m_PlayerHeight, m_PlayerRadius);
+    if (m_IsGround && !wasGround) { m_StunTimer = 0.05f; m_VelocityY = 0.0f; }
+    if (m_Position.y <= -10.0f) { m_Position = VGet(300.0f, 580.0f, 0.0f); m_VelocityY = 0.0f; }
 
     m_PrevJumpKeyState = currentJumpKeyState;
 
-    // アイテム処理
-    if (CheckHitKey(KEY_INPUT_E))
-    {
-        if (m_OrbManager == nullptr)
-        {
-            return;
+    // --- アイテム・カメラ・HP処理 (既存処理) ---
+    if (CheckHitKey(KEY_INPUT_E)) {
+        if (m_OrbManager) {
+            auto orb = m_OrbManager->FindNearestOrb(GetPosition(), OrbManager::ORB_PICKUP_RANGE);
+            if (orb && m_HoldingOrbId == 0) {
+                orb->GetData().m_State = OrbState::Player;
+                m_HoldingOrbId = orb->GetData().m_Id;
+                m_OrbCount++;
+            }
         }
-
-        // プレイヤーの周囲にあるオーブを検索
-        auto orb = m_OrbManager->FindNearestOrb(GetPosition(), OrbManager::ORB_PICKUP_RANGE);
- 
-       // if (orb && !pFollower->HasOrb())
-       // {
-       //    orb->GetData().m_State = OrbState::Player;
-
-        //    m_pFollower->ReceiveOrb(
-        //        orb->GetData().m_Id);
-       // }
     }
-
-    // カメラ設定
-    m_pCamera->Update(deltaTime, m_Position, m_IsDashing, isMoving);
+    //m_pCamera->Update(deltaTime, m_Position, m_IsDashing, isMoving);
+    m_pCamera->Update(deltaTime, m_Position, false, isMoving);
     m_pCamera->Apply();
+    if (CheckHitKey(KEY_INPUT_G)) DropOrb();
+    m_PlayerHP.Update();
 
     //----------HP処理---------------
         // HPの更新
@@ -354,7 +291,6 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
 
     m_PrevHP = currentHP;
 }
-
 // 描画処理(キャラクター描画)
 void Player::Draw()
 {
@@ -383,6 +319,10 @@ void Player::Draw()
     drawPos.y += 0.0f;
 
     MV1SetPosition(m_Modelhandle, drawPos);
+
+    if (m_AnimAttachIndex != -1) {
+        MV1SetAttachAnimTime(m_Modelhandle, m_AnimAttachIndex, m_AnimTime);
+    }
 
     // 3Dモデルの描画
     MV1DrawModel(m_Modelhandle);
@@ -446,7 +386,7 @@ void Player::Draw()
     // =========================================================
     // Pass 2 : アウトライン描画
     // =========================================================
-    if (m_OutlineVSHandle != -1 && m_OutlinePSHandle != -1)
+   /*if (m_OutlineVSHandle != -1 && m_OutlinePSHandle != -1)
     {
         // DxLibで安全に使えるカリング制御（環境差を回避）
         // FALSE: バックカリング無効（両面描画）
@@ -468,7 +408,7 @@ void Player::Draw()
     DxLib::SetUseVertexShader(-1);
     DxLib::SetUsePixelShader(-1);
 
-    /* if (m_Modelhandle == -1) return;
+     if (m_Modelhandle == -1) return;
      // モデル姿勢
      MV1SetRotationXYZ(m_Modelhandle, VGet(0.0f, m_PlayerAngle, 0.0f));
      VECTOR drawPos = m_Position;
@@ -549,6 +489,11 @@ int Player::GetOrbCount() const
 void Player::SetOrbManager(OrbManager* orbManager)
 {
     m_OrbManager = orbManager;
+}
+
+bool Player::IsHoldingOrb() const
+{
+    return m_HoldingOrbId != 0;
 }
 
 void Player::DropOrb()

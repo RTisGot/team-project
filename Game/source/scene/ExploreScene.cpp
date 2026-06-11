@@ -85,7 +85,8 @@ void ExploreScene::Init()
 
     m_UIManager = std::make_unique<UIManager>();
     m_UIManager->LoadResources();
-
+    m_InteractionUI =
+        std::make_unique<InteractionUI>();
         m_IsGameOver = false;
         m_StartFade = false;
         m_GameOverTimer = 0.0f;
@@ -196,6 +197,38 @@ void ExploreScene::Update(float deltaTime)
         m_OrbManager->Update(m_player.get(), m_collisionManager.get());
     }
 
+    if (m_InteractionUI &&
+        m_player &&
+        m_OrbManager)
+    {
+        // オーブ所持中
+        if (m_player->IsHoldingOrb())
+        {
+            m_InteractionUI->SetText(
+                true,
+                "G : 捨てる");
+        }
+        else
+        {
+            auto orb =
+                m_OrbManager->FindNearestOrb(
+                    m_player->GetPosition(),
+                    OrbManager::ORB_PICKUP_RANGE);
+
+            if (orb)
+            {
+                m_InteractionUI->SetText(
+                    true,
+                    "E : 拾う");
+            }
+            else
+            {
+                m_InteractionUI->SetText(
+                    false,
+                    "");
+            }
+        }
+    }
 }
 
 void ExploreScene::Draw()
@@ -241,6 +274,11 @@ void ExploreScene::Draw()
     if(m_UIManager)
     {
         m_UIManager->Draw(m_player.get());
+    }
+
+    if (m_InteractionUI)
+    {
+        m_InteractionUI->Draw();
     }
 
     // プレイヤー座標を取得して表示

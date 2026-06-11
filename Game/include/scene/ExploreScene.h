@@ -11,6 +11,7 @@
 #include "map/MapBase.h"
 #include "map/KindergartenMap.h"
 #include "system/LightManager.h"
+#include "ui/InteractionUI.h"
 #include "Collision/CollisionManager.h"
 #include "ui/UIManager.h"
 #include "object/PlayObject.h"
@@ -63,6 +64,7 @@ private:
    // std::unique_ptr<Enemy> m_enemy;                         ///< 敵インスタンス
    //std::unique_ptr<PlayObject> m_playObject;               ///< 遊具インスタンス
     std::unique_ptr<UIManager> m_UIManager;                 ///< UIマネージャー
+    std::unique_ptr<InteractionUI> m_InteractionUI;         ///< インタラクションUI
     std::unique_ptr<OrbManager> m_OrbManager;               ///< オーブマネージャー
     std::unique_ptr<EnemyManager>m_EnemyManager;
 };
