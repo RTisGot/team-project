@@ -47,7 +47,7 @@ public:
 
     int animIndices[8]; // アニメーションの識別番号を格納する配列
     bool m_isHolding = false;  //アイテムを持っているか
-
+    bool IsHoldingOrb() const;
 	// コンストラクタ
 	Player();
 
