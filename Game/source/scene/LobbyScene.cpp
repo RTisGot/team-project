@@ -14,8 +14,8 @@ LobbyScene::LobbyScene(SceneManager* manager)
 
 void LobbyScene::Init()
 {
-   /* m_AudioManager.Init();
-    m_AudioManager.PlayBGM(BGMType::Title);*/
+    m_AudioManager.Init();
+    m_AudioManager.PlayBGM(BGMType::Title);
 
     // カメラのクリップ距離を設定
     SetCameraNearFar(16.0f, 5000.0f);
