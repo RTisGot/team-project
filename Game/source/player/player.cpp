@@ -455,6 +455,14 @@ void Player::SetCameraSpawn(float yaw, float pitch, float distance)
     m_pCamera->Warp(m_Position);
 }
 
+void Player::SetStageModelHandle(int modelHandle)
+{
+    if (m_pCamera)
+    {
+        m_pCamera->SetStageModelHandle(modelHandle);
+    }
+}
+
 void Player::SetPosition(const VECTOR& position)
 {
     m_Position = position;

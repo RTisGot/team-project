@@ -61,12 +61,11 @@ private:
     std::unique_ptr<CollisionManager> m_collisionManager;   ///< 当たり判定マネージャー
     std::unique_ptr<MapBase> m_CurrentMap;                  ///< 現在のマップインスタンス
     std::unique_ptr<LightManager> m_lightManager;           ///< ライトマネージャー
-   // std::unique_ptr<Enemy> m_enemy;                         ///< 敵インスタンス
    //std::unique_ptr<PlayObject> m_playObject;               ///< 遊具インスタンス
     std::unique_ptr<UIManager> m_UIManager;                 ///< UIマネージャー
     std::unique_ptr<InteractionUI> m_InteractionUI;         ///< インタラクションUI
     std::unique_ptr<OrbManager> m_OrbManager;               ///< オーブマネージャー
-    std::unique_ptr<EnemyManager>m_EnemyManager;
+    std::unique_ptr<EnemyManager>m_EnemyManager;            ///< 敵マネージャー
 };
 
 #endif // DEF_EXPLORESCENE_H

@@ -11,6 +11,7 @@ class CameraController
 public:
     CameraController();
 
+    // マウスを画面の中央に固定する
     void InitMouse();
 
     /**
@@ -36,6 +37,9 @@ public:
      */
     void SetCameraParameter(float yaw, float pitch, float distance);
 
+    // ステージモデルのハンドルを設定する
+    void SetStageModelHandle(int modelHandle);
+
     // プレイヤーの位置に瞬間移動する
     void Warp(const VECTOR& playerPos);
 
@@ -58,4 +62,6 @@ private:
     int m_LastWheelRot; // マウスホイールの回転量
 
     bool m_IsFirstUpdate;   // 最初のUpdateかどうか
+
+    int m_StageModelHandle; // ステージモデルのハンドル
 };

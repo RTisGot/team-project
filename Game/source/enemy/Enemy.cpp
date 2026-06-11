@@ -189,8 +189,6 @@ void Enemy::Update(
 {
     MoveUpdate(player);
 
-
-
     m_VelocityY += ENEMY_GRAVITY;
     m_Position.y += m_VelocityY;
 

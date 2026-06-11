@@ -83,6 +83,8 @@ public:
     void InitAnimations();      // 初期化
     void PlayAnim(AnimType type); // 指定したAnimTypeを再生する
    
+    // ステージモデルのハンドルを設定する
+    void SetStageModelHandle(int modelHandle);
 
     // オーブマネージャーのセット
     void SetOrbManager(OrbManager* orbManager);
