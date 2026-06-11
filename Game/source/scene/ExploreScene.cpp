@@ -8,6 +8,10 @@
 using json = nlohmann::json;
 ExploreScene::ExploreScene(SceneManager* manager)
     : m_manager(manager)
+    , m_IsGameOver(false),
+    m_StartFade(false),
+    m_GameOverTimer(0.0f),
+    m_FadeAlpha(0.0f)
 {
 }
 
@@ -81,24 +85,74 @@ void ExploreScene::Init()
 
     m_UIManager = std::make_unique<UIManager>();
     m_UIManager->LoadResources();
+
+        m_IsGameOver = false;
+        m_StartFade = false;
+        m_GameOverTimer = 0.0f;
+        m_FadeAlpha = 0.0f;
 }
 
 void ExploreScene::Update(float deltaTime)
 {
     // プレイヤー更新（入力・移動・カメラ更新を含む）
-    if (m_player && m_CurrentMap)
+    if (!m_IsGameOver)
     {
-        m_player->Update(deltaTime, m_collisionManager.get());
+        if (m_player && m_CurrentMap)
+        {
+            m_player->Update(
+                deltaTime,
+                m_collisionManager.get());
+        }
     }
 
-    if (m_player->GetHP()->GetCurrentHP() <= 0.0f)
+    if (!m_IsGameOver &&
+        m_player->GetHP()->GetCurrentHP() <= 0.0f)
+    {
+        m_IsGameOver = true;
+        m_GameOverTimer = 0.0f;
+    }
+
+    if (m_IsGameOver)
+    {
+        m_GameOverTimer += deltaTime;
+
+        // 1秒停止
+        if (m_GameOverTimer >= 1.0f)
+        {
+            m_StartFade = true;
+        }
+
+        // 暗転
+        if (m_StartFade)
+        {
+            m_FadeAlpha += 255.0f * deltaTime;
+
+            if (m_FadeAlpha > 255.0f)
+            {
+                m_FadeAlpha = 255.0f;
+            }
+        }
+
+        // 完全に暗転
+        if (m_FadeAlpha >= 255.0f)
+        {
+            m_manager->ChangeScene(
+                std::make_shared<GameOverScene>(m_manager));
+
+            return;
+        }
+
+        // プレイヤーや敵の更新を止める
+        return;
+    }
+    /*if (m_player->GetHP()->GetCurrentHP() <= 0.0f)
     {
         auto gameOver = std::make_shared<GameOverScene>(m_manager);
 
         m_manager->ChangeScene((m_manager, gameOver));
 
         return;
-    }
+    }*/
 
     // お供更新
     if (m_follower && m_player)
@@ -202,6 +256,25 @@ void ExploreScene::Draw()
         playerPos.x,
         playerPos.y,
         playerPos.z);
+
+    if (m_FadeAlpha > 0.0f)
+    {
+        SetDrawBlendMode(
+            DX_BLENDMODE_ALPHA,
+            (int)m_FadeAlpha);
+
+        DrawBox(
+            0,
+            0,
+            1920,
+            1080,
+            GetColor(0, 0, 0),
+            TRUE);
+
+        SetDrawBlendMode(
+            DX_BLENDMODE_NOBLEND,
+            255);
+    }
 
 #ifdef _DEBUG
 

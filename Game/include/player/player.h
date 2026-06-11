@@ -102,7 +102,8 @@ private:
 
     bool m_WasMoving;
     float m_FootstepTimer;
-    void GetShaderConstantBufferAddress();
+    float m_PrevHP;
+    //void GetShaderConstantBufferAddress();
 };
 
 #endif // PLAYER_H_

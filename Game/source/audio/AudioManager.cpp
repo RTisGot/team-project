@@ -6,7 +6,7 @@ AudioManager::AudioManager()
       m_ResultBGMHandle(-1),
       m_JumpSEHandle(-1),
       m_WalkSEHandle(-1),
-      m_RunSEHandle(-1),
+      m_DamageSEHandle(-1),
       m_SlideSEHandle(-1),
       m_ElevatorSEHandle(-1)
 {
@@ -43,9 +43,9 @@ AudioManager::~AudioManager()
     {
         m_WalkSEHandle = -1;
     }
-    if(m_RunSEHandle != -1)
+    if(m_DamageSEHandle != -1)
     {
-        m_RunSEHandle = -1;
+        m_DamageSEHandle = -1;
     }
     if (m_ElevatorSEHandle != -1)
     {
@@ -64,7 +64,7 @@ bool AudioManager::Init()
     m_JumpSEHandle = LoadSoundMem("Game/assets/audio/se/jump_se.wav");
     m_SlideSEHandle = LoadSoundMem("Game/assets/audio/se/slide_se.wav");
     m_WalkSEHandle = LoadSoundMem("Game/assets/audio/se/walk_se.mp3");
-    m_RunSEHandle = LoadSoundMem("Game/assets/audio/se/run_se.mp3");
+    m_DamageSEHandle = LoadSoundMem("Game/assets/audio/se/damage_se.mp3");
     m_ElevatorSEHandle = LoadSoundMem("Game/assets/audio/se/elevator.mp3");
     
     // 音声の読み込みに失敗した場合はエラーメッセージを出力
@@ -74,7 +74,7 @@ bool AudioManager::Init()
         m_JumpSEHandle == -1 ||
         m_SlideSEHandle == -1 ||
         m_WalkSEHandle == -1 ||
-        m_RunSEHandle == -1 ||
+        m_DamageSEHandle == -1 ||
         m_ElevatorSEHandle == -1)  
     {
         return false;
@@ -134,8 +134,8 @@ void AudioManager::PlaySE(SEType type)
     case SEType::Walk:
         handle = m_WalkSEHandle;
         break;
-    case SEType::Run:
-        handle = m_RunSEHandle;
+    case SEType::Damage:
+        handle = m_DamageSEHandle;
         break;
     case SEType::Elevator:
         handle = m_ElevatorSEHandle;
