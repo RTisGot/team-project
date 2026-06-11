@@ -83,12 +83,12 @@ void UIManager::Draw(Player* player)
 
     GetDrawScreenSize(&screenX, &screenY);
 
-    DrawFormatString(
-        screenX - 200,
-        30,
-        GetColor(0, 255, 255),
-        "Orb : %d",
-        player->GetOrbCount());
+    //DrawFormatString(
+    //    screenX - 200,
+    //    30,
+    //    GetColor(0, 255, 255),
+    //    "Orb : %d",
+    //    player->GetOrbCount());
 
     for (int i = 0; i < hpBlockMax; i++)
     {

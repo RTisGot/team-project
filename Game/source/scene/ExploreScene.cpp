@@ -287,6 +287,7 @@ void ExploreScene::Draw()
     {
         playerPos = m_player->GetPosition();
     }
+  
     DrawFormatString(
         10,
         100,
