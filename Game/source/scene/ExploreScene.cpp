@@ -42,8 +42,8 @@ void ExploreScene::Init()
     const auto& mapData = m_CurrentMap->GetMapData();
 
     // 遊具の生成と初期化
-    m_playObject = std::make_unique<PlayObject>();
-    m_playObject->Init();
+    /*m_playObject = std::make_unique<PlayObject>();
+    m_playObject->Init();*/
 
     // プレイヤーの生成
     m_player = std::make_unique<Player>();
@@ -56,6 +56,8 @@ void ExploreScene::Init()
     // お供の生成
     m_follower = std::make_unique<Follower>();
     m_follower->LoadModel();
+
+    m_follower->SetOrbManager(m_OrbManager.get());
 
     // 当たり判定マネージャーの生成とステージモデル登録
     m_collisionManager = std::make_unique<CollisionManager>();
@@ -122,9 +124,17 @@ void ExploreScene::Update(float deltaTime)
         m_CurrentMap->Update();
     }
 
-    if (m_playObject)
+    //if (m_playObject)
+    //{
+    //    m_playObject->Update();
+    //}
+
+    if (CheckHitKey(KEY_INPUT_L))
     {
-        m_playObject->Update();
+        m_manager->ChangeScene(
+            std::make_shared<ClearScene>(m_manager)
+        );
+        return;
     }
 
     if (m_OrbManager)
@@ -140,10 +150,10 @@ void ExploreScene::Draw()
         m_CurrentMap->Draw();
     }
 
-    if (m_playObject)
-    {
-        m_playObject->Draw();
-    }
+    //if (m_playObject)
+    //{
+    //    m_playObject->Draw();
+    //}
 
     if (m_OrbManager)
     {
@@ -155,11 +165,13 @@ void ExploreScene::Draw()
         m_player->Draw();
     }
 
-    /*if (m_enemy)
     if (m_follower)
     {
         m_follower->Draw();
     }
+
+    /*if (m_enemy)
+   
 
     if (m_enemy)
     {
