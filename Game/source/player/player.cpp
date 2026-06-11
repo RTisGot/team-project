@@ -69,6 +69,7 @@ Player::Player()
 
     // ダッシュ関連
     m_MoveSpeed = 50.0f;
+    // TODO: アニメーションのバグが発生しているため一時的にダッシュ機能を無効化
     //m_DashMultiplier = 1.7f;  // 2倍速
     //m_IsDashing = false;
 
@@ -137,10 +138,10 @@ void Player::InitAnimations() {
 
     // 2. リストを走査して番号を埋める
     int totalAnims = MV1GetAnimNum(m_Modelhandle);
-    printfDx("--- モデルが持つアニメーション名一覧 ---\n");
+    //printfDx("--- モデルが持つアニメーション名一覧 ---\n");
     for (int i = 0; i < totalAnims; i++) {
         const char* name = MV1GetAnimName(m_Modelhandle, i);
-        printfDx("Index %d: '%s'\n", i, name);
+        //printfDx("Index %d: '%s'\n", i, name);
         // animListはグローバルか、どこか参照できる場所に置いてください
         for (int j = 0; j < 8; j++) {
             if (strcmp(name, animList[j].nameInBlender) == 0) {
