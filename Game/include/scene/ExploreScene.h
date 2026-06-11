@@ -15,6 +15,7 @@
 #include "ui/UIManager.h"
 #include "object/PlayObject.h"
 #include "item/OrbManager.h"
+#include <Inventory/Inventory.h>
 #include <memory>
 #include <DxLib.h>
 #include <audio/AudioManager.h>
@@ -45,6 +46,13 @@ public:
     void Draw() override;
 
 private:
+
+    bool m_IsGameOver;
+    bool m_StartFade;
+
+    float m_GameOverTimer;
+    float m_FadeAlpha;
+
     AudioManager m_AudioManager;
     SceneManager* m_manager;                                ///< シーンマネージャーへのポインタ
     std::unique_ptr<Player> m_player;                       ///< プレイヤーインスタンス
