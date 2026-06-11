@@ -9,6 +9,7 @@
 #include <DxLib.h>
 
 class OrbManager;
+class Follower;
 
 //アニメーションの種類
 enum AnimType {
@@ -132,6 +133,8 @@ private:
     float m_FootstepTimer;
     float m_PrevHP;
     //void GetShaderConstantBufferAddress();
+
+    Follower* m_pFollower;
 };
 
 #endif // PLAYER_H_

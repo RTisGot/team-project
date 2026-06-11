@@ -61,6 +61,7 @@ Follower::Follower()
     m_SearchTimer = 0.0f;
 
     m_CoolTimeTimer = 0.0f;
+    m_HoldingOrbId = 0;
 
     m_pOrbManager = nullptr;
 }
@@ -130,6 +131,16 @@ void Follower::SetOrbManager( OrbManager* pOrbManager)
     m_pOrbManager = pOrbManager;
 }
 
+void Follower::ReceiveOrb(uint32_t orbId)
+{
+    m_HoldingOrbId = orbId;
+}
+
+bool Follower::HasOrb() const
+{
+    return m_HoldingOrbId != 0;
+}
+
 /**
  * @brief 更新処理
  *
@@ -143,8 +154,7 @@ void Follower::Update()
     // Rキーでサーチ開始
     if (CheckHitKey(KEY_INPUT_R))
     {
-        if (!m_IsSearching &&
-            m_CoolTimeTimer <= 0.0f)
+        if (!m_IsSearching && m_CoolTimeTimer <= 0.0f)
         {
             m_IsSearching = true;
             m_SearchTimer = SEARCH_TIME;
