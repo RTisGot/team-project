@@ -79,35 +79,24 @@ void TitleScene::Loadgraph() {
 
 void TitleScene::Draw()
 {
+
+    DrawString(1200, 690, "Ver1.0", GetColor(255, 255, 255));
+    DrawString(760, 200, "-- 制作メンバー --", GetColor(255, 255, 255));
+    DrawString(800, 240, "渡邉　和斗", GetColor(255, 255, 255));
+    DrawString(800, 280, "立原　零央", GetColor(255, 255, 255));
+    DrawString(800, 320, "村田　智仁", GetColor(255, 255, 255));
+    DrawString(800, 360, "松倉　光姫", GetColor(255, 255, 255));
+    
     if (m_LogoHandle == -1)
     {
         //logoの読み込み
         m_LogoHandle = LoadGraph("Game/assets/UI/Neko.png");
 
+       
+
         // m_TitleMainHandle = LoadGraph("Game/assets/UI/TitleMain.png");
     }
 
-    // --- 描画処理 ---
-
-    //if (m_CurrentPhase == Phase::TitleMain)
-    //{
-
-
-    //    // タイトル画面描画
-    //    if (m_TitleMainHandle >= 0)
-    //    {
-    //        DrawGraph(0, 0, m_TitleMainHandle, FALSE);
-    //    }
-
-    //    // タイトル用のテキストやUIを描画
-    //    DrawString(100, 100, "ひろって、かえろう。", GetColor(255, 255, 255));
-
-    //    //点滅
-    //    if ((m_Timer / 30) % 2 == 0)
-    //    {
-    //        DrawString(100, 150, "Press SPACE to Start", GetColor(200, 200, 200));
-    //    }
-    //}
     else
     {
         // m_Alphaを変換してブレンドモードを設定
@@ -122,7 +111,7 @@ void TitleScene::Draw()
             int newW = static_cast<int>(logoW * scale);
             int newH = static_cast<int>(logoH * scale);
 
-            int x1 = 400;
+            int x1 = 200;
             int y1 = 150;
 
             DrawExtendGraph(x1, y1, x1 + newW, y1 + newH, m_LogoHandle, TRUE);
@@ -131,4 +120,5 @@ void TitleScene::Draw()
             SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
         }
     }
+
 }

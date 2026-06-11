@@ -24,6 +24,8 @@ static std::vector<char> LoadFileToMemory(const char* filepath)
 // プレイヤーとカメラ情報を初期化
 Player::Player()
 {
+     m_AudioManager.Init();
+
     SetUseDirect3DVersion(DX_DIRECT3D_11);
     m_Modelhandle = -1;
 
@@ -69,6 +71,10 @@ Player::Player()
     // アイテム関係
     m_OrbManager = nullptr;
     m_OrbCount = 0;
+
+    // 
+   
+    m_WasMoving = false;
 }
 
 void Player::LoadModel()
@@ -161,9 +167,10 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
     if (CheckHitKey(KEY_INPUT_S))move = VSub(move, forward);//後退
     if (CheckHitKey(KEY_INPUT_D))move = VAdd(move, right);//右
     if (CheckHitKey(KEY_INPUT_A))move = VSub(move, right);//左
-
+    
     if (m_StunTimer > 0.0f)
     {
+        
         move = VGet(0.0f, 0.0f, 0.0f); // W/A/S/Dを押していても、移動方向を強制的にリセット
     }
     else
@@ -185,6 +192,27 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
     bool isMoving = (VSize(move) > 0.0f);
     m_IsDashing = CheckHitKey(KEY_INPUT_LSHIFT) && isMoving;
 
+    // 足音は共通
+    if (isMoving)
+    {
+        m_FootstepTimer += deltaTime;
+
+        float interval = 0.35f;
+
+        if (m_FootstepTimer >= interval)
+        {
+            m_AudioManager.PlaySE(SEType::Walk);
+            m_FootstepTimer = 0.0f;
+        }
+    }
+    else
+    {
+        m_FootstepTimer = 0.0f;
+    }
+    // 状態更新
+    m_WasMoving = isMoving;
+    m_IsDashing = CheckHitKey(KEY_INPUT_LSHIFT) && isMoving;
+
     // 上昇
     if (CheckHitKey(KEY_INPUT_E))
     {
@@ -200,6 +228,7 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
     // プレイヤー移動
     if (VSize(move) > 0.0f)
     {
+        //m_manager->ChangeScene(std::make_shared<LoadingScene>(m_manager, std::make_shared<ExploreScene>(m_manager)));
         // 正規化
         move = VNorm(move);
 
