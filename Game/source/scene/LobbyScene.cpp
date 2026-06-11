@@ -49,6 +49,9 @@ void LobbyScene::Init()
     collisionMap->AddBox(VGet(495.0f, 550.0f, -342.0f), VGet(497.0f, 570.0f, 213.0f));
     collisionMap->AddBox(VGet(182.0f, 550.0f, 210.0f), VGet(495.0f, 570.0f, 213.0f));
 
+    // 次のマップに入るための扉付近部分の当たり判定を追加
+    collisionMap->AddBox(VGet(212.0f, 550.0f, -315.5f), VGet(262.0f, 600.0f, -248.0f));
+
     // ライトマネージャーの生成と初期化
     m_lightManager = std::make_unique<LightManager>();
     m_lightManager->Init();
@@ -108,14 +111,6 @@ void LobbyScene::Update(float deltaTime)
 
 void LobbyScene::Draw()
 {
-
-#ifdef _DEBUG
-
-    m_collisionManager->GetCollisionMap()->DrawDebug();
-
-#endif
-
-
     // マップ描画
     if (m_roofTop)
     {
@@ -150,6 +145,12 @@ void LobbyScene::Draw()
 
 #ifdef _DEBUG
     DrawRoomDebug();
+#endif
+
+#ifdef _DEBUG
+
+    m_collisionManager->GetCollisionMap()->DrawDebug();
+
 #endif
 }
 

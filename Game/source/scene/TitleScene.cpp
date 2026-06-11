@@ -1,6 +1,7 @@
 #include "scene/TitleScene.h"
 #include "scene/LobbyScene.h"
 #include "scene/LoadingScene.h"
+#include "scene/ExploreScene.h"
 #include <DxLib.h>
 #include <memory>
 
@@ -28,49 +29,50 @@ void TitleScene::Update(float deltaTime)
     m_Timer++;// タイマーを進める
    // m_manager->ChangeScene(std::make_shared<LobbyScene>(m_manager));
     // フェーズごとの処理
-    switch (m_CurrentPhase)
-    {
-    case Phase::LogoFadeIn:
-        // フェードイン
-        m_Alpha += 1.0f / 60.0f;
-        if (m_Alpha >= 1.0f)
-        {
-            m_Alpha = 1.0f;
-            m_CurrentPhase = Phase::LogoStay;
-            m_Timer = 0; // タイマーリセット
-        }
-        break;
+    //switch (m_CurrentPhase)
+    //{
+    //case Phase::LogoFadeIn:
+    //    // フェードイン
+    //    m_Alpha += 1.0f / 60.0f;
+    //    if (m_Alpha >= 1.0f)
+    //    {
+    //        m_Alpha = 1.0f;
+    //        m_CurrentPhase = Phase::LogoStay;
+    //        m_Timer = 0; // タイマーリセット
+    //    }
+    //    break;
 
-    case Phase::LogoStay:
-        // 60フレーム（約1秒）の間、そのまま表示をキープ
-        if (m_Timer > 60)
-        {
-            m_CurrentPhase = Phase::LogoFadeOut;
-            m_Timer = 0;
-        }
-        break;
+    //case Phase::LogoStay:
+    //    // 60フレーム（約1秒）の間、そのまま表示をキープ
+    //    if (m_Timer > 60)
+    //    {
+    //        m_CurrentPhase = Phase::LogoFadeOut;
+    //        m_Timer = 0;
+    //    }
+    //    break;
 
-        // フェードアウト
-    case Phase::LogoFadeOut:
-       
-        m_Alpha -= 1.0f / 60.0f;
-        if (m_Alpha <= 0.0f)
-        {
-            m_Alpha = 0.0f;
-            m_CurrentPhase = Phase::TitleMain; //タイトル画面へ
-            m_Timer = 0;
-        }
-        break;
+    //    // フェードアウト
+    //case Phase::LogoFadeOut:
+    //   
+    //    m_Alpha -= 1.0f / 60.0f;
+    //    if (m_Alpha <= 0.0f)
+    //    {
+    //        m_Alpha = 0.0f;
+    //        m_CurrentPhase = Phase::TitleMain; //タイトル画面へ
+    //        m_Timer = 0;
+    //    }
+    //    break;
 
-        //タイトル画面のメインフェーズ
-    case Phase::TitleMain:
-        //スペースキーの入力gamesceneへ遷移
+    //    //タイトル画面のメインフェーズ
+    //case Phase::TitleMain:
+        //スペースキーの入力gamesceneへ遷移 
         //if (CheckHitKey(KEY_INPUT_SPACE) == 1)
       //  {
-            m_manager->ChangeScene(std::make_shared<LobbyScene>(m_manager));
+            //m_manager->ChangeScene(std::make_shared<LobbyScene>(m_manager));
+            m_manager->ChangeScene(std::make_shared<ExploreScene>(m_manager));
      //   }
-        break;
-    }
+   /*     break;
+    }*/
 }
 
 void TitleScene::Loadgraph() {
