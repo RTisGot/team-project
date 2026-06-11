@@ -67,7 +67,7 @@ private:
      * @param radius 半径
      * @param velocityY Y方向の速度
      */
-    void TryStepUp(VECTOR& position, const VECTOR& previousPosition, float radius, float velocityY);
+    void TryStepUp(VECTOR& position, const VECTOR& previousPosition, float radius);
 
     CollisionMap* m_CollisionMap = nullptr; ///< コリジョンマップへのポインタ
 };

@@ -71,10 +71,9 @@ void PlayerStageCollider::ResolvePlayerCollision(
 
     isGround = false;
 
+    TryStepUp(position, previousPosition, radius);
     ResolveFloor(position, velocityY, isGround, height);
-    TryStepUp(position, previousPosition, radius, velocityY);
     ResolveCapsule(position, velocityY, radius, height);
-    ResolveFloor(position, velocityY, isGround, height);    // 最後にもう一度床の当たり判定を行うことで段差上昇後の床との当たり判定を確実に処理する
 }
 
 void PlayerStageCollider::ResolveFloor(VECTOR& position, float& velocityY, bool& isGround, float height)
@@ -155,12 +154,8 @@ void PlayerStageCollider::ResolveCapsule(VECTOR& position, float& velocityY, flo
     }
 }
 
-void PlayerStageCollider::TryStepUp(VECTOR& position, const VECTOR& previousPosition, float radius , float velocityY)
+void PlayerStageCollider::TryStepUp(VECTOR& position, const VECTOR& previousPosition, float radius)
 {
-    if (velocityY > 0.0f)
-    {
-        return;
-    }
     // 移動方向を計算
     VECTOR moveDir = VSub(position, previousPosition);
     moveDir.y = 0.0f;
@@ -174,8 +169,8 @@ void PlayerStageCollider::TryStepUp(VECTOR& position, const VECTOR& previousPosi
     // 移動方向を正規化
     moveDir = VNorm(moveDir);
 
-    // 移動方向に半径分だけオフセットした位置から足元に向かって線分を伸ばす
-    VECTOR checkPos = VAdd(position, VScale(moveDir, radius + 3.0f));
+    // 移動方向に半径分だけオフセットした位置から足元の線分を伸ばして段差上昇用の線分を作成
+    VECTOR checkPos = VAdd(position, VScale(moveDir, radius + 1.0f));
     VECTOR start = VAdd(checkPos, VGet(0.0f, STEP_HEIGHT, 0.0f));
     VECTOR end = VAdd(checkPos, VGet(0.0f, -5.0f, 0.0f));
 
@@ -188,11 +183,10 @@ void PlayerStageCollider::TryStepUp(VECTOR& position, const VECTOR& previousPosi
     }
 
     // 前回の位置と当たった位置のY座標の差を計算
-    float diff = hit.HitPosition.y - previousPosition.y;
+    float diff = hit.HitPosition.y - position.y;
 
-    if (diff > 0.0f && diff <= STEP_HEIGHT)
+    if (diff > 0.5f && diff <= STEP_HEIGHT)
     {
-        // キャラのY座標を当たった位置に修正
         position.y = hit.HitPosition.y;
     }
 }
