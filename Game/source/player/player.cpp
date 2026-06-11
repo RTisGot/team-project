@@ -294,25 +294,9 @@ void Player::Update(float deltaTime, CollisionManager * collisionManager)
 // 描画処理(キャラクター描画)
 void Player::Draw()
 {
-    DrawFormatString(20, 20, GetColor(255, 255, 0),
-        "VS=%d PS=%d Model=%d", m_VSHandle, m_PSHandle, m_Modelhandle);
+    //DrawFormatString(20, 20, GetColor(255, 255, 0), "VS=%d PS=%d Model=%d", m_VSHandle, m_PSHandle, m_Modelhandle);
     // 新しい向きをセット
     MV1SetRotationXYZ(m_Modelhandle, VGet(0.0f, m_PlayerAngle, 0.0f));
-
-
-    //デバッグ
-    VECTOR bottomCenter =
-        VAdd(m_Position, VGet(0.0f, m_PlayerRadius, 0.0f));
-
-    VECTOR topCenter =
-        VAdd(m_Position,
-            VGet(0.0f,
-                m_PlayerHeight - m_PlayerRadius,
-                0.0f));
-    DrawSphere3D(bottomCenter, m_PlayerRadius, 16, GetColor(255, 0, 0), GetColor(255, 0, 0), TRUE);
-    DrawSphere3D(topCenter, m_PlayerRadius, 16, GetColor(0, 255, 0), GetColor(0, 255, 0), TRUE);
-
-
 
     // 3Dモデルに新しい座標をセット
     VECTOR drawPos = m_Position;
