@@ -33,7 +33,7 @@ void InteractionUI::Draw()
     DrawFormatString(
         screenX / 2 - 80,
         screenY - 120,
-        GetColor(255, 255, 255),
+        GetColor(0, 0, 0),
         "%s",
         m_Text.c_str());
 }

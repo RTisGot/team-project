@@ -238,7 +238,7 @@ void Player::Update(float deltaTime, CollisionManager * collisionManager)
         if (m_HoldingOrbId)
         {
             //nextAnim = (m_IsDashing) ? ANIM_ITEMRUN : ANIM_ITEMWALK;
-            nextAnim = ANIM_ITEMWALK;
+            nextAnim = ANIM_WALK;
         }
         else {
             //nextAnim = (m_IsDashing) ? ANIM_RUN : ANIM_WALK;
@@ -491,6 +491,11 @@ int Player::GetOrbCount() const
 void Player::SetOrbManager(OrbManager* orbManager)
 {
     m_OrbManager = orbManager;
+}
+
+bool Player::IsHoldingOrb() const
+{
+    return m_HoldingOrbId != 0;
 }
 
 void Player::DropOrb()
