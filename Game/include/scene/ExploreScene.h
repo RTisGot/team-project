@@ -3,6 +3,7 @@
 
 #include "scene/BaseScene.h"
 #include "scene/SceneManager.h"
+#include "scene/ClearScene.h"
 #include "player/Player.h"
 #include "follower/Follower.h"
 #include "enemy/Enemy.h"
@@ -14,6 +15,7 @@
 #include "ui/UIManager.h"
 #include "object/PlayObject.h"
 #include "item/OrbManager.h"
+#include <Inventory/Inventory.h>
 #include <memory>
 #include <DxLib.h>
 #include <audio/AudioManager.h>
@@ -44,6 +46,13 @@ public:
     void Draw() override;
 
 private:
+
+    bool m_IsGameOver;
+    bool m_StartFade;
+
+    float m_GameOverTimer;
+    float m_FadeAlpha;
+
     AudioManager m_AudioManager;
     SceneManager* m_manager;                                ///< シーンマネージャーへのポインタ
     std::unique_ptr<Player> m_player;                       ///< プレイヤーインスタンス
@@ -52,7 +61,7 @@ private:
     std::unique_ptr<MapBase> m_CurrentMap;                  ///< 現在のマップインスタンス
     std::unique_ptr<LightManager> m_lightManager;           ///< ライトマネージャー
    // std::unique_ptr<Enemy> m_enemy;                         ///< 敵インスタンス
-    std::unique_ptr<PlayObject> m_playObject;               ///< 遊具インスタンス
+   //std::unique_ptr<PlayObject> m_playObject;               ///< 遊具インスタンス
     std::unique_ptr<UIManager> m_UIManager;                 ///< UIマネージャー
     std::unique_ptr<OrbManager> m_OrbManager;               ///< オーブマネージャー
     std::unique_ptr<EnemyManager>m_EnemyManager;

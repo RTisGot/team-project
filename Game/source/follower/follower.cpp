@@ -15,6 +15,8 @@
  */
 
 #include <follower/follower.h>
+#include <item/OrbManager.h>
+#include <item/OrbActor.h>
 #include <DxLib.h>
 #include <math.h>
 
@@ -32,7 +34,7 @@ namespace
 
     constexpr float SIDE_OFFSET = 5.0f;     // プレイヤー右後方へのオフセット
 
-    constexpr float TELEPORT_DISTANCE = 50.0f;
+    constexpr float TELEPORT_DISTANCE = 20.0f;
 }
 
 /**
@@ -54,6 +56,13 @@ Follower::Follower()
 
     m_Angle = 0.0f;
     m_TargetAngle = 0.0f;
+
+    m_IsSearching = false;
+    m_SearchTimer = 0.0f;
+
+    m_CoolTimeTimer = 0.0f;
+
+    m_pOrbManager = nullptr;
 }
 
 /**
@@ -116,6 +125,11 @@ void Follower::SetTargetAngle(float angle)
     m_TargetAngle = angle;
 }
 
+void Follower::SetOrbManager( OrbManager* pOrbManager)
+{
+    m_pOrbManager = pOrbManager;
+}
+
 /**
  * @brief 更新処理
  *
@@ -126,6 +140,41 @@ void Follower::SetTargetAngle(float angle)
  */
 void Follower::Update()
 {
+    // Rキーでサーチ開始
+    if (CheckHitKey(KEY_INPUT_R))
+    {
+        if (!m_IsSearching &&
+            m_CoolTimeTimer <= 0.0f)
+        {
+            m_IsSearching = true;
+            m_SearchTimer = SEARCH_TIME;
+        }
+    }
+
+    if (m_CoolTimeTimer > 0.0f)
+    {
+        m_CoolTimeTimer -= 1.0f / 60.0f;
+
+        if (m_CoolTimeTimer < 0.0f)
+        {
+            m_CoolTimeTimer = 0.0f;
+        }
+    }
+
+    if (m_IsSearching)
+    {
+        m_SearchTimer -= 1.0f / 60.0f;
+
+        if (m_SearchTimer <= 0.0f)
+        {
+            m_SearchTimer = 0.0f;
+            m_IsSearching = false;
+
+            // クールタイム開始
+            m_CoolTimeTimer = COOL_TIME;
+        }
+    }
+
     // 浮遊演出用の上下オフセットを計算
     float floatOffset =
         sinf(GetNowCount() * FLOAT_SPEED) *
@@ -181,7 +230,36 @@ void Follower::Update()
         // 目標地点へ向かって移動
         m_Position = VAdd(m_Position, VScale(dir, moveAmount));
     }
-    m_Angle = m_TargetAngle;
+
+    if (m_IsSearching && m_pOrbManager)
+    {
+        auto nearestOrb =
+            m_pOrbManager->FindNearestOrb(
+                m_Position,
+                1000.0f);
+
+        if (nearestOrb)
+        {
+            VECTOR orbPos =
+                nearestOrb->GetPosition();
+
+            VECTOR lookDir =
+                VSub(orbPos, m_Position);
+
+            m_Angle =
+                atan2f(
+                    lookDir.x,
+                    lookDir.z);
+        }
+        else
+        {
+            m_Angle = m_TargetAngle;
+        }
+    }
+    else
+    {
+        m_Angle = m_TargetAngle;
+    }
 }
 
 /**

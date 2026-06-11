@@ -8,6 +8,10 @@
 using json = nlohmann::json;
 ExploreScene::ExploreScene(SceneManager* manager)
     : m_manager(manager)
+    , m_IsGameOver(false),
+    m_StartFade(false),
+    m_GameOverTimer(0.0f),
+    m_FadeAlpha(0.0f)
 {
 }
 
@@ -42,8 +46,8 @@ void ExploreScene::Init()
     const auto& mapData = m_CurrentMap->GetMapData();
 
     // 遊具の生成と初期化
-    m_playObject = std::make_unique<PlayObject>();
-    m_playObject->Init();
+    /*m_playObject = std::make_unique<PlayObject>();
+    m_playObject->Init();*/
 
     // プレイヤーの生成
     m_player = std::make_unique<Player>();
@@ -56,6 +60,8 @@ void ExploreScene::Init()
     // お供の生成
     m_follower = std::make_unique<Follower>();
     m_follower->LoadModel();
+
+    m_follower->SetOrbManager(m_OrbManager.get());
 
     // 当たり判定マネージャーの生成とステージモデル登録
     m_collisionManager = std::make_unique<CollisionManager>();
@@ -79,24 +85,74 @@ void ExploreScene::Init()
 
     m_UIManager = std::make_unique<UIManager>();
     m_UIManager->LoadResources();
+
+        m_IsGameOver = false;
+        m_StartFade = false;
+        m_GameOverTimer = 0.0f;
+        m_FadeAlpha = 0.0f;
 }
 
 void ExploreScene::Update(float deltaTime)
 {
     // プレイヤー更新（入力・移動・カメラ更新を含む）
-    if (m_player && m_CurrentMap)
+    if (!m_IsGameOver)
     {
-        m_player->Update(deltaTime, m_collisionManager.get());
+        if (m_player && m_CurrentMap)
+        {
+            m_player->Update(
+                deltaTime,
+                m_collisionManager.get());
+        }
     }
 
-    if (m_player->GetHP()->GetCurrentHP() <= 0.0f)
+    if (!m_IsGameOver &&
+        m_player->GetHP()->GetCurrentHP() <= 0.0f)
+    {
+        m_IsGameOver = true;
+        m_GameOverTimer = 0.0f;
+    }
+
+    if (m_IsGameOver)
+    {
+        m_GameOverTimer += deltaTime;
+
+        // 1秒停止
+        if (m_GameOverTimer >= 1.0f)
+        {
+            m_StartFade = true;
+        }
+
+        // 暗転
+        if (m_StartFade)
+        {
+            m_FadeAlpha += 255.0f * deltaTime;
+
+            if (m_FadeAlpha > 255.0f)
+            {
+                m_FadeAlpha = 255.0f;
+            }
+        }
+
+        // 完全に暗転
+        if (m_FadeAlpha >= 255.0f)
+        {
+            m_manager->ChangeScene(
+                std::make_shared<GameOverScene>(m_manager));
+
+            return;
+        }
+
+        // プレイヤーや敵の更新を止める
+        return;
+    }
+    /*if (m_player->GetHP()->GetCurrentHP() <= 0.0f)
     {
         auto gameOver = std::make_shared<GameOverScene>(m_manager);
 
         m_manager->ChangeScene((m_manager, gameOver));
 
         return;
-    }
+    }*/
 
     // お供更新
     if (m_follower && m_player)
@@ -122,9 +178,17 @@ void ExploreScene::Update(float deltaTime)
         m_CurrentMap->Update();
     }
 
-    if (m_playObject)
+    //if (m_playObject)
+    //{
+    //    m_playObject->Update();
+    //}
+
+    if (CheckHitKey(KEY_INPUT_L))
     {
-        m_playObject->Update();
+        m_manager->ChangeScene(
+            std::make_shared<ClearScene>(m_manager)
+        );
+        return;
     }
 
     if (m_OrbManager)
@@ -140,10 +204,10 @@ void ExploreScene::Draw()
         m_CurrentMap->Draw();
     }
 
-    if (m_playObject)
-    {
-        m_playObject->Draw();
-    }
+    //if (m_playObject)
+    //{
+    //    m_playObject->Draw();
+    //}
 
     if (m_OrbManager)
     {
@@ -155,11 +219,13 @@ void ExploreScene::Draw()
         m_player->Draw();
     }
 
-    /*if (m_enemy)
     if (m_follower)
     {
         m_follower->Draw();
     }
+
+    /*if (m_enemy)
+   
 
     if (m_enemy)
     {
@@ -190,6 +256,25 @@ void ExploreScene::Draw()
         playerPos.x,
         playerPos.y,
         playerPos.z);
+
+    if (m_FadeAlpha > 0.0f)
+    {
+        SetDrawBlendMode(
+            DX_BLENDMODE_ALPHA,
+            (int)m_FadeAlpha);
+
+        DrawBox(
+            0,
+            0,
+            1920,
+            1080,
+            GetColor(0, 0, 0),
+            TRUE);
+
+        SetDrawBlendMode(
+            DX_BLENDMODE_NOBLEND,
+            255);
+    }
 
 #ifdef _DEBUG
 

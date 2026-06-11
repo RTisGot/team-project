@@ -3,6 +3,7 @@
 
 #include "collision/CollisionManager.h"
 #include "camera/CameraController.h"
+#include "audio/AudioManager.h"
 #include "hp/HP.h"
 #include <memory>
 #include <DxLib.h>
@@ -95,7 +96,7 @@ private:
 	float m_PlayerAngle;	// プレイヤーの向き
     uint32_t m_HoldingOrbId = 0;    // プレイヤーが持っているオーブのID
     OrbManager* m_OrbManager; // オーブマネージャーへのポインタ
-
+    AudioManager m_AudioManager;
 	// カメラ情報
     std::unique_ptr<CameraController> m_pCamera;
 
@@ -125,7 +126,10 @@ private:
 
     int m_OrbCount; // プレイヤーが持っているオーブの数
 
-    void GetShaderConstantBufferAddress();
+    bool m_WasMoving;
+    float m_FootstepTimer;
+    float m_PrevHP;
+    //void GetShaderConstantBufferAddress();
 };
 
 #endif // PLAYER_H_

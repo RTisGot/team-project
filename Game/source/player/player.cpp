@@ -36,6 +36,8 @@ AnimMap animList[] = {
 // プレイヤーとカメラ情報を初期化
 Player::Player()
 {
+     m_AudioManager.Init();
+
     SetUseDirect3DVersion(DX_DIRECT3D_11);
     m_Modelhandle = -1;
 
@@ -273,6 +275,18 @@ void Player::Update(float deltaTime, CollisionManager * collisionManager)
     if (CheckHitKey(KEY_INPUT_G)) DropOrb();
     m_PlayerHP.Update();
 
+    //----------HP処理---------------
+        // HPの更新
+    m_PlayerHP.Update();
+
+    float currentHP = m_PlayerHP.GetCurrentHP();
+
+    if (currentHP < m_PrevHP)
+    {
+        m_AudioManager.PlaySE(SEType::Damage);
+    }
+
+    m_PrevHP = currentHP;
 }
 // 描画処理(キャラクター描画)
 void Player::Draw()

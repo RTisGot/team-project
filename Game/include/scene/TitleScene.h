@@ -40,7 +40,7 @@ private:
     Phase m_CurrentPhase;  // 現在のフェーズ
     int m_LogoHandle;      // チームロゴの画像ハンドル
     int m_TitleMainHandle; // 本体のタイトル背景画像ハンドル（もしあれば）
-
+    int m_TitleFontHandle;
     int m_Timer;           // ロゴ用のタイマー
     float m_Alpha;         // ロゴの不透明度
 };
