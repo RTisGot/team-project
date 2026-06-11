@@ -280,7 +280,7 @@ void Player::Update(float deltaTime, CollisionManager * collisionManager)
         }
     }
 
-    // Fキーでお供にオーブを渡す
+    // Gキーでお供にオーブを渡す
     if (CheckHitKey(KEY_INPUT_G))
     {
         if (m_HoldingOrbId != 0 &&

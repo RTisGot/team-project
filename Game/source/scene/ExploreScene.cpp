@@ -208,7 +208,7 @@ void ExploreScene::Update(float deltaTime)
         {
             m_InteractionUI->SetText(
                 true,
-                "G : 捨てる");
+                "G : 渡す");
         }
         else
         {
