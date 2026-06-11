@@ -133,14 +133,17 @@ void CameraController::Update(float deltaTime, const VECTOR& playerPos, bool isD
 
     if (m_StageModelHandle >= 0)
     {
+        // カメラと注視点の間に障害物があるか判定
         MV1_COLL_RESULT_POLY result = MV1CollCheck_Line(m_StageModelHandle, -1, m_TargetActual, idealCameraPos);
 
         if (result.HitFlag)
         {
+            // 障害物がある場合はカメラ位置を障害物の手前に移動
             VECTOR dir = VNorm(VSub(m_TargetActual, idealCameraPos));
 
             constexpr float CAMERA_OFFSET = 2.0f;
 
+            // 障害物の位置から少し手前にカメラを配置
             m_CameraPosition = VAdd(result.HitPosition, VScale(dir, CAMERA_OFFSET));
         }
     }

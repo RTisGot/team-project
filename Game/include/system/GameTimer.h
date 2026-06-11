@@ -3,9 +3,13 @@
 
 /**
  * @file GameTimer.h
- * @brief
+ * @brief ゲームのフレームタイムを管理するクラスの定義
  */
 
+/**
+ * @brief ゲームタイマークラス
+ * @brief ゲームのフレームタイムを管理するクラス
+ */
 class GameTimer
 {
 public:
@@ -18,11 +22,11 @@ public:
 
 private:
 
-    int m_PreviousTime = 0;
+    int m_PreviousTime = 0;      ///< 前フレームの時間（ミリ秒）
 
-    float m_DeltaTime = 0.016f;
+    float m_DeltaTime = 0.016f;  ///< 前フレームからの経過時間（秒）
 
-    float m_FPS = 60.0f;
+    float m_FPS = 60.0f;         ///< 現在のフレームレート
 };
 
 #endif // DEF_GAMETIMER_H

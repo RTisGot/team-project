@@ -3,6 +3,11 @@
 #include <DxLib.h>
 
 /**
+ * @file CameraController.h
+ * @brief プレイヤーを追従するカメラの制御クラスの定義
+ */
+
+/**
  * @class CameraController
  * @brief プレイヤーを追従するカメラの制御クラス
  */

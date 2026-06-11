@@ -55,6 +55,7 @@ void OrbActor::Update(CollisionManager* collisionManager)
         UpdateGravity();
     }
 
+    // ステージとの当たり判定を処理
     if (collisionManager)
     {
         collisionManager->ResolveStageCollision(
@@ -113,15 +114,19 @@ void OrbActor::UpdateGravity()
         return;
     }
 
+    // 重力を加算
     m_VelocityY += GRAVITY;
 
+    // 落下速度の上限を設定
     if (m_VelocityY < MAX_FALL_SPEED)
     {
         m_VelocityY = MAX_FALL_SPEED;
     }
 
+    // Y方向の位置を更新
     m_Position.y += m_VelocityY;
 
+    // 地面に接しているかの判定
     if (m_Position.y <= GROUND_Y)
     {
         m_Position.y = GROUND_Y;

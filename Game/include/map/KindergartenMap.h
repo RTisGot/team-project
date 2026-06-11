@@ -4,6 +4,10 @@
 #include "map/MapDataLoader.h"
 #include "map/MapBase.h"
 #include <DxLib.h>
+/**
+ * @file KindergartenMap.h
+ * @brief 保育園マップの定義
+ */
 
 /**
  * @class KindergartenMap

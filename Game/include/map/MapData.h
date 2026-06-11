@@ -4,6 +4,11 @@
 #include <DxLib.h>
 
 /**
+ * @file MapData.h
+ * @brief マップデータの定義
+ */
+
+/**
  * @brief カメラ初期設定
  */
 struct CameraData

@@ -24,10 +24,14 @@ void OrbManager::Update(Player* player, CollisionManager* collisionManager)
     {
         if (orb->GetData().m_State == OrbState::Player)
         {
+            // プレイヤーの位置を取得
             VECTOR pos =player->GetPosition();
 
+            // TODO: 手に持たせるようにする
+            // プレイヤーの頭上にオーブを配置するためにY座標を調整
             pos.y += 15.0f;
 
+            // オーブの位置を更新
             orb->SetPosition(pos);
         }
 

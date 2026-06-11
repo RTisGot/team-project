@@ -16,6 +16,12 @@
 class Player;
 
 /**
+ * @file LobbyScene.h
+ * @brief 屋上シーンの定義
+ */
+
+/**
+ * @class LobbyScene
  * @brief 屋上シーン
  */
 class LobbyScene : public BaseScene

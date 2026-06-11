@@ -4,6 +4,11 @@
 #include <DxLib.h>
 
 /**
+ * @file ShipMap.h
+ * @brief 船マップの定義
+ */
+
+/**
  * @class ShipMap
  * @brief 船マップクラス
  */

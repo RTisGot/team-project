@@ -3,8 +3,17 @@
 
 #include <string>
 
+/**
+ * @file MapDataLoader.h
+ * @brief マップデータローダーの定義
+ */
+
 struct MapData;
 
+/**
+ * @class MapDataLoader
+ * @brief マップデータをファイルから読み込むクラス
+ */
 class MapDataLoader
 {
 public:

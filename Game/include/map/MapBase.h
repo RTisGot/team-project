@@ -3,6 +3,15 @@
 
 #include "map/MapData.h"
 
+/**
+ * @file MapBase.h
+ * @brief マップの基底クラスの定義
+ */
+
+/**
+ * @class MapBase
+ * @brief マップの基底クラス
+ */
 class MapBase
 {
 public:
