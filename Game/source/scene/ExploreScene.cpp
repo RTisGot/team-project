@@ -42,8 +42,8 @@ void ExploreScene::Init()
     const auto& mapData = m_CurrentMap->GetMapData();
 
     // 遊具の生成と初期化
-    m_playObject = std::make_unique<PlayObject>();
-    m_playObject->Init();
+    /*m_playObject = std::make_unique<PlayObject>();
+    m_playObject->Init();*/
 
     // プレイヤーの生成
     m_player = std::make_unique<Player>();
@@ -122,10 +122,10 @@ void ExploreScene::Update(float deltaTime)
         m_CurrentMap->Update();
     }
 
-    if (m_playObject)
-    {
-        m_playObject->Update();
-    }
+    //if (m_playObject)
+    //{
+    //    m_playObject->Update();
+    //}
 
     if (m_OrbManager)
     {
@@ -140,10 +140,10 @@ void ExploreScene::Draw()
         m_CurrentMap->Draw();
     }
 
-    if (m_playObject)
-    {
-        m_playObject->Draw();
-    }
+    //if (m_playObject)
+    //{
+    //    m_playObject->Draw();
+    //}
 
     if (m_OrbManager)
     {
