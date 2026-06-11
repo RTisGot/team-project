@@ -29,12 +29,6 @@ public:
     void Draw() override;
 
 private:
-    /**
-     * @brief デバッグ用床グリッドの描画
-     */
-    //void DrawDebugGrid();
-    void DrawRoomDebug();
-
     bool m_isPlayerInRoom; ///< プレイヤーが部屋にいるかどうかのフラグ
     bool m_IsLoading;
     float m_LoadTimer;
