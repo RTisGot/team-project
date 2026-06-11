@@ -61,7 +61,7 @@ void ExploreScene::Init()
     m_follower = std::make_unique<Follower>();
     m_follower->LoadModel();
 
-    m_follower->SetOrbManager(m_OrbManager.get());
+    m_player->SetFollower(m_follower.get());
 
     // 当たり判定マネージャーの生成とステージモデル登録
     m_collisionManager = std::make_unique<CollisionManager>();
@@ -195,6 +195,7 @@ void ExploreScene::Update(float deltaTime)
     {
         m_OrbManager->Update(m_player.get(), m_collisionManager.get());
     }
+
 }
 
 void ExploreScene::Draw()

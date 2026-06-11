@@ -72,6 +72,8 @@ Player::Player()
     m_OrbManager = nullptr;
     m_OrbCount = 0;
 
+    m_pFollower = nullptr;
+
     // 
     m_PrevHP = m_PlayerHP.GetCurrentHP();
     m_WasMoving = false;
@@ -122,6 +124,11 @@ void Player::LoadModel()
     {
         m_PSHandle = -1;
     }
+}
+
+void Player::SetFollower(Follower* pFollower)
+{
+    m_pFollower = pFollower;
 }
 
 // -----------------更新処理----------------------------------------------
@@ -321,27 +328,18 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
         // プレイヤーの周囲にあるオーブを検索
         auto orb = m_OrbManager->FindNearestOrb(GetPosition(), OrbManager::ORB_PICKUP_RANGE);
  
-        if (orb && m_HoldingOrbId == 0)
-        {
-            // オーブをプレイヤーが持っている状態にする
-            orb->GetData().m_State = OrbState::Player;
+       // if (orb && !pFollower->HasOrb())
+       // {
+       //    orb->GetData().m_State = OrbState::Player;
 
-            // オーブの位置をプレイヤーの位置に合わせる
-            m_HoldingOrbId = orb->GetData().m_Id;
-
-            m_OrbCount++;
-        }
+        //    m_pFollower->ReceiveOrb(
+        //        orb->GetData().m_Id);
+       // }
     }
 
     // カメラ設定
     m_pCamera->Update(deltaTime, m_Position, m_IsDashing, isMoving);
     m_pCamera->Apply();
-
-    // オーブを放す
-    if (CheckHitKey(KEY_INPUT_G))
-    {
-        DropOrb();
-    }
 
     //----------HP処理---------------
         // HPの更新

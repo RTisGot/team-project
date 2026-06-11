@@ -61,6 +61,7 @@ Follower::Follower()
     m_SearchTimer = 0.0f;
 
     m_CoolTimeTimer = 0.0f;
+    m_HoldingOrbId = 0;
 
     m_pOrbManager = nullptr;
 }
@@ -128,6 +129,16 @@ void Follower::SetTargetAngle(float angle)
 void Follower::SetOrbManager( OrbManager* pOrbManager)
 {
     m_pOrbManager = pOrbManager;
+}
+
+void Follower::ReceiveOrb(uint32_t orbId)
+{
+    m_HoldingOrbId = orbId;
+}
+
+bool Follower::HasOrb() const
+{
+    return m_HoldingOrbId != 0;
 }
 
 /**

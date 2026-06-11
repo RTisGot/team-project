@@ -9,6 +9,7 @@
 #include <DxLib.h>
 
 class OrbManager;
+class Follower;
 
 /**
  *	@brief プレイヤークラス
@@ -63,6 +64,8 @@ public:
     // オーブを放す処理
     void DropOrb();
 
+    void SetFollower(Follower* pFollower);
+
 private:
 
 	// プレイヤー情報
@@ -104,6 +107,8 @@ private:
     float m_FootstepTimer;
     float m_PrevHP;
     //void GetShaderConstantBufferAddress();
+
+    Follower* m_pFollower;
 };
 
 #endif // PLAYER_H_

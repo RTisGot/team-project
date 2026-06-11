@@ -39,6 +39,16 @@ public:
         return m_Inventory;
     }
 
+    /**
+    * @brief オーブを受け取る
+    */
+    void ReceiveOrb(uint32_t orbId);
+
+    /**
+    * @brief オーブ所持確認
+    */
+    bool HasOrb() const;
+
 
 private:
     int m_ModelHandle;
@@ -57,6 +67,7 @@ private:
     float m_SearchTimer;
     float m_CoolTimeTimer;
 
+    uint32_t m_HoldingOrbId;
     OrbManager* m_pOrbManager;
 
     static constexpr float SEARCH_TIME = 5.0f;
