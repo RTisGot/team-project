@@ -87,7 +87,6 @@ void TitleScene::Draw()
     SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
 
     const char* title = "ひろって、かえろう";
-
     
     // 本体
     DrawStringToHandle(
