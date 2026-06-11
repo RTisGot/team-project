@@ -258,14 +258,6 @@ void ExploreScene::Draw()
         m_follower->Draw();
     }
 
-    /*if (m_enemy)
-   
-
-    if (m_enemy)
-    {
-        m_enemy->Draw();
-    }*/
-
     if (m_EnemyManager)
     {
         m_EnemyManager->Draw();
@@ -282,7 +274,7 @@ void ExploreScene::Draw()
     }
 
     // プレイヤー座標を取得して表示
-    VECTOR playerPos = { 0.0f, 0.0f, 0.0f };
+    /*VECTOR playerPos = { 0.0f, 0.0f, 0.0f };
     if (m_player)
     {
         playerPos = m_player->GetPosition();
@@ -294,7 +286,7 @@ void ExploreScene::Draw()
         "Player Pos : %.1f %.1f %.1f",
         playerPos.x,
         playerPos.y,
-        playerPos.z);
+        playerPos.z);*/
 
     if (m_FadeAlpha > 0.0f)
     {
@@ -314,11 +306,4 @@ void ExploreScene::Draw()
             DX_BLENDMODE_NOBLEND,
             255);
     }
-
-#ifdef _DEBUG
-
-    m_collisionManager->GetCollisionMap()->DrawDebug();
-
-#endif
-
 }
