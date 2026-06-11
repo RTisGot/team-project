@@ -1,4 +1,5 @@
 #include "player/player.h"
+#include "follower/follower.h"
 #include "item/OrbManager.h"
 #include "item/OrbActor.h"
 #include <cmath>
@@ -84,6 +85,7 @@ Player::Player()
     // アイテム関係
     m_OrbManager = nullptr;
     m_OrbCount = 0;
+    m_pFollower = nullptr;
 
     //アニメーションの初期化
     InitAnimations();
@@ -173,6 +175,11 @@ void Player::PlayAnim(AnimType type) {
         m_AnimTotalTime = MV1GetAttachAnimTotalTime(m_Modelhandle, m_AnimAttachIndex);
         m_AnimTime = 0.0f; // 再生時間を先頭に戻す
     }
+}
+
+void Player::SetFollower(Follower* pFollower)
+{
+    m_pFollower = pFollower;
 }
 
 // -----------------更新処理----------------------------------------------
@@ -272,6 +279,20 @@ void Player::Update(float deltaTime, CollisionManager * collisionManager)
             }
         }
     }
+
+    // Fキーでお供にオーブを渡す
+    if (CheckHitKey(KEY_INPUT_G))
+    {
+        if (m_HoldingOrbId != 0 &&
+            m_pFollower != nullptr)
+        {
+            m_pFollower->GetInventory().AddItem(
+                m_HoldingOrbId);
+
+            m_HoldingOrbId = 0;
+        }
+    }
+
     //m_pCamera->Update(deltaTime, m_Position, m_IsDashing, isMoving);
     m_pCamera->Update(deltaTime, m_Position, false, isMoving);
     m_pCamera->Apply();

@@ -62,6 +62,7 @@ void ExploreScene::Init()
     m_follower->LoadModel();
 
     m_follower->SetOrbManager(m_OrbManager.get());
+    m_player->SetFollower(m_follower.get());
     // 当たり判定マネージャーの生成とステージモデル登録
     m_collisionManager = std::make_unique<CollisionManager>();
     m_collisionManager->Init(m_CurrentMap->GetModelHandle());
