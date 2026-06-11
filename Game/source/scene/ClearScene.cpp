@@ -31,4 +31,10 @@ void ClearScene::Draw()
         300,
         GetColor(255, 255, 0),
         "GAME CLEAR!");
+
+    DrawFormatString(
+        500,
+        350,
+        GetColor(255, 255, 0),
+        "Press Enter");
 }
