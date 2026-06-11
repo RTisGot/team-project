@@ -3,6 +3,7 @@
 
 #include <DxLib.h>
 #include <Inventory/Inventory.h>
+#include <vector>
 
 class OrbManager;
 class OrbActor;
@@ -49,7 +50,6 @@ public:
     */
     bool HasOrb() const;
 
-
 private:
     int m_ModelHandle;
 
@@ -81,6 +81,7 @@ private:
         return m_CoolTimeTimer;
     }
 
+    Follower* m_pFollower;
     Inventory m_Inventory;
 };
 

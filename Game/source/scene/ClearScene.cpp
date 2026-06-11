@@ -27,6 +27,4 @@ void ClearScene::Draw()
         300,
         GetColor(255, 255, 0),
         "GAME CLEAR!");
-
-  
 }

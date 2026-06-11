@@ -20,6 +20,16 @@ public:
     void AddItem(int itemId);
     bool RemoveItem(int itemId);
 
+    /**
+     * @brief 指定アイテムの所持数取得
+     */
+    int GetItemCount(int itemId) const;
+
+    /**
+     * @brief 全アイテム総数取得
+     */
+    int GetTotalItemCount() const;
+
     const std::vector<ItemData>& GetItems() const
     {
         return m_Items;
