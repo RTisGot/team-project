@@ -1,4 +1,5 @@
 #include "scene/ClearScene.h"
+#include "scene/TitleScene.h"
 #include "scene/SceneManager.h"
 #include <DxLib.h>
 
@@ -13,11 +14,14 @@ void ClearScene::Init()
 
 void ClearScene::Update(float deltaTime)
 {
-    
-    //if (CheckHitKey(KEY_INPUT_RETURN))
-    //{
-    //    
-    //}
+
+    if (CheckHitKey(KEY_INPUT_RETURN))
+    {
+        m_Manager->ChangeScene(
+            std::make_shared<TitleScene>(m_Manager)
+        );
+        return;
+    }
 }
 
 void ClearScene::Draw()

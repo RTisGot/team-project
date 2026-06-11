@@ -186,12 +186,16 @@ void ExploreScene::Update(float deltaTime)
     //    m_playObject->Update();
     //}
 
-    if (CheckHitKey(KEY_INPUT_L))
+   // お供がオーブを8個集めたらクリア
+    if (m_follower)
     {
-        m_manager->ChangeScene(
-            std::make_shared<ClearScene>(m_manager)
-        );
-        return;
+        if (m_follower->GetInventory().GetTotalItemCount() >= 8)
+        {
+            m_manager->ChangeScene(
+                std::make_shared<ClearScene>(m_manager)
+            );
+            return;
+        }
     }
 
     if (m_OrbManager)
