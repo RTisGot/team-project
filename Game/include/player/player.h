@@ -9,6 +9,26 @@
 
 class OrbManager;
 
+//アニメーションの種類
+enum AnimType {
+    ANIM_IDLE,
+    ANIM_RUN,
+    ANIM_WALK,
+    ANIM_JUMP,
+    ANIM_ITEMWALK,
+    ANIM_ITEMRUN,
+    ANIM_WALKTOIDLE,
+    ANIM_WALKTOIDLE_ITEM,
+};
+
+struct AnimMap {
+    const char* nameInBlender;
+    AnimType type;
+}; 
+
+extern AnimMap animList[];
+
+
 /**
  *	@brief プレイヤークラス
  */
@@ -24,6 +44,7 @@ public:
     float m_PlayerHeight; // キャラクターの頭から足元までの高さ
     float m_PlayerRadius; // キャラクターの横幅の半径
 
+    int animIndices[8]; // アニメーションの識別番号を格納する配列
     bool m_isHolding = false;  //アイテムを持っているか
 
 	// コンストラクタ
@@ -56,6 +77,11 @@ public:
 
     //キャラクターのモデルのサイズを計算
     VECTOR minPos, maxPos;
+
+    //---アニメーション関連----------------
+    void InitAnimations();      // 初期化
+    void PlayAnim(AnimType type); // 指定したAnimTypeを再生する
+   
 
     // オーブマネージャーのセット
     void SetOrbManager(OrbManager* orbManager);
