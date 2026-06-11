@@ -154,8 +154,7 @@ void Follower::Update()
     // Rキーでサーチ開始
     if (CheckHitKey(KEY_INPUT_R))
     {
-        if (!m_IsSearching &&
-            m_CoolTimeTimer <= 0.0f)
+        if (!m_IsSearching && m_CoolTimeTimer <= 0.0f)
         {
             m_IsSearching = true;
             m_SearchTimer = SEARCH_TIME;

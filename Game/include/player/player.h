@@ -90,8 +90,6 @@ public:
     // オーブを放す処理
     void DropOrb();
 
-    void SetFollower(Follower* pFollower);
-
 private:
 
 	// プレイヤー情報
