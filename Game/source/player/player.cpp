@@ -73,7 +73,7 @@ Player::Player()
     m_OrbCount = 0;
 
     // 
-   
+    m_PrevHP = m_PlayerHP.GetCurrentHP();
     m_WasMoving = false;
 }
 
@@ -346,6 +346,15 @@ void Player::Update(float deltaTime, CollisionManager* collisionManager)
     //----------HP処理---------------
         // HPの更新
     m_PlayerHP.Update();
+
+    float currentHP = m_PlayerHP.GetCurrentHP();
+
+    if (currentHP < m_PrevHP)
+    {
+        m_AudioManager.PlaySE(SEType::Damage);
+    }
+
+    m_PrevHP = currentHP;
 }
 
 // 描画処理(キャラクター描画)

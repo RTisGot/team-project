@@ -10,16 +10,19 @@ TitleScene::TitleScene(SceneManager* manager)
     m_LogoHandle(-1),
     m_TitleMainHandle(-1),
     m_Timer(0),
-    m_Alpha(0.0f)
+    m_Alpha(0.0f),
+    m_TitleFontHandle(-1)
 {
     
 }
 
 void TitleScene::Init()
 {
-   
-   
-    
+    m_TitleFontHandle = CreateFontToHandle(
+        "メイリオ",
+        48,
+        3
+    );
 }
 
 
@@ -79,24 +82,35 @@ void TitleScene::Loadgraph() {
 
 void TitleScene::Draw()
 {
+    int alpha = static_cast<int>(m_Alpha * 255);
+
+    SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
+
+    const char* title = "ひろって、かえろう";
+
+    
+    // 本体
+    DrawStringToHandle(
+        660,
+        200,
+        title,
+        GetColor(255, 255, 255),
+        m_TitleFontHandle);
 
     DrawString(1200, 690, "Ver1.0", GetColor(255, 255, 255));
-    DrawString(760, 200, "-- 制作メンバー --", GetColor(255, 255, 255));
-    DrawString(800, 240, "渡邉　和斗", GetColor(255, 255, 255));
-    DrawString(800, 280, "立原　零央", GetColor(255, 255, 255));
-    DrawString(800, 320, "村田　智仁", GetColor(255, 255, 255));
-    DrawString(800, 360, "松倉　光姫", GetColor(255, 255, 255));
+    
+    DrawString(760, 280, "-- 制作メンバー --", GetColor(255, 255, 255));
+    DrawString(800, 320, "渡邉　和斗", GetColor(255, 255, 255));
+    DrawString(800, 360, "立原　零央", GetColor(255, 255, 255));
+    DrawString(800, 400, "村田　智仁", GetColor(255, 255, 255));
+    DrawString(800, 440, "松倉　光姫", GetColor(255, 255, 255));
     
     if (m_LogoHandle == -1)
     {
         //logoの読み込み
         m_LogoHandle = LoadGraph("Game/assets/UI/Neko.png");
 
-       
-
-        // m_TitleMainHandle = LoadGraph("Game/assets/UI/TitleMain.png");
     }
-
     else
     {
         // m_Alphaを変換してブレンドモードを設定
