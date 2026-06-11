@@ -57,6 +57,8 @@ void ExploreScene::Init()
 
     m_player->SetOrbManager(m_OrbManager.get());
 
+    m_player->SetStageModelHandle(m_CurrentMap->GetModelHandle());
+
     // お供の生成
     m_follower = std::make_unique<Follower>();
     m_follower->LoadModel();
@@ -72,7 +74,7 @@ void ExploreScene::Init()
     {
         collisionMap->AddBox(wall.m_Min, wall.m_Max);
     }
-    
+
     m_EnemyManager =
         std::make_unique<EnemyManager>();
 

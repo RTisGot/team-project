@@ -3,25 +3,19 @@
 #include <DxLib.h>
 
 CameraController::CameraController()
+    : m_StageModelHandle(-1)
+    , m_TargetActual(VGet(0.0f, 0.0f, 0.0f))
+    , m_CameraPosition(VGet(0.0f, 0.0f, 0.0f))
+    , m_MouseSensitivity(0.005f)
+    , m_LastWheelRot(0)
+    , m_IsFirstUpdate(true)
+    , m_Yaw(0.0f)
+    , m_Pitch(0.3f)
+    , m_Distance(30.0f)
+    , m_TargetDistance(30.0f)
+    , m_BaseDistance(30.0f)
+    , m_CameraHeight(0.0f)
 {
-    m_Yaw = 0.0f;
-    m_Pitch = 0.3f;
-
-    m_Distance = 30.0f;
-    m_TargetDistance = 30.0f;
-    m_BaseDistance = 30.0f;
-
-    m_CameraHeight = 0.0f;
-
-    m_TargetActual = VGet(0.0f, 10.0f, 0.0f);
-
-    m_CameraPosition = VGet(0.0f, 0.0f, 0.0f);
-
-    m_MouseSensitivity = 0.005f;
-
-    m_LastWheelRot = 0;
-
-    m_IsFirstUpdate = true;
 }
 
 void CameraController::InitMouse()
@@ -117,7 +111,8 @@ void CameraController::Update(float deltaTime, const VECTOR& playerPos, bool isD
     // カメラの注視点をキャラの頭上に近づける
     m_TargetActual = VAdd(m_TargetActual, VScale(VSub(idealTargetPos, m_TargetActual), targetFollowSpeed * deltaTime));
 
-    m_CameraPosition =
+    // カメラの位置を計算
+    VECTOR idealCameraPos =
     {
         playerPos.x -
         cosf(m_Pitch) *
@@ -133,6 +128,22 @@ void CameraController::Update(float deltaTime, const VECTOR& playerPos, bool isD
         cosf(m_Yaw) *
         m_Distance
     };
+
+    m_CameraPosition = idealCameraPos;
+
+    if (m_StageModelHandle >= 0)
+    {
+        MV1_COLL_RESULT_POLY result = MV1CollCheck_Line(m_StageModelHandle, -1, m_TargetActual, idealCameraPos);
+
+        if (result.HitFlag)
+        {
+            VECTOR dir = VNorm(VSub(m_TargetActual, idealCameraPos));
+
+            constexpr float CAMERA_OFFSET = 2.0f;
+
+            m_CameraPosition = VAdd(result.HitPosition, VScale(dir, CAMERA_OFFSET));
+        }
+    }
 }
 
 void CameraController::Apply()
@@ -159,6 +170,7 @@ void CameraController::Warp(const VECTOR& playerPos)
 {
     m_CameraHeight = playerPos.y;
 
+    // キャラの頭上に注視点を設定
     m_TargetActual =
     {
         playerPos.x,
@@ -166,6 +178,7 @@ void CameraController::Warp(const VECTOR& playerPos)
         playerPos.z
     };
 
+    // カメラの位置を計算
     m_CameraPosition =
     {
         playerPos.x -
@@ -182,4 +195,9 @@ void CameraController::Warp(const VECTOR& playerPos)
         cosf(m_Yaw) *
         m_Distance
     };
+}
+
+void CameraController::SetStageModelHandle(int modelHandle)
+{
+    m_StageModelHandle = modelHandle;
 }
