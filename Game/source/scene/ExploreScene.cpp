@@ -155,11 +155,13 @@ void ExploreScene::Draw()
         m_player->Draw();
     }
 
-    /*if (m_enemy)
     if (m_follower)
     {
         m_follower->Draw();
     }
+
+    /*if (m_enemy)
+   
 
     if (m_enemy)
     {
