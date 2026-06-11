@@ -4,7 +4,12 @@
 #include <DxLib.h>
 
 /**
- * @brief AABBコリジョン
+ * @file BoxCollider.h
+ * @brief AABBコリジョンの定義
+ */
+
+/**
+ * @brief AABBコリジョンを表す構造体
  */
 struct BoxCollider
 {

@@ -60,6 +60,14 @@ private:
      */
     void ResolveCapsule(VECTOR& position, float& velocityY, float radius, float height);
 
+    /**
+     * @brief 段差上昇処理
+     * @param position 現在の座標
+     * @param previousPosition 前回の座標
+     * @param radius 半径
+     * @param velocityY Y方向の速度
+     */
+    void TryStepUp(VECTOR& position, const VECTOR& previousPosition, float radius, float velocityY);
 
     CollisionMap* m_CollisionMap = nullptr; ///< コリジョンマップへのポインタ
 };
