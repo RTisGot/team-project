@@ -127,6 +127,14 @@ void ExploreScene::Update(float deltaTime)
     //    m_playObject->Update();
     //}
 
+    if (CheckHitKey(KEY_INPUT_L))
+    {
+        m_manager->ChangeScene(
+            std::make_shared<ClearScene>(m_manager)
+        );
+        return;
+    }
+
     if (m_OrbManager)
     {
         m_OrbManager->Update(m_player.get(), m_collisionManager.get());

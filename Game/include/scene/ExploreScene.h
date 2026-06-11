@@ -3,6 +3,7 @@
 
 #include "scene/BaseScene.h"
 #include "scene/SceneManager.h"
+#include "scene/ClearScene.h"
 #include "player/Player.h"
 #include "follower/Follower.h"
 #include "enemy/Enemy.h"
