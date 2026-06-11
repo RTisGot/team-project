@@ -69,8 +69,8 @@ Player::Player()
 
     // ダッシュ関連
     m_MoveSpeed = 50.0f;
-    m_DashMultiplier = 1.7f;  // 2倍速
-    m_IsDashing = false;
+    //m_DashMultiplier = 1.7f;  // 2倍速
+    //m_IsDashing = false;
 
     // shaderのハンドルを初期化
     m_VSHandle = -1;
@@ -213,12 +213,13 @@ void Player::Update(float deltaTime, CollisionManager * collisionManager)
 
     // ダッシュ判定
     bool isMoving = (VSize(move) > 0.0f);
-    m_IsDashing = CheckHitKey(KEY_INPUT_LSHIFT) && isMoving;
+    //m_IsDashing = CheckHitKey(KEY_INPUT_LSHIFT) && isMoving;
 
     // プレイヤー移動処理
     if (isMoving) {
         move = VNorm(move);
-        float speed = m_MoveSpeed * (m_IsDashing ? m_DashMultiplier : 1.0f);
+        //float speed = m_MoveSpeed * (m_IsDashing ? m_DashMultiplier : 1.0f);
+        float speed = m_MoveSpeed;
         m_Position = VAdd(m_Position, VScale(move, speed * deltaTime));
         float targetAngle = atan2f(move.x, move.z);
         float diff = targetAngle - m_PlayerAngle;
@@ -235,10 +236,12 @@ void Player::Update(float deltaTime, CollisionManager * collisionManager)
     else if (isMoving) {
         if (m_HoldingOrbId)
         {
-            nextAnim = (m_IsDashing) ? ANIM_ITEMRUN : ANIM_ITEMWALK;
+            //nextAnim = (m_IsDashing) ? ANIM_ITEMRUN : ANIM_ITEMWALK;
+            nextAnim = ANIM_ITEMWALK;
         }
         else {
-            nextAnim = (m_IsDashing) ? ANIM_RUN : ANIM_WALK;
+            //nextAnim = (m_IsDashing) ? ANIM_RUN : ANIM_WALK;
+            nextAnim = ANIM_WALK;
         }
     }
     PlayAnim(nextAnim); // 
@@ -270,7 +273,8 @@ void Player::Update(float deltaTime, CollisionManager * collisionManager)
             }
         }
     }
-    m_pCamera->Update(deltaTime, m_Position, m_IsDashing, isMoving);
+    //m_pCamera->Update(deltaTime, m_Position, m_IsDashing, isMoving);
+    m_pCamera->Update(deltaTime, m_Position, false, isMoving);
     m_pCamera->Apply();
     if (CheckHitKey(KEY_INPUT_G)) DropOrb();
     m_PlayerHP.Update();
