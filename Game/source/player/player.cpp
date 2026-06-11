@@ -202,8 +202,6 @@ void Player::Update(float deltaTime, CollisionManager * collisionManager)
         if (CheckHitKey(KEY_INPUT_S)) move = VSub(move, forward);
         if (CheckHitKey(KEY_INPUT_D)) move = VAdd(move, right);
         if (CheckHitKey(KEY_INPUT_A)) move = VSub(move, right);
-        if (CheckHitKey(KEY_INPUT_E)) move.y += 1.0f;
-        if (CheckHitKey(KEY_INPUT_Q)) move.y -= 1.0f;
 
         // ジャンプ判定
         if (currentJumpKeyState == 1 && m_PrevJumpKeyState == 0 && m_IsGround) {
