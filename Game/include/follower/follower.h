@@ -2,6 +2,7 @@
 #define DEF_FOLLOWER_H
 
 #include <DxLib.h>
+#include <Inventory/Inventory.h>
 
 class OrbManager;
 class OrbActor;
@@ -33,6 +34,12 @@ public:
         return m_IsSearching;
     }
 
+    Inventory& GetInventory()
+    {
+        return m_Inventory;
+    }
+
+
 private:
     int m_ModelHandle;
 
@@ -62,6 +69,8 @@ private:
     {
         return m_CoolTimeTimer;
     }
+
+    Inventory m_Inventory;
 };
 
 #endif // DEF_FOLLOWER_H

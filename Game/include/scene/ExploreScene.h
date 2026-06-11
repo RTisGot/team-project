@@ -15,6 +15,7 @@
 #include "ui/UIManager.h"
 #include "object/PlayObject.h"
 #include "item/OrbManager.h"
+#include <Inventory/Inventory.h>
 #include <memory>
 #include <DxLib.h>
 #include <audio/AudioManager.h>
