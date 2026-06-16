@@ -1,6 +1,11 @@
 #include "scene/LobbyScene.h"
 #include "scene/LoadingScene.h"
 #include "scene/ExploreScene.h"
+#include "object/Skybox.h"
+
+//skyboxのグローバルインスタンス
+Skybox g_Skybox;
+
 
 LobbyScene::LobbyScene(SceneManager* manager)
     : m_manager(manager)
@@ -25,6 +30,9 @@ void LobbyScene::Init()
 
     // 屋上マップの生成と初期化
     m_roofTop = std::make_unique<RoofTop>();
+
+    //skyboxの初期化
+    g_Skybox.Load("Game/assets/shaders/Skybox.mv1");
 
     if (!m_roofTop->Init())
     {
@@ -113,6 +121,8 @@ void LobbyScene::Update(float deltaTime)
 
 void LobbyScene::Draw()
 {
+
+    g_Skybox.Draw(m_player->GetPosition());
     // マップ描画
     if (m_roofTop)
     {

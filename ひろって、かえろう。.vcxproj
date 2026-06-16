@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Game\include\object\Skybox.h" />
     <ClCompile Include="Game\source\audio\AudioManager.cpp" />
     <ClCompile Include="Game\source\camera\CameraController.cpp" />
     <ClCompile Include="Game\source\Collision\CollisionManager.cpp" />
@@ -41,6 +42,7 @@
     <ClCompile Include="Game\source\map\ShipMap.cpp" />
     <ClCompile Include="Game\source\object\Door.cpp" />
     <ClCompile Include="Game\source\object\PlayObject.cpp" />
+    <ClCompile Include="Game\source\object\Skybox.cpp" />
     <ClCompile Include="Game\source\player\Player.cpp" />
     <ClCompile Include="Game\source\scene\ClearScene.cpp" />
     <ClCompile Include="Game\source\scene\ExploreScene.cpp" />
